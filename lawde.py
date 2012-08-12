@@ -116,5 +116,8 @@ def main(arguments):
         lawde.update_list()
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='LawDe 0.0.1')
-    main(arguments)
+    try:
+        arguments = docopt(__doc__, version='LawDe 0.0.1')
+        main(arguments)
+    except KeyboardInterrupt:
+        print '\nAborted'
