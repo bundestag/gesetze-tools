@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 """BGBl-Scraper.
 
 Usage:
@@ -10,6 +11,7 @@ Options:
   --version     Show version.
 
 """
+import os
 import re
 import json
 from collections import defaultdict
@@ -194,8 +196,13 @@ def main(arguments):
     minyear = int(minyear)
     maxyear = int(maxyear)
     bgbl = BGBLScraper()
+    data = {}
+    if os.path.exists(arguments['<outputfile>']):
+        with file(arguments['<outputfile>']) as f:
+            data = json.load(f)
+    data.update(bgbl.scrape(minyear, maxyear))
     with file(arguments['<outputfile>'], 'w') as f:
-        json.dump(bgbl.scrape(minyear, maxyear), f)
+        json.dump(data, f)
 
 if __name__ == '__main__':
     from docopt import docopt
