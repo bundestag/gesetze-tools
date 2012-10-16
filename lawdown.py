@@ -2,7 +2,7 @@
 """LawDown - Law To Markdown.
 
 Usage:
-  lawdown.py convert
+  lawdown.py convert --name=<name>
   lawdown.py convert <inputpath> <outputpath>
   lawdown.py -h | --help
   lawdown.py --version
@@ -361,13 +361,16 @@ class LawToMarkdown(sax.ContentHandler):
         self.filename = abk
 
 
-def law_to_markdown(filein, fileout=None):
+def law_to_markdown(filein, fileout=None, name=None):
     ret = False
     if fileout is None:
         fileout = StringIO()
         ret = True
     parser = sax.make_parser()
-    orig_slug = filein.name.split('/')[-1].split('.')[0]
+    if name is None:
+        orig_slug = filein.name.split('/')[-1].split('.')[0]
+    else:
+        orig_slug = name
     handler = LawToMarkdown(fileout, orig_slug=orig_slug)
     parser.setFeature(sax.handler.feature_external_ges, False)
     parser.setContentHandler(handler)
@@ -379,7 +382,7 @@ def law_to_markdown(filein, fileout=None):
 
 def main(arguments):
     if arguments['<inputpath>'] is None and arguments['<outputpath>'] is None:
-        law_to_markdown(sys.stdin, sys.stdout)
+        law_to_markdown(sys.stdin, sys.stdout, name=arguments['--name'])
         return
     paths = set()
     for filename in glob(os.path.join(arguments['<inputpath>'], '*/*/*.xml')):
