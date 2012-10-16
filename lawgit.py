@@ -32,12 +32,21 @@ class BGBlSource(object):
 
     change_re = [
         re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
+        re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
         re.compile('\d{1,2}\.\.?\d{1,2}\.\.?(?P<year>\d{4}) (?P<part>I+) (?:S\. )?(?P<page>\d+)'),
         re.compile(u'(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)')
     ]
 
+    transient = (
+        u"noch nicht berücksichtigt",
+        u"noch nicht abschließend bearbeitet"
+    )
+
     def __init__(self, source):
         self.load(source)
+
+    def __str__(self):
+        return self.__class__.__name__
 
     def load(self, source):
         self.data = {}
@@ -54,7 +63,7 @@ class BGBlSource(object):
         for line in lines:
             for c_re in self.change_re:
                 for match in c_re.finditer(line):
-                    if u"noch nicht berücksichtigt" in line:
+                    if any(t in line for t in self.transient):
                         raise TransientState
                     key = (
                         int(match.group('year')),
@@ -96,6 +105,9 @@ class BAnzSource(object):
     def __init__(self, source):
         self.load(source)
 
+    def __str__(self):
+        return self.__class__.__name__
+
     def load(self, source):
         self.data = json.load(file(source))
 
@@ -103,7 +115,7 @@ class BAnzSource(object):
         candidates = []
         for line in lines:
             line = re.sub('[^\w \.]', '', line)
-            line = re.sub(' \d{4}, ', ' ', line)
+            line = re.sub(' \d{4} ', ' ', line)
             for key in self.data:
                 if key in line:
                     if u"noch nicht berücksichtigt" in line:
@@ -177,10 +189,11 @@ class LawGit(object):
         wdiff = hcommit.diff(None, create_patch=True)
         for diff in wdiff:
             law_name = diff.b_blob.path.split('/')[1]
-            self.laws[law_name].append(diff.b_blob.path)
             filename = '/'.join(diff.b_blob.path.split('/')[:2] + ['index.md'])
             filename = os.path.join(self.path, filename)
-            self.law_changes[law_name] = (False, diff.diff, filename)
+            if os.path.exists(filename):
+                self.laws[law_name].append(diff.b_blob.path)
+                self.law_changes[law_name] = (False, diff.diff, filename)
 
         for filename in self.repo.untracked_files:
             law_name = filename.split('/')[1]
@@ -193,23 +206,23 @@ class LawGit(object):
     def determine_source(self, law_name):
         new_file, lines, filename = self.law_changes[law_name]
         lines = [line.decode('utf-8') for line in lines.splitlines()]
+        candidates = self.find_in_sources(lines)
+        if not candidates:
+            with file(filename) as f:
+                lines = [line.decode('utf-8') for line in f.read().splitlines()]
+            candidates.extend(self.find_in_sources(lines))
+        if not candidates:
+            return None
+        return sorted(candidates, key=lambda x: x[0].get_order_key(x[1]))[-1]
+
+    def find_in_sources(self, lines):
         candidates = []
         for source in self.sources:
             try:
                 candidates.extend([(source, c) for c in source.find_candidates(lines)])
             except TransientState:
-                return None
-        if not candidates:
-            with file(filename) as f:
-                lines = [line.decode('utf-8') for line in f.read().splitlines()]
-            for source in self.sources:
-                try:
-                    candidates.extend([(source, c) for c in source.find_candidates(lines)])
-                except TransientState:
-                    return None
-            if not candidates:
-                return None
-        return sorted(candidates, key=lambda x: x[0].get_order_key(x[1]))[-1]
+                return []
+        return candidates
 
     def autocommit(self):
         branches = self.prepare_commits()
