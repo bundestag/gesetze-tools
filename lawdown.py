@@ -107,9 +107,13 @@ class LawToMarkdown(sax.ContentHandler):
         if self.ignore_until is not None:
             return
         if name == 'fnr':
-            if not attrs['ID'] in self.footnotes:
-                self.footnotes[attrs['ID']] = None
-                self.write('[^%s]' % attrs['ID'])
+            if self.state == 'meta':
+                self.ignore_until = 'fnr'
+                return
+            else:
+                if not attrs['ID'] in self.footnotes:
+                    self.footnotes[attrs['ID']] = None
+                    self.write('[^%s]' % attrs['ID'])
         if name == 'fussnoten':
             self.ignore_until = 'fussnoten'
         if name == "metadaten":
@@ -264,10 +268,18 @@ class LawToMarkdown(sax.ContentHandler):
         self.out_indented(self.list_index, indent=self.indent_level - 1)
         self.list_index = ''
 
+    def clean_title(self, title):
+        title = title.replace(' \\*)', '').strip()
+        title = re.sub(r'\\\*', '*', title)
+        return title
+
     def write_big_header(self):
         self.store_filename(self.meta['jurabk'][0])
+
+        title = self.clean_title(self.meta['langue'][0])
+
         meta = {
-            'Title': self.meta['langue'][0],
+            'Title': title,
             'origslug': self.orig_slug,
             'jurabk': self.meta['jurabk'][0],
             'slug': self.filename
@@ -287,7 +299,7 @@ class LawToMarkdown(sax.ContentHandler):
             for kv in meta.items():
                 self.write('%s: %s' % kv)
         self.write()
-        heading = '# %s (%s)' % (self.meta['langue'][0], self.meta['jurabk'][0])
+        heading = '# %s (%s)' % (title, self.meta['jurabk'][0])
         self.write(heading)
         self.write()
         if 'ausfertigung-datum' in self.meta:
