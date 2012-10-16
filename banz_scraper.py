@@ -11,9 +11,9 @@ Options:
   --version     Show version.
 
 """
+import os
 import re
 import json
-from collections import defaultdict
 
 import lxml.html
 import requests
@@ -115,9 +115,14 @@ def main(arguments):
     maxyear = arguments['<maxyear>'] or 10000
     minyear = int(minyear)
     maxyear = int(maxyear)
-    bgbl = BAnzScraper()
+    banz = BAnzScraper()
+    data = {}
+    if os.path.exists(arguments['<outputfile>']):
+        with file(arguments['<outputfile>']) as f:
+            data = json.load(f)
+    data.update(banz.scrape(minyear, maxyear))
     with file(arguments['<outputfile>'], 'w') as f:
-        json.dump(bgbl.scrape(minyear, maxyear), f)
+        json.dump(data, f)
 
 if __name__ == '__main__':
     from docopt import docopt
