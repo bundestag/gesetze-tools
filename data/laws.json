@@ -20,6 +20,91 @@
         "name": "Schiffahrtpolizeiverordnung \u00fcber Sicherungsma\u00dfnahmen f\u00fcr milit\u00e4rische Sperr- und Warngebiete an der schleswig-holsteinischen Ost- und Westk\u00fcste und im Nord-Ostsee-Kanal"
     },
     {
+        "abbreviation": "AFFAngAusbV 1999",
+        "slug": "affangausbv_1999",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum/zur Fachangestellten f\u00fcr Arbeitsf\u00f6rderung"
+    },
+    {
+        "abbreviation": "BSHKostV",
+        "slug": "bshkostv_2002",
+        "name": "Kostenverordnung f\u00fcr Amtshandlungen des Bundesamtes f\u00fcr Seeschifffahrt und Hydrographie"
+    },
+    {
+        "abbreviation": "FuttMProbV",
+        "slug": "futtmprobv",
+        "name": "Verordnung \u00fcber Probenahmeverfahren und Analysemethoden f\u00fcr die amtliche Futtermittel\u00fcberwachung"
+    },
+    {
+        "abbreviation": "KStoffVerfMAusbV 2006",
+        "slug": "kstoffverfmausbv_2006",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum Verfahrensmechaniker f\u00fcr Kunststoff- und Kautschuktechnik/zur Verfahrensmechanikerin f\u00fcr Kunststoff- und Kautschuktechnik"
+    },
+    {
+        "abbreviation": "LAP-mntDAIVV",
+        "slug": "lap-mntdaivv",
+        "name": "Verordnung \u00fcber die Laufbahn, Ausbildung und Pr\u00fcfung f\u00fcr den mittleren nichttechnischen Dienst in der allgemeinen und inneren Verwaltung des Bundes"
+    },
+    {
+        "abbreviation": "PharmKfmAusbV",
+        "slug": "pharmkfmausbv",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum pharmazeutisch-kaufm\u00e4nnischen Angestellten/zur pharmazeutisch-kaufm\u00e4nnischen Angestellten"
+    },
+    {
+        "abbreviation": "SchfAusbV 1997",
+        "slug": "schfausbv_1997",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum Schornsteinfeger/zur Schornsteinfegerin"
+    },
+    {
+        "abbreviation": "SchiLichtrAusbV 1999",
+        "slug": "schilichtrausbv_1999",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum Schilder- und Lichtreklamehersteller/zur Schilder- und Lichtreklameherstellerin"
+    },
+    {
+        "abbreviation": "23. SOLAS-\u00c4ndV",
+        "slug": "vii110506",
+        "name": "Dreiundzwanzigste Verordnung \u00fcber die \u00c4nderung des Internationalen \u00dcbereinkommens von 1974 zum Schutz des menschlichen Lebens auf See und des Protokolls von 1988 zu diesem \u00dcbereinkommen"
+    },
+    {
+        "abbreviation": "VPWV",
+        "slug": "vpwv",
+        "name": "Verordnung \u00fcber die Wahl der Vertrauenspersonen der Soldaten"
+    },
+    {
+        "abbreviation": "KSAbg2011V",
+        "slug": "ksabg2011v",
+        "name": "K\u00fcnstlersozialabgabe-Verordnung 2011"
+    },
+    {
+        "abbreviation": "77. BinSchStrOAbweichV",
+        "slug": "binschstro1998abwv_77",
+        "name": "Siebenundsiebzigste Verordnung zur vor\u00fcbergehenden Abweichung von der Binnenschifffahrtsstra\u00dfen-Ordnung"
+    },
+    {
+        "abbreviation": "WZSchBek 2011-10-31",
+        "slug": "wzschbek_2011-10-31",
+        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
+    },
+    {
+        "abbreviation": "\u00d6lleinSaatV 2012",
+        "slug": "_lleinsaatv_2012",
+        "name": "Verordnung \u00fcber besondere Anforderungen an Saatgut von \u00d6llein im Rahmen der Saatgutanerkennung 2012"
+    },
+    {
+        "abbreviation": "PolierPrV",
+        "slug": "polierprv",
+        "name": "Verordnung \u00fcber die Pr\u00fcfung zum anerkannten Abschlu\u00df Gepr\u00fcfter Polier"
+    },
+    {
+        "abbreviation": "ErfSchBek 2011-11-10",
+        "slug": "erfschbek_2011-11-10",
+        "name": "Bekanntmachung \u00fcber den Schutz von Erfindungen auf internationalen Ausstellungen"
+    },
+    {
+        "abbreviation": "WZSchBek 2011-11-10",
+        "slug": "wzschbek_2011-11-10",
+        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
+    },
+    {
         "abbreviation": "A/KAE",
         "slug": "kaeaano",
         "name": "Ausf\u00fchrungsanordnung zur Konzessionsabgabenanordnung"
@@ -333,11 +418,6 @@
         "abbreviation": "AFBG",
         "slug": "afbg",
         "name": "Gesetz zur F\u00f6rderung der beruflichen Aufstiegsfortbildung"
-    },
-    {
-        "abbreviation": "AFFAngAusbV 1999",
-        "slug": "affangausbv_1999",
-        "name": "Verordnung \u00fcber die Berufsausbildung zum/zur Fachangestellten f\u00fcr Arbeitsf\u00f6rderung"
     },
     {
         "abbreviation": "AFG",
@@ -1030,6 +1110,11 @@
         "name": "Gesetz zu dem Abkommen vom 20. Oktober 1982 zwischen der Bundesrepublik Deutschland und der Schweizerischen Eidgenossenschaft \u00fcber Arbeitslosenversicherung"
     },
     {
+        "abbreviation": "ArbMDFAngAusbV",
+        "slug": "arbmdfangausbv",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum Fachangestellten f\u00fcr Arbeitsmarktdienstleistungen und zur Fachangestellten f\u00fcr Arbeitsmarktdienstleistungen"
+    },
+    {
         "abbreviation": "ArbMedVV",
         "slug": "arbmedvv",
         "name": "Verordnung zur arbeitsmedizinischen Vorsorge"
@@ -1623,6 +1708,11 @@
         "abbreviation": "AusbBerAufhV 5",
         "slug": "ausbberaufhv_5",
         "name": "F\u00fcnfte Verordnung \u00fcber die Aufhebung der Anerkennung von Ausbildungsberufen"
+    },
+    {
+        "abbreviation": "AusbDienstLArbbV",
+        "slug": "ausbdienstlarbbv",
+        "name": "Verordnung \u00fcber zwingende Arbeitsbedingungen f\u00fcr Aus- und Weiterbildungsdienstleistungen nach dem Zweiten oder Dritten Buch Sozialgesetzbuch"
     },
     {
         "abbreviation": "AusbEignMedPharmV",
@@ -2415,6 +2505,11 @@
         "name": "Verordnung zur \u00dcbertragung von Verordnungserm\u00e4chtigungen der Bundesregierung nach \u00a7 31 des Gesetzes \u00fcber die Deutsche Bundesbank"
     },
     {
+        "abbreviation": "BBankG\u00a736aE\u00dcV",
+        "slug": "bbankg_36ae_v",
+        "name": "Verordnung zur \u00dcbertragung der Verordnungserm\u00e4chtigung nach \u00a7 36a des Gesetzes \u00fcber die Deutsche Bundesbank"
+    },
+    {
         "abbreviation": "BBankLV",
         "slug": "bbanklv",
         "name": "Verordnung \u00fcber die Laufbahnen der Bundesbankbeamtinnen und Bundesbankbeamten"
@@ -2447,6 +2542,11 @@
     {
         "abbreviation": "BBesG/Bes\u00dcGBek 2011",
         "slug": "bbesg_bes_gbek_2011",
+        "name": "Bekanntmachung nach \u00a7 77 Absatz 4 und \u00a7 78 Absatz 2 des Bundesbesoldungsgesetzes sowie nach \u00a7 6 Absatz 3 des Besoldungs\u00fcberleitungsgesetzes"
+    },
+    {
+        "abbreviation": "BBesG/Bes\u00dcGBek 2012",
+        "slug": "bbesg_bes_gbek_2012",
         "name": "Bekanntmachung nach \u00a7 77 Absatz 4 und \u00a7 78 Absatz 2 des Bundesbesoldungsgesetzes sowie nach \u00a7 6 Absatz 3 des Besoldungs\u00fcberleitungsgesetzes"
     },
     {
@@ -4540,6 +4640,11 @@
         "name": "Gesetz \u00fcber die Rechtsverh\u00e4ltnisse der Mitglieder der Bundesregierung"
     },
     {
+        "abbreviation": "BMinGErnAnO",
+        "slug": "bmingernano",
+        "name": "Anordnung \u00fcber die Ernennung und Entlassung der Bundesbeamtinnen und Bundesbeamten im Gesch\u00e4ftsbereich des Bundesministeriums f\u00fcr Gesundheit"
+    },
+    {
         "abbreviation": "BMinGSBRAnO",
         "slug": "bmingsbrano",
         "name": "Anordnung zur \u00dcbertragung beamtenrechtlicher Befugnisse auf die Einrichtungen im Gesch\u00e4ftsbereich des Bundesministeriums f\u00fcr Gesundheit und Soziale Sicherung"
@@ -4553,6 +4658,11 @@
         "abbreviation": "BMinGSZustAnO",
         "slug": "bmingszustano",
         "name": "Anordnung zur \u00dcbertragung von Zust\u00e4ndigkeiten f\u00fcr den Erlass von Widerspruchsbescheiden und die Vertretung des Dienstherrn bei Klagen von Besch\u00e4ftigten des Bundesministeriums f\u00fcr Gesundheit und Soziale Sicherung in Angelegenheiten nach dem Bundesreisekostengesetz, dem Bundesumzugskostengesetz einschlie\u00dflich der hierzu ergangenen Trennungsgeldverordnung und nach den Beihilfevorschriften des Bundes"
+    },
+    {
+        "abbreviation": "BMinGWidAnO",
+        "slug": "bmingwidano",
+        "name": "Anordnung zur \u00dcbertragung von Zust\u00e4ndigkeiten f\u00fcr den Erlass von Widerspruchsbescheiden und die Vertretung des Dienstherrn bei Klagen aus dem Beamtenverh\u00e4ltnis auf die Einrichtungen im Gesch\u00e4ftsbereich des Bundesministeriums f\u00fcr Gesundheit"
     },
     {
         "abbreviation": "BMinGZustAnO",
@@ -5590,6 +5700,11 @@
         "name": "Anordnung zur \u00dcbertragung von Zust\u00e4ndigkeiten f\u00fcr den Erlass von Widerspruchsbescheiden und die Vertretung des Dienstherrn bei Klagen von Besch\u00e4ftigten des Bundessozialgerichts aus dem Beamten- oder Richterverh\u00e4ltnis"
     },
     {
+        "abbreviation": "BSHGebV",
+        "slug": "bshgebv",
+        "name": "Geb\u00fchrenverordnung f\u00fcr Amtshandlungen des Bundesamtes f\u00fcr Seeschifffahrt und Hydrographie"
+    },
+    {
         "abbreviation": "BSHG\u00a747V",
         "slug": "bshg_47v",
         "name": "Verordnung nach \u00a7 60 des Zw\u00f6lften Buches Sozialgesetzbuch"
@@ -5608,11 +5723,6 @@
         "abbreviation": "BSHG\u00a788Abs2DV 1988",
         "slug": "bshg_88abs2dv_1988",
         "name": "Verordnung zur Durchf\u00fchrung des \u00a7 90 Abs. 2 Nr. 9 des Zw\u00f6lften Buches Sozialgesetzbuch"
-    },
-    {
-        "abbreviation": "BSHKostV",
-        "slug": "bshkostv_2002",
-        "name": "Kostenverordnung f\u00fcr Amtshandlungen des Bundesamtes f\u00fcr Seeschifffahrt und Hydrographie"
     },
     {
         "abbreviation": "BSI-KostV",
@@ -6185,6 +6295,11 @@
         "name": "Verordnung \u00fcber die Zust\u00e4ndigkeit f\u00fcr die Verfolgung und Ahndung von Ordnungswidrigkeiten nach dem Bundesdatenschutzgesetz im Bereich der Bundeswehr"
     },
     {
+        "abbreviation": "BwBeamtAusglG",
+        "slug": "bwbeamtausglg",
+        "name": "Gesetz zur Ausgliederung von Beamtinnen und Beamten der Bundeswehr"
+    },
+    {
         "abbreviation": "BwEhrZErl\u00c4ndErl",
         "slug": "bwehrzerl_nderl",
         "name": "Erla\u00df \u00fcber die Genehmigung einer \u00c4nderung des Erlasses \u00fcber die Stiftung des Ehrenzeichens der Bundeswehr"
@@ -6525,6 +6640,11 @@
         "name": "Verordnung \u00fcber die Einziehung der nach dem Bundesausbildungsf\u00f6rderungsgesetz geleisteten Darlehen"
     },
     {
+        "abbreviation": "DaTraV",
+        "slug": "datrav",
+        "name": "Verordnung zur Umsetzung der Vorschriften \u00fcber die Datentransparenz"
+    },
+    {
         "abbreviation": "DBA ARE",
         "slug": "dba_are",
         "name": "Abkommen zwischen der Bundesrepublik Deutschland und den Vereinigten Arabischen Emiraten zur Vermeidung der Doppelbesteuerung und der Steuerverk\u00fcrzung auf dem Gebiet der Steuern vom Einkommen"
@@ -6573,6 +6693,11 @@
         "abbreviation": "DBA LET",
         "slug": "dba_let",
         "name": "Abkommen zwischen der Bundesrepublik Deutschland und der Republik Lettland zur Vermeidung der Doppelbesteuerung auf dem Gebiet der Steuern vom Einkommen und vom Verm\u00f6gen"
+    },
+    {
+        "abbreviation": "DBA LUX 1958",
+        "slug": "dba_lux_1958",
+        "name": "Abkommen zwischen der Bundesrepublik Deutschland und dem Gro\u00dfherzogtum Luxemburg zur Vermeidung der Doppelbesteuerung und \u00fcber gegenseitige Amts- und Rechtshilfe auf dem Gebiete der Steuern vom Einkommen und vom Verm\u00f6gen sowie der Gewerbesteuern und Grundsteuern"
     },
     {
         "abbreviation": "DBA MAN",
@@ -6770,6 +6895,11 @@
         "name": "Gesetz zu dem Protokoll vom 17. Juni 2010 zur \u00c4nderung des Abkommens vom 8. M\u00e4rz 2001 zwischen der Bundesrepublik Deutschland und Malta zur Vermeidung der Doppelbesteuerung auf dem Gebiet der Steuern vom Einkommen und vom Verm\u00f6gen"
     },
     {
+        "abbreviation": "DBAMUSG",
+        "slug": "dbamusg",
+        "name": "Gesetz zu dem Abkommen vom 7. Oktober 2011 zwischen der Bundesrepublik Deutschland und der Republik Mauritius zur Vermeidung der Doppelbesteuerung und der Steuerverk\u00fcrzung auf dem Gebiet der Steuern vom Einkommen"
+    },
+    {
         "abbreviation": "DBANAMG",
         "slug": "dbanamg",
         "name": "Gesetz zu dem Abkommen vom 2. Dezember 1993 zwischen der Bundesrepublik Deutschland und der Republik Namibia zur Vermeidung der Doppelbesteuerung auf dem Gebiet der Steuern vom Einkommen und vom Verm\u00f6gen"
@@ -6818,6 +6948,11 @@
         "abbreviation": "DBARUS\u00c4ndProtG",
         "slug": "dbarus_ndprotg",
         "name": "Gesetz zu dem Protokoll vom 15. Oktober 2007 zur \u00c4nderung des Abkommens zwischen der Bundesrepublik Deutschland und der Russischen F\u00f6deration zur Vermeidung der Doppelbesteuerung auf dem Gebiet der Steuern vom Einkommen und vom Verm\u00f6gen vom 29. Mai 1996 und des Protokolls hierzu vom 29. Mai 1996"
+    },
+    {
+        "abbreviation": "DBATaipehG",
+        "slug": "dbataipehg",
+        "name": "Gesetz zum Abkommen vom 19. und 28. Dezember 2011 zwischen dem Deutschen Institut in Taipeh und der Taipeh Vertretung in der Bundesrepublik Deutschland zur Vermeidung der Doppelbesteuerung und zur Verhinderung der Steuerverk\u00fcrzung hinsichtlich der Steuern vom Einkommen und vom Verm\u00f6gen"
     },
     {
         "abbreviation": "DBAVENG",
@@ -8085,6 +8220,11 @@
         "name": "Anordnung zur Bestimmung der Einleitungsbeh\u00f6rden bei der Bundesanstalt f\u00fcr Post und Telekommunikation Deutsche Bundespost, der Unfallkasse Post und Telekom sowie der Museumsstiftung Post und Telekommunikation"
     },
     {
+        "abbreviation": "EinsatzUV",
+        "slug": "einsatzuv",
+        "name": "Verordnung \u00fcber die Vermutung der Verursachung einer psychischen St\u00f6rung durch einen Einsatzunfall"
+    },
+    {
         "abbreviation": "EinsatzWVG",
         "slug": "einsatzwvg",
         "name": "Gesetz zur Regelung der Weiterverwendung nach Einsatzunf\u00e4llen"
@@ -8103,6 +8243,11 @@
         "abbreviation": "EJG",
         "slug": "ejg",
         "name": "Gesetz zur Umsetzung des Beschlusses (2002/187/JI) des Rates vom 28. Februar 2002 \u00fcber die Errichtung von Eurojust zur Verst\u00e4rkung der Bek\u00e4mpfung der schweren Kriminalit\u00e4t"
+    },
+    {
+        "abbreviation": "EJKoV",
+        "slug": "ejkov",
+        "name": "Verordnung \u00fcber Koordinierung der Zusammenarbeit mit Eurojust"
     },
     {
         "abbreviation": "EJTAnV",
@@ -8465,11 +8610,6 @@
         "name": "\u00dcbereinkommen zur Vereinheitlichung gewisser Begriffe des materiellen Rechts der Erfindungspatente"
     },
     {
-        "abbreviation": "ErfSchBek 2011-11-10",
-        "slug": "erfschbek_2011-11-10",
-        "name": "Bekanntmachung \u00fcber den Schutz von Erfindungen auf internationalen Ausstellungen"
-    },
-    {
         "abbreviation": "ErgAnzV",
         "slug": "erganzv",
         "name": "Verordnung \u00fcber die Erg\u00e4nzungsanzeige von Finanzdienstleistungsinstituten und Wertpapierhandelsbanken nach dem Gesetz \u00fcber das Kreditwesen"
@@ -8653,6 +8793,16 @@
         "abbreviation": "ESiV",
         "slug": "esiv",
         "name": "Verordnung \u00fcber die Sicherheit des Eisenbahnsystems"
+    },
+    {
+        "abbreviation": "ESMFinG",
+        "slug": "esmfing",
+        "name": "Gesetz zur finanziellen Beteiligung am Europ\u00e4ischen Stabilit\u00e4tsmechanismus"
+    },
+    {
+        "abbreviation": "ESMVtr",
+        "slug": "esmvtr",
+        "name": "Vertrag zur Einrichtung des Europ\u00e4ischen Stabilit\u00e4tsmechanismus zwischen dem K\u00f6nigreich Belgien, der Bundesrepublik Deutschland, der Republik Estland, Irland, der Hellenischen Republik, dem K\u00f6nigreich Spanien, der Franz\u00f6sischen Republik, der Italienischen Republik, der Republik Zypern, dem Gro\u00dfherzogtum Luxemburg, Malta, dem K\u00f6nigreich der Niederlande, der Republik \u00d6sterreich, der Portugiesischen Republik, der Republik Slowenien, der Slowakischen Republik und der Republik Finnland"
     },
     {
         "abbreviation": "ESO 1959",
@@ -9500,6 +9650,11 @@
         "name": "Verordnung \u00fcber die Gew\u00e4hrung von Erschwerniszulagen"
     },
     {
+        "abbreviation": "FABECVtrG",
+        "slug": "fabecvtrg",
+        "name": "Gesetz zu dem Vertrag vom 2. Dezember 2010 \u00fcber die Errichtung des Funktionalen Luftraumblocks \"Europe Central\" zwischen der Bundesrepublik Deutschland, dem K\u00f6nigreich Belgien, der Franz\u00f6sischen Republik, dem Gro\u00dfherzogtum Luxemburg, dem K\u00f6nigreich der Niederlande und der Schweizerischen Eidgenossenschaft (FABEC-Vertrag)"
+    },
+    {
         "abbreviation": "FachbauTischlPrV",
         "slug": "fachbautischlprv",
         "name": "Verordnung \u00fcber die Pr\u00fcfung zum anerkannten Abschluss Gepr\u00fcfter Fachbauleiter/Gepr\u00fcfte Fachbauleiterin im Tischlerhandwerk"
@@ -9933,6 +10088,11 @@
         "abbreviation": "FinDASaV",
         "slug": "findasav",
         "name": "Verordnung \u00fcber die Satzung der Bundesanstalt f\u00fcr Finanzdienstleistungsaufsicht"
+    },
+    {
+        "abbreviation": "FinDPrV",
+        "slug": "findprv",
+        "name": "Verordnung \u00fcber die Pr\u00fcfung zu anerkannten Fortbildungsabschl\u00fcssen in der Finanzdienstleistungswirtschaft"
     },
     {
         "abbreviation": "FinPlG",
@@ -10818,11 +10978,6 @@
         "abbreviation": "FuttMKontrV",
         "slug": "futtmkontrv",
         "name": "Verordnung \u00fcber die fachlichen Anforderungen an die in der Futtermittel\u00fcberwachung t\u00e4tigen Kontrolleure"
-    },
-    {
-        "abbreviation": "FuttMProbV",
-        "slug": "futtmprobv",
-        "name": "Verordnung \u00fcber Probenahmeverfahren und Analysemethoden f\u00fcr die amtliche Futtermittel\u00fcberwachung"
     },
     {
         "abbreviation": "FuttMV 1981",
@@ -12583,6 +12738,11 @@
         "abbreviation": "HAV",
         "slug": "hav",
         "name": "Verordnung zur Abstimmung \u00fcber die Aufnahme in die h\u00fcttenknappschaftliche Zusatzversicherung"
+    },
+    {
+        "abbreviation": "HBankDAPrV",
+        "slug": "hbankdaprv",
+        "name": "Verordnung \u00fcber die Ausbildung und Pr\u00fcfung f\u00fcr den h\u00f6heren Bankdienst der Deutschen Bundesbank"
     },
     {
         "abbreviation": "HBauStatG",
@@ -14900,6 +15060,16 @@
         "name": "Verordnung zur Umsetzung von Konsultationsvereinbarungen zwischen der Bundesrepublik Deutschland und der Franz\u00f6sischen Republik"
     },
     {
+        "abbreviation": "KonsVerGBRV",
+        "slug": "konsvergbrv",
+        "name": "Verordnung zur Umsetzung von Konsultationsvereinbarungen zwischen der Bundesrepublik Deutschland und dem Vereinigten K\u00f6nigreich Gro\u00dfbritannien und Nordirland"
+    },
+    {
+        "abbreviation": "KonsVerLUXV",
+        "slug": "konsverluxv",
+        "name": "Verordnung zur Umsetzung von Konsultationsvereinbarungen zwischen der Bundesrepublik Deutschland und dem Gro\u00dfherzogtum Luxemburg"
+    },
+    {
         "abbreviation": "KonsVerNLDV",
         "slug": "konsvernldv",
         "name": "Verordnung zur Umsetzung von Konsultationsvereinbarungen zwischen der Bundesrepublik Deutschland und dem K\u00f6nigreich der Niederlande"
@@ -15235,14 +15405,14 @@
         "name": "Gesetz zur F\u00f6rderung der Kreislaufwirtschaft und Sicherung der umweltvertr\u00e4glichen Bewirtschaftung von Abf\u00e4llen"
     },
     {
-        "abbreviation": "KSAbg2011V",
-        "slug": "ksabg2011v",
-        "name": "K\u00fcnstlersozialabgabe-Verordnung 2011"
-    },
-    {
         "abbreviation": "KSAbg2012V",
         "slug": "ksabg2012v",
         "name": "K\u00fcnstlersozialabgabe-Verordnung 2012"
+    },
+    {
+        "abbreviation": "KSAbg2013V",
+        "slug": "ksabg2013v",
+        "name": "K\u00fcnstlersozialabgabe-Verordnung 2013"
     },
     {
         "abbreviation": "KSchG",
@@ -15270,6 +15440,11 @@
         "name": "Verordnung \u00fcber den Beirat und die Aussch\u00fcsse bei der K\u00fcnstlersozialkasse"
     },
     {
+        "abbreviation": "KSpG",
+        "slug": "kspg",
+        "name": "Gesetz zur Demonstration der dauerhaften Speicherung von Kohlendioxid"
+    },
+    {
         "abbreviation": "KStDV 1977",
         "slug": "kstdv_1977",
         "name": "K\u00f6rperschaftsteuer-Durchf\u00fchrungsverordnung"
@@ -15285,9 +15460,9 @@
         "name": "Verordnung \u00fcber die Pr\u00fcfung zum anerkannten Abschlu\u00df Gepr\u00fcfter Industriemeister/Gepr\u00fcfte Industriemeisterin - Fachrichtung Kunststoff und Kautschuk"
     },
     {
-        "abbreviation": "KStoffVerfMAusbV 2006",
-        "slug": "kstoffverfmausbv_2006",
-        "name": "Verordnung \u00fcber die Berufsausbildung zum Verfahrensmechaniker f\u00fcr Kunststoff- und Kautschuktechnik/zur Verfahrensmechanikerin f\u00fcr Kunststoff- und Kautschuktechnik"
+        "abbreviation": "KStoffVerfMAusbV 2012",
+        "slug": "kstoffverfmausbv_2012",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum Verfahrensmechaniker f\u00fcr Kunststoff- und Kautschuktechnik und zur Verfahrensmechanikerin f\u00fcr Kunststoff- und Kautschuktechnik"
     },
     {
         "abbreviation": "KSVEntgV",
@@ -15753,11 +15928,6 @@
         "abbreviation": "LAP-mftDBwV",
         "slug": "lap-mftdbwv",
         "name": "Verordnung \u00fcber die Laufbahn, Ausbildung und Pr\u00fcfung f\u00fcr den mittleren feuerwehrtechnischen Dienst in der Bundeswehr"
-    },
-    {
-        "abbreviation": "LAP-mntDAIVV",
-        "slug": "lap-mntdaivv",
-        "name": "Verordnung \u00fcber die Laufbahn, Ausbildung und Pr\u00fcfung f\u00fcr den mittleren nichttechnischen Dienst in der allgemeinen und inneren Verwaltung des Bundes"
     },
     {
         "abbreviation": "LAP-mntDBWVV",
@@ -16825,6 +16995,11 @@
         "name": "Verordnung zur Absenkung der Steuers\u00e4tze nach \u00a7 11 Absatz 2 des Luftverkehrsteuergesetzes im Jahr 2012"
     },
     {
+        "abbreviation": "LuftVStDV",
+        "slug": "luftvstdv",
+        "name": "Verordnung zur Durchf\u00fchrung des Luftverkehrsteuergesetzes"
+    },
+    {
         "abbreviation": "LuftVStG",
         "slug": "luftvstg",
         "name": "Luftverkehrsteuergesetz"
@@ -17330,6 +17505,16 @@
         "name": "Verordnung \u00fcber die Berufsausbildung zum Medizinischen Fachangestellten/zur Medizinischen Fachangestellten"
     },
     {
+        "abbreviation": "MediationsG",
+        "slug": "mediationsg",
+        "name": "Mediationsgesetz"
+    },
+    {
+        "abbreviation": "MedienBTMstrPrV",
+        "slug": "medienbtmstrprv",
+        "name": "Verordnung \u00fcber die Pr\u00fcfung zum anerkannten Fortbildungsabschluss Gepr\u00fcfter Meister Medienproduktion Bild und Ton und Gepr\u00fcfte Meisterin Medienproduktion Bild und Ton"
+    },
+    {
         "abbreviation": "MedienFortbV",
         "slug": "medienfortbv",
         "name": "Verordnung \u00fcber die Pr\u00fcfung zu anerkannten Fortbildungsabschl\u00fcssen in der Medienwirtschaft"
@@ -17658,6 +17843,11 @@
         "abbreviation": "MNrVAL",
         "slug": "mnrval",
         "name": "Verordnung \u00fcber Vergabe und Zusammensetzung der Mitgliedsnummer in der Alterssicherung der Landwirte"
+    },
+    {
+        "abbreviation": "MntDAIVAPrV",
+        "slug": "mntdaivaprv",
+        "name": "Verordnung \u00fcber die Ausbildung und Pr\u00fcfung f\u00fcr den mittleren nichttechnischen Dienst in der allgemeinen und inneren Verwaltung des Bundes"
     },
     {
         "abbreviation": "MobHV",
@@ -18433,6 +18623,11 @@
         "abbreviation": "M\u00fcnz10EuroBek 2012-03-08",
         "slug": "m_nz10eurobek_2012-03-08",
         "name": "Bekanntmachung \u00fcber die Auspr\u00e4gung von deutschen Euro-Gedenkm\u00fcnzen im Nennwert von 10 Euro (Gedenkm\u00fcnze &#8222;200 Jahre Grimms M\u00e4rchen&#8220;)"
+    },
+    {
+        "abbreviation": "M\u00fcnz10EuroBek 2012-09-10",
+        "slug": "m_nz10eurobek_2012-09-10",
+        "name": "Bekanntmachung \u00fcber die Auspr\u00e4gung von deutschen Euro-Gedenkm\u00fcnzen im Nennwert von 10 Euro (Gedenkm\u00fcnze &#8222;100 Jahre Deutsche Nationalbibliothek&#8220;)"
     },
     {
         "abbreviation": "M\u00fcnz1DMBek",
@@ -19380,6 +19575,11 @@
         "name": "Gesetz zur Errichtung eines Nationalen Waffenregisters"
     },
     {
+        "abbreviation": "NWRG-DV",
+        "slug": "nwrg-dv",
+        "name": "Verordnung zur Durchf\u00fchrung des Nationalen-Waffenregister-Gesetzes"
+    },
+    {
         "abbreviation": "OASG",
         "slug": "oasg",
         "name": "Gesetz zur Sicherung der zivilrechtlichen Anspr\u00fcche der Opfer von Straftaten"
@@ -19453,11 +19653,6 @@
         "abbreviation": "\u00d6lHaft\u00dcbkProt",
         "slug": "_lhaft_bkprot",
         "name": "Protokoll zum Internationalen \u00dcbereinkommen von 1969 \u00fcber die zivilrechtliche Haftung f\u00fcr \u00d6lverschmutzungssch\u00e4den"
-    },
-    {
-        "abbreviation": "\u00d6lleinSaatV 2012",
-        "slug": "_lleinsaatv_2012",
-        "name": "Verordnung \u00fcber besondere Anforderungen an Saatgut von \u00d6llein im Rahmen der Saatgutanerkennung 2012"
     },
     {
         "abbreviation": "\u00d6lmeldV",
@@ -20430,9 +20625,9 @@
         "name": "Verordnung \u00fcber die Pr\u00fcfung zum anerkannten Fortbildungsabschluss Gepr\u00fcfter Industriemeister &#8211; Fachrichtung Pharmazie und Gepr\u00fcfte Industriemeisterin &#8211; Fachrichtung Pharmazie"
     },
     {
-        "abbreviation": "PharmKfmAusbV",
-        "slug": "pharmkfmausbv",
-        "name": "Verordnung \u00fcber die Berufsausbildung zum pharmazeutisch-kaufm\u00e4nnischen Angestellten/zur pharmazeutisch-kaufm\u00e4nnischen Angestellten"
+        "abbreviation": "PharmKfmAusbV 2012",
+        "slug": "pharmkfmausbv_2012",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum Pharmazeutisch-kaufm\u00e4nnischen Angestellten und zur Pharmazeutisch-kaufm\u00e4nnischen Angestellten"
     },
     {
         "abbreviation": "PharmRefPrV",
@@ -20560,9 +20755,9 @@
         "name": "Verordnung \u00fcber die Laufbahnen des Polizeivollzugsdienstes beim Deutschen Bundestag"
     },
     {
-        "abbreviation": "PolierPrV",
-        "slug": "polierprv",
-        "name": "Verordnung \u00fcber die Pr\u00fcfung zum anerkannten Abschlu\u00df Gepr\u00fcfter Polier"
+        "abbreviation": "PolierPrV 2012",
+        "slug": "polierprv_2012",
+        "name": "Verordnung \u00fcber die Pr\u00fcfung zum anerkannten Fortbildungsabschluss Gepr\u00fcfter Polier und Gepr\u00fcfte Polierin"
     },
     {
         "abbreviation": "Polst/DekoAusbV",
@@ -21365,6 +21560,11 @@
         "name": "Verordnung \u00fcber die Rechnungslegung der Zahlungsinstitute und E-Geld-Institute"
     },
     {
+        "abbreviation": "RED-G",
+        "slug": "red-g",
+        "name": "Gesetz zur Errichtung einer standardisierten zentralen Datei von Polizeibeh\u00f6rden und Nachrichtendiensten von Bund und L\u00e4ndern zur Bek\u00e4mpfung des gewaltbezogenen Rechtsextremismus"
+    },
+    {
         "abbreviation": "RefiRegV",
         "slug": "refiregv",
         "name": "Verordnung \u00fcber die Form des Refinanzierungsregisters nach dem Kreditwesengesetz sowie die Art und Weise der Aufzeichnung"
@@ -21433,6 +21633,11 @@
         "abbreviation": "RentSV",
         "slug": "postrdv",
         "name": "Verordnung \u00fcber die Wahrnehmung von Aufgaben der Tr\u00e4ger der Rentenversicherung und anderer Sozialversicherungstr\u00e4ger durch den Renten Service der Deutschen Post AG"
+    },
+    {
+        "abbreviation": "ResG",
+        "slug": "resg",
+        "name": "Gesetz \u00fcber die Rechtsstellung der Reservistinnen und Reservisten der Bundeswehr"
     },
     {
         "abbreviation": "RestMeistPrV",
@@ -22365,9 +22570,9 @@
         "name": "Gesetz zur \u00c4nderung schadensersatzrechtlicher Vorschriften"
     },
     {
-        "abbreviation": "SchfAusbV 1997",
-        "slug": "schfausbv_1997",
-        "name": "Verordnung \u00fcber die Berufsausbildung zum Schornsteinfeger/zur Schornsteinfegerin"
+        "abbreviation": "SchfAusbV",
+        "slug": "schfausbv_2012",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum Schornsteinfeger und zur Schornsteinfegerin"
     },
     {
         "abbreviation": "SchfG",
@@ -22415,11 +22620,6 @@
         "name": "Verordnung zur Bek\u00e4mpfung der San-Jose-Schildlaus"
     },
     {
-        "abbreviation": "SchiLichtrAusbV 1999",
-        "slug": "schilichtrausbv_1999",
-        "name": "Verordnung \u00fcber die Berufsausbildung zum Schilder- und Lichtreklamehersteller/zur Schilder- und Lichtreklameherstellerin"
-    },
-    {
         "abbreviation": "SchiLichtrMstrV",
         "slug": "schilichtrmstrv",
         "name": "Verordnung \u00fcber das Meisterpr\u00fcfungsberufsbild und \u00fcber die Pr\u00fcfungsanforderungen in den Teilen I und II der Meisterpr\u00fcfung im Schilder- und Lichtreklamehersteller-Handwerk"
@@ -22458,6 +22658,11 @@
         "abbreviation": "SchLHeim\u00dcbkG",
         "slug": "schlheim_bkg",
         "name": "Gesetz betreffend das Internationale \u00dcbereinkommen \u00fcber die Heimschaffung der Schiffsleute"
+    },
+    {
+        "abbreviation": "SchLichtReklAusbV",
+        "slug": "schlichtreklausbv",
+        "name": "Verordnung \u00fcber die Berufsausbildung zum Schilder- und Lichtreklamehersteller und zur Schilder- und Lichtreklameherstellerin"
     },
     {
         "abbreviation": "SchlichtVerfV",
@@ -23433,6 +23638,11 @@
         "abbreviation": "SkontroMonAwV",
         "slug": "skontromonawv_1999",
         "name": "Verordnung zur Einreichung von Monatsausweisen durch Skontrof\u00fchrer nach dem Gesetz \u00fcber das Kreditwesen"
+    },
+    {
+        "abbreviation": "SKPersStruktAnpG",
+        "slug": "skpersstruktanpg",
+        "name": "Gesetz zur Anpassung der personellen Struktur der Streitkr\u00e4fte"
     },
     {
         "abbreviation": "SKV-MV",
@@ -25200,6 +25410,11 @@
         "name": "Verordnung zur Gestaltung und Verwendung des Akkreditierungssymbols der Akkreditierungsstelle"
     },
     {
+        "abbreviation": "SysStabV",
+        "slug": "sysstabv",
+        "name": "Verordnung zur Gew\u00e4hrleistung der technischen Sicherheit und Systemstabilit\u00e4t des Elektrizit\u00e4tsversorgungsnetzes"
+    },
+    {
         "abbreviation": "SystElektronAusbV 2008",
         "slug": "systelektronausbv_2008",
         "name": "Verordnung \u00fcber die Berufsausbildung zum Systemelektroniker und zur Systemelektronikerin"
@@ -25775,6 +25990,11 @@
         "name": "Gesetz zur Umsetzung der Richtlinie 2000/52/EG der Kommission vom 26. Juli 2000 zur \u00c4nderung der Richtlinie 80/723/EWG \u00fcber die Transparenz der finanziellen Beziehungen zwischen den Mitgliedstaaten und den \u00f6ffentlichen Unternehmen"
     },
     {
+        "abbreviation": "TrDGV",
+        "slug": "trdgv",
+        "name": "Verordnung zur Regelung der Dienstbereiche der Truppendienstgerichte und zur Bildung von Truppendienstkammern"
+    },
+    {
         "abbreviation": "TreuhAbschlG",
         "slug": "treuhabschlg",
         "name": "Gesetz zur abschlie\u00dfenden Erf\u00fcllung der verbliebenen Aufgaben der Treuhandanstalt"
@@ -25943,6 +26163,11 @@
         "abbreviation": "TVMindestlohnGeb\u00e4ude 2012",
         "slug": "tvmindestlohngeb_ude_2012",
         "name": "Rechtsnormen des Tarifvertrages zur Regelung der Mindestl\u00f6hne f\u00fcr gewerbliche Arbeitnehmer in der Geb\u00e4udereinigung im Gebiet der Bundesrepublik Deutschland (TV Mindestlohn)"
+    },
+    {
+        "abbreviation": "TVMindestlohnP\u00e4da",
+        "slug": "tvmindestlohnp_da",
+        "name": "Rechtsnormen des Tarifvertrags zur Regelung des Mindestlohns f\u00fcr p\u00e4dagogisches Personal vom 15. November 2011"
     },
     {
         "abbreviation": "TV\u00f6D",
@@ -27460,11 +27685,6 @@
         "name": "Gesetz \u00fcber eine Volks-, Berufs-, Geb\u00e4ude-, Wohnungs- und Arbeitsst\u00e4ttenz\u00e4hlung"
     },
     {
-        "abbreviation": "VPWV",
-        "slug": "vpwv",
-        "name": "Verordnung \u00fcber die Wahl der Vertrauenspersonen der Soldaten"
-    },
-    {
         "abbreviation": "VReformG",
         "slug": "vreformg",
         "name": "Gesetz zur Umsetzung des Versorgungsberichts"
@@ -27533,6 +27753,11 @@
         "abbreviation": "VStRG",
         "slug": "vstrg",
         "name": "Gesetz zur Reform des Verm\u00f6gensteuerrechts und zur \u00c4nderung anderer Steuergesetze"
+    },
+    {
+        "abbreviation": "VSVgV",
+        "slug": "vsvgv",
+        "name": "Vergabeverordnung f\u00fcr die Bereiche Verteidigung und Sicherheit zur Umsetzung der Richtlinie 2009/81/EG des Europ\u00e4ischen Parlaments und des Rates vom 13. Juli 2009 \u00fcber die Koordinierung der Verfahren zur Vergabe bestimmter Bau-, Liefer- und Dienstleistungsauftr\u00e4ge in den Bereichen Verteidigung und Sicherheit und zur \u00c4nderung der Richtlinien 2004/17/EG und 2004/18/EG"
     },
     {
         "abbreviation": "Vtr LUX",
@@ -27803,6 +28028,11 @@
         "abbreviation": "WassL\u00dcbk",
         "slug": "wassl_bk",
         "name": "\u00dcbereinkommen zum Schutz und zur Nutzung grenz\u00fcberschreitender Wasserl\u00e4ufe und internationaler Seen"
+    },
+    {
+        "abbreviation": "WassL\u00dcbk\u00c4ndG",
+        "slug": "wassl_bk_ndg",
+        "name": "Gesetz zur \u00c4nderung des \u00dcbereinkommen vom 17. M\u00e4rz 1992 zum Schutz und zur Nutzung grenz\u00fcberschreitender Wasserl\u00e4ufe und internationaler Seen"
     },
     {
         "abbreviation": "WassL\u00dcbkG",
@@ -29495,16 +29725,6 @@
         "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
     },
     {
-        "abbreviation": "WZSchBek 2011-10-31",
-        "slug": "wzschbek_2011-10-31",
-        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
-    },
-    {
-        "abbreviation": "WZSchBek 2011-11-10",
-        "slug": "wzschbek_2011-11-10",
-        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
-    },
-    {
         "abbreviation": "WZSchBek 2011-12-22",
         "slug": "wzschbek_2011-12-22",
         "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
@@ -29517,6 +29737,11 @@
     {
         "abbreviation": "WZSchBek 2012-03-30",
         "slug": "wzschbek_2012-03-30",
+        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
+    },
+    {
+        "abbreviation": "WZSchBek 2012-07-11",
+        "slug": "wzschbek_2012-07-11",
         "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
     },
     {
@@ -30100,6 +30325,11 @@
         "name": "Verordnung \u00fcber Anforderungen an Zusatzstoffe und das Inverkehrbringen von Zusatzstoffen f\u00fcr technologische Zwecke"
     },
     {
+        "abbreviation": "ZVFV",
+        "slug": "zvfv",
+        "name": "Verordnung \u00fcber Formulare f\u00fcr die Zwangsvollstreckung"
+    },
+    {
         "abbreviation": "ZVG",
         "slug": "zvg",
         "name": "Gesetz \u00fcber die Zwangsversteigerung und die Zwangsverwaltung"
@@ -30586,7 +30816,7 @@
     },
     {
         "abbreviation": "23. SOLAS-\u00c4ndV",
-        "slug": "vii110506",
+        "slug": "seeschint_bk1974prot88_ndv_23",
         "name": "Dreiundzwanzigste Verordnung \u00fcber die \u00c4nderung des Internationalen \u00dcbereinkommens von 1974 zum Schutz des menschlichen Lebens auf See und des Protokolls von 1988 zu diesem \u00dcbereinkommen"
     },
     {
@@ -30757,7 +30987,7 @@
     {
         "abbreviation": "4. BImSchV",
         "slug": "bimschv_4_1985",
-        "name": "Vierte Verordnung zur Durchf\u00fchrung des Bundes-Immissionsschutzgesetzes (Art. 1 d. V zur Neufassung und \u00c4nderung von Verordnungen zur Durchf\u00fchrung des Bundes-Immissionsschutzgesetzes)"
+        "name": "Vierte Verordnung zur Durchf\u00fchrung des Bundes-Immissionsschutzgesetzes (Verordnung \u00fcber genehmigungsbed\u00fcrftige Anlagen)"
     },
     {
         "abbreviation": "4. BinSchUOAbweichV",
@@ -30878,11 +31108,6 @@
         "abbreviation": "7. RAG",
         "slug": "rag_7",
         "name": "Siebentes Gesetz \u00fcber die Anpassung der Renten aus den gesetzlichen Rentenversicherungen sowie \u00fcber die Anpassung der Geldleistungen aus der gesetzlichen Unfallversicherung"
-    },
-    {
-        "abbreviation": "77. BinSchStrOAbweichV",
-        "slug": "binschstro1998abwv_77",
-        "name": "Siebenundsiebzigste Verordnung zur vor\u00fcbergehenden Abweichung von der Binnenschifffahrtsstra\u00dfen-Ordnung"
     },
     {
         "abbreviation": "78. BinSchStrOAbweichV",
