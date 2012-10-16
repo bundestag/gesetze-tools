@@ -23,19 +23,17 @@ import requests
 class BGBLScraper(object):
     BASE_URL = 'http://www.bgbl.de/Xaver/'
     START = 'start.xav?startbk=Bundesanzeiger_BGBl'
-    BASE_TOCS = [('toc.xav?dir=center&start=2&cur=2&op=2'
+    BASE_TOC = ('toc.xav?tocf=Bundesanzeiger_BGBl_tocFrame'
                 '&tf=Bundesanzeiger_BGBl_mainFrame'
+                '&qmf=Bundesanzeiger_BGBl_mainFrame'
                 '&hlf=Bundesanzeiger_BGBl_mainFrame'
-                '&qmf=Bundesanzeiger_BGBl_mainFrame'
-                '&tocf=Bundesanzeiger_BGBl_tocFrame'
-                '&bk=Bundesanzeiger_BGBl'),
-                ('toc.xav?tocf=Bundesanzeiger_BGBl_tocFrame'
+                '&bk=Bundesanzeiger_BGBl')
+    MAIN_TOC = ('toc.xav?tocf=Bundesanzeiger_BGBl_tocFrame'
                 '&tf=Bundesanzeiger_BGBl_mainFrame'
                 '&qmf=Bundesanzeiger_BGBl_mainFrame'
-                '&hlf=Bundesanzeiger_BGBl_mainFrame&start=2'
-                '&bk=Bundesanzeiger_BGBl&dir=down&op=580388&noca=7')
-    ]
-
+                '&hlf=Bundesanzeiger_BGBl_mainFrame'
+                '&start=2&bk=Bundesanzeiger_BGBl'
+                '&dir=down&op=%s&noca=36')
     YEAR_TOC = ('toc.xav?tocf=Bundesanzeiger_BGBl_tocFrame'
                 '&tf=Bundesanzeiger_BGBl_mainFrame'
                 '&qmf=Bundesanzeiger_BGBl_mainFrame'
@@ -76,18 +74,33 @@ class BGBLScraper(object):
 
     def scrape(self, low=0, high=10000):
         collection = {}
-        for part in range(1, self.part_count + 1):
+        self.toc_offsets = self.get_base_toc()
+        for part in range(2, self.part_count + 1):
             print part
             self.get_main_toc(part)
             self.get_all_year_tocs(part, low, high)
             collection.update(self.get_all_tocs(part, low, high))
         return collection
 
+    def get_base_toc(self):
+        url = self.BASE_URL + self.BASE_TOC
+        response = self.get(url)
+        root = lxml.html.fromstring(response.text)
+        selector = '.tocelement a'
+        toc_offsets = []
+        for a in root.cssselect(selector):
+            link_href = a.attrib['href']
+            match = re.search('op=(\d+)&', link_href)
+            if match:
+                toc_offsets.append(match.group(1))
+        return toc_offsets
+
     def get_main_toc(self, part=1):
         self.get_main_toc_part(part)
 
     def get_main_toc_part(self, part):
-        url = self.BASE_URL + self.BASE_TOCS[part - 1]
+        offset = self.toc_offsets[part - 1]
+        url = self.BASE_URL + (self.MAIN_TOC % offset)
         response = self.get(url)
         root = lxml.html.fromstring(response.text)
         selector = '.tocelement a[target="Bundesanzeiger_BGBl_mainFrame"]'
