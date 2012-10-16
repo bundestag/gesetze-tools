@@ -2,14 +2,15 @@
 """LawGit - Semi-automatic law change commits.
 
 Usage:
-  lawgit.py autocommit <repopath> [--dry-run]
+  lawgit.py autocommit <repopath> [--dry-run] [--consider-old]
   lawgit.py -h | --help
   lawgit.py --version
 
 Options:
-  --dry-run     Make a dry run.
-  -h --help     Show this screen.
-  --version     Show version.
+  --dry-run         Make a dry run.
+  --consider-old    Consider old laws for commits.
+  -h --help         Show this screen.
+  --version         Show version.
 
 """
 import re
@@ -143,9 +144,10 @@ class LawGit(object):
     law_changes = {}
     bgbl_changes = defaultdict(list)
 
-    def __init__(self, path, dry_run=False):
+    def __init__(self, path, dry_run=False, consider_old=False):
         self.path = path
         self.dry_run = dry_run
+        self.consider_old = consider_old
         self.repo = Repo(path)
         self.sources = [
             BGBlSource('data/bgbl.json'),
@@ -161,7 +163,8 @@ class LawGit(object):
                 continue
             source, key = result
             date = source.get_date(key)
-            if date + timedelta(days=90) < datetime.now():
+            if not self.consider_old and date + timedelta(days=30 * 12) < datetime.now():
+                print "Skipped %s %s (too old)" % (law, result)
                 continue
             branch_name = source.get_branch_name(key)
             ident = source.get_ident(key)
@@ -253,7 +256,8 @@ class LawGit(object):
 
 def main(arguments):
     kwargs = {
-        'dry_run': arguments['--dry-run']
+        'dry_run': arguments['--dry-run'],
+        'consider_old': arguments['--consider-old']
     }
 
     lg = LawGit(arguments['<repopath>'], **kwargs)
@@ -263,5 +267,5 @@ def main(arguments):
 
 if __name__ == '__main__':
     from docopt import docopt
-    arguments = docopt(__doc__, version='LawGit 0.0.1')
+    arguments = docopt(__doc__, version='LawGit 0.0.2')
     main(arguments)
