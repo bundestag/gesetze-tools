@@ -75,7 +75,7 @@ class BGBLScraper(object):
     def scrape(self, low=0, high=10000):
         collection = {}
         self.toc_offsets = self.get_base_toc()
-        for part in range(2, self.part_count + 1):
+        for part in range(1, self.part_count + 1):
             print part
             self.get_main_toc(part)
             self.get_all_year_tocs(part, low, high)
