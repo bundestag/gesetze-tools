@@ -105,6 +105,211 @@
         "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
     },
     {
+        "abbreviation": "PsittakoseV",
+        "slug": "psittakosev",
+        "name": "Verordnung zum Schutz gegen die Psittakose und Ornithose"
+    },
+    {
+        "abbreviation": "WZSchBek 2011-05-05",
+        "slug": "wzschbek_2011-05-05",
+        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
+    },
+    {
+        "abbreviation": "AMBezV",
+        "slug": "ambezv",
+        "name": "Verordnung \u00fcber die Bezeichnung der Art der wirksamen Bestandteile von Fertigarzneimitteln"
+    },
+    {
+        "abbreviation": "KapMuG",
+        "slug": "kapmug",
+        "name": "Gesetz \u00fcber Musterverfahren in kapitalmarktrechtlichen Streitigkeiten"
+    },
+    {
+        "abbreviation": "GrBr\u00fcckAbk2000CZEG",
+        "slug": "grbr_ckabk2000czeg",
+        "name": "Gesetz zu dem Vertrag vom 12. September 2000 zwischen der Bundesrepublik Deutschland und der Tschechischen Republik \u00fcber den Zusammenschluss der deutschen Autobahn A 17 und der tschechischen Autobahn D 8 an der gemeinsamen Staatsgrenze durch Errichtung einer Grenzbr\u00fccke"
+    },
+    {
+        "abbreviation": "KVLG",
+        "slug": "kvlg",
+        "name": "Gesetz zur Weiterentwicklung des Rechts der gesetzlichen Krankenversicherung"
+    },
+    {
+        "abbreviation": "BinSchLotsVergV 2006",
+        "slug": "binschlotsvergv_2006",
+        "name": "Verordnung \u00fcber die Entgelte f\u00fcr die Leistungen der Binnenlotsen auf der Bundeswasserstra\u00dfe Rhein zwischen Iffezheim und Mannheim"
+    },
+    {
+        "abbreviation": "AUV",
+        "slug": "auv_1991",
+        "name": "Verordnung \u00fcber die Umzugskostenverg\u00fctung bei Auslandsumz\u00fcgen"
+    },
+    {
+        "abbreviation": "WZSchBek 2011-12-22",
+        "slug": "wzschbek_2011-12-22",
+        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
+    },
+    {
+        "abbreviation": "VIGGebV",
+        "slug": "viggebv",
+        "name": "Verordnung \u00fcber die Geb\u00fchren nach dem Verbraucherinformationsgesetz"
+    },
+    {
+        "abbreviation": "WZSchBek 2012-01-25",
+        "slug": "wzschbek_2012-01-25",
+        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
+    },
+    {
+        "abbreviation": "BDZV",
+        "slug": "bdzv",
+        "name": "Verordnung \u00fcber die Gew\u00e4hrung eines Zuschlags zu den Dienstbez\u00fcgen bei begrenzter Dienstf\u00e4higkeit"
+    },
+    {
+        "abbreviation": "D\u00fcMV",
+        "slug": "d_mv_2008",
+        "name": "Verordnung \u00fcber das Inverkehrbringen von D\u00fcngemitteln, Bodenhilfsstoffen, Kultursubstraten und Pflanzenhilfsmitteln"
+    },
+    {
+        "abbreviation": "KuArbGeldFristV 2009",
+        "slug": "kuarbgeldfristv_2009",
+        "name": "Verordnung \u00fcber die Bezugsdauer f\u00fcr das Kurzarbeitergeld"
+    },
+    {
+        "abbreviation": "GetrIntervV",
+        "slug": "getrintervv",
+        "name": "Verordnung \u00fcber die Mindestmenge f\u00fcr die Intervention bei Getreide"
+    },
+    {
+        "abbreviation": "NLPosV",
+        "slug": "nlposv",
+        "name": "Verordnung zur Konkretisierung der Mitteilungs- und Ver\u00f6ffentlichungspflichten f\u00fcr Netto-Leerverkaufspositionen"
+    },
+    {
+        "abbreviation": "AgrStatEBV 2011",
+        "slug": "agrstatebv_2011",
+        "name": "Verordnung zur Erhebung agrarstatistischer Daten f\u00fcr die Emissionsberichterstattung"
+    },
+    {
+        "abbreviation": "DRG-EKV 2012",
+        "slug": "drg-ekv_2012",
+        "name": "Verordnung zum DRG-Entgeltkatalog f\u00fcr das Jahr 2012"
+    },
+    {
+        "abbreviation": "EinglMV 2012",
+        "slug": "einglmv_2012",
+        "name": "Verordnung \u00fcber andere und erg\u00e4nzende Ma\u00dfst\u00e4be f\u00fcr die Verteilung der Mittel f\u00fcr Leistungen zur Eingliederung in Arbeit und der Verwaltungskosten der Grundsicherung f\u00fcr Arbeitsuchende im Jahr 2012"
+    },
+    {
+        "abbreviation": "EnergieStG\u00a755Abs1aBek 2012",
+        "slug": "energiestg_55abs1abek_2012",
+        "name": "Bekanntmachung nach \u00a7 55 Absatz 1a des Energiesteuergesetzes"
+    },
+    {
+        "abbreviation": "FleiMstrV",
+        "slug": "fleimstrv",
+        "name": "Verordnung \u00fcber das Berufsbild und \u00fcber die Pr\u00fcfungsanforderungen im praktischen und im fachtheoretischen Teil der Meisterpr\u00fcfung f\u00fcr das Fleischer-Handwerk"
+    },
+    {
+        "abbreviation": "FrHfHbgGrV 1997",
+        "slug": "frhfhbggrv_1997",
+        "name": "Verordnung \u00fcber die Grenzen des Freihafens Hamburg"
+    },
+    {
+        "abbreviation": "GewStUEZV 2012",
+        "slug": "gewstuezv_2012",
+        "name": "Verordnung zur Festsetzung der Erh\u00f6hungszahl f\u00fcr die Gewerbesteuerumlage nach \u00a7 6 Absatz 5 des Gemeindefinanzreformgesetzes im Jahr 2012"
+    },
+    {
+        "abbreviation": "GlPrZHanauV",
+        "slug": "glprzhanauv",
+        "name": "Verordnung zur Gleichstellung von Pr\u00fcfungszeugnissen der Staatlichen Zeichenakademie Hanau mit den Zeugnissen \u00fcber das Bestehen der Abschluss- und Gesellenpr\u00fcfung in Ausbildungsberufen"
+    },
+    {
+        "abbreviation": "KraftStNRG",
+        "slug": "kraftstnrg",
+        "name": "Gesetz zur Neuregelung der Kraftfahrzeugsteuer und \u00c4nderung anderer Gesetze"
+    },
+    {
+        "abbreviation": "LSVSpiVG",
+        "slug": "lsvspivg",
+        "name": "Gesetz zur Errichtung des Spitzenverbandes der landwirtschaftlichen Sozialversicherung"
+    },
+    {
+        "abbreviation": "LSV\u00dcG",
+        "slug": "lsv_g",
+        "name": "Gesetz zu \u00dcbergangsregelungen zur Modernisierung des Rechts der landwirtschaftlichen Sozialversicherung"
+    },
+    {
+        "abbreviation": "PBefG\u00a713aV",
+        "slug": "pbefg_13av",
+        "name": "Verordnung zur Anwendung von \u00a7 13a Abs. 1 Satz 3 des Personenbef\u00f6rderungsgesetzes"
+    },
+    {
+        "abbreviation": "RBSFV 2012",
+        "slug": "rbsfv_2012",
+        "name": "Verordnung zur Fortschreibung der Regelbedarfsstufen nach \u00a7 138 Nummer 2 des Zw\u00f6lften Buches Sozialgesetzbuch f\u00fcr das Jahr 2012"
+    },
+    {
+        "abbreviation": "SchfG",
+        "slug": "schfg",
+        "name": "Gesetz \u00fcber das Schornsteinfegerwesen"
+    },
+    {
+        "abbreviation": "StromStG\u00a710Abs1aBek 2012",
+        "slug": "stromstg_10abs1abek_2012",
+        "name": "Bekanntmachung nach \u00a7 10 Absatz 1a des Stromsteuergesetzes"
+    },
+    {
+        "abbreviation": "TeleFinV 2012",
+        "slug": "telefinv_2012",
+        "name": "Verordnung zur Anpassung des Betrags zur Finanzierung der Gesellschaft f\u00fcr Telematik f\u00fcr das Jahr 2012"
+    },
+    {
+        "abbreviation": "TVMindestlohn Abfall 4",
+        "slug": "tvmindestlohn_abfall_4",
+        "name": "Rechtsnormen des Mindestlohntarifvertrages f\u00fcr die Branche Abfallwirtschaft vom 7. Januar 2009 in der Fassung der \u00c4nderungstarifvertr\u00e4ge vom 12. August 2009, 19. August 2010, 16. Juni 2011 und 6. M\u00e4rz 2012"
+    },
+    {
+        "abbreviation": "24. MoselSchPVAbweichV",
+        "slug": "moselschpv1997abwv_24",
+        "name": "Vierundzwanzigste Verordnung zur vor\u00fcbergehenden Abweichung von der Moselschifffahrtspolizeiverordnung"
+    },
+    {
+        "abbreviation": "4. AbfallArbbV",
+        "slug": "abfallarbbv_4",
+        "name": "Vierte Verordnung \u00fcber zwingende Arbeitsbedingungen f\u00fcr die Abfallwirtschaft einschlie\u00dflich Stra\u00dfenreinigung und Winterdienst"
+    },
+    {
+        "abbreviation": "EGRL 3/2004",
+        "slug": "egrl_3_2004",
+        "name": "Richtlinie 2004/3/EG des Europ\u00e4ischen Parlaments und des Rates vom 11. Februar 2004 zur \u00c4nderung der Richtlinien 70/156/EWG und 80/1268/EWG des Rates im Hinblick auf die Messung der Kohlendioxidemissionen und des Kraftstoffverbrauchs von Fahrzeugen der Klasse N1"
+    },
+    {
+        "abbreviation": "EGV 595/2009",
+        "slug": "egv_595_2009",
+        "name": "Verordnung (EG) Nr. 595/2009 des Europ\u00e4ischen Parlaments und des Rates \u00fcber die Typgenehmigung von Kraftfahrzeugen und Motoren hinsichtlich der Emissionen von schweren Nutzfahrzeugen (Euro VI) und \u00fcber den Zugang zu Fahrzeugreparatur- und -wartungsinformationen, zur \u00c4nderung der Verordnung (EG) Nr. 715/2007 und der Richtlinie 2007/46/EG sowie zur Aufhebung der Richtlinien 80/1269/EWG, 2005/55/EG und 2005/78/EG"
+    },
+    {
+        "abbreviation": "KlagRegV",
+        "slug": "klagregv",
+        "name": "Verordnung \u00fcber das Klageregister nach dem Kapitalanleger- Musterverfahrensgesetz"
+    },
+    {
+        "abbreviation": "SchVmV",
+        "slug": "schvmv",
+        "name": "Verordnung \u00fcber die Schiffs- und Schiffsbeh\u00e4ltervermessung"
+    },
+    {
+        "abbreviation": "TierSchlV",
+        "slug": "tierschlv",
+        "name": "Verordnung zum Schutz von Tieren im Zusammenhang mit der Schlachtung oder T\u00f6tung"
+    },
+    {
+        "abbreviation": "LAP-gtDWSVV",
+        "slug": "lap-gtdwsvv",
+        "name": "Verordnung \u00fcber die Laufbahn, Ausbildung und Pr\u00fcfung f\u00fcr den gehobenen technischen Verwaltungsdienst in der Wasser- und Schifffahrtsverwaltung des Bundes"
+    },
+    {
         "abbreviation": "A/KAE",
         "slug": "kaeaano",
         "name": "Ausf\u00fchrungsanordnung zur Konzessionsabgabenanordnung"
@@ -203,6 +408,11 @@
         "abbreviation": "Abk ISR",
         "slug": "abk_isr",
         "name": "Abkommen zwischen der Bundesrepublik Deutschland und dem Staate Israel"
+    },
+    {
+        "abbreviation": "AbLaV",
+        "slug": "ablav",
+        "name": "Verordnung \u00fcber Vereinbarungen zu abschaltbaren Lasten"
     },
     {
         "abbreviation": "AbrStV",
@@ -383,6 +593,11 @@
         "abbreviation": "AELV 2012",
         "slug": "aelv_2012",
         "name": "Verordnung zur Ermittlung des Arbeitseinkommens aus der Land- und Forstwirtschaft f\u00fcr das Jahr 2012"
+    },
+    {
+        "abbreviation": "AELV 2013",
+        "slug": "aelv_2013",
+        "name": "Verordnung zur Ermittlung des Arbeitseinkommens aus der Land- und Forstwirtschaft f\u00fcr das Jahr 2013"
     },
     {
         "abbreviation": "\u00c4ndSchnAusbV",
@@ -580,11 +795,6 @@
         "name": "Verordnung \u00fcber die Meisterpr\u00fcfung zum anerkannten Fortbildungsabschluss Agrarservicemeister und Agrarservicemeisterin"
     },
     {
-        "abbreviation": "AgrStatEBV 2011",
-        "slug": "agrstatebv_2011",
-        "name": "Verordnung zur Erhebung agrarstatistischer Daten f\u00fcr die Emissionsberichterstattung"
-    },
-    {
         "abbreviation": "AgrStatG",
         "slug": "agrstatg",
         "name": "Gesetz \u00fcber Agrarstatistiken"
@@ -700,6 +910,11 @@
         "name": "Bekanntmachung der Beitr\u00e4ge und der Beitragszusch\u00fcsse in der Alterssicherung der Landwirte f\u00fcr das Jahr 2012"
     },
     {
+        "abbreviation": "ALBeitrBek 2013",
+        "slug": "albeitrbek_2013",
+        "name": "Bekanntmachung der Beitr\u00e4ge und der Beitragszusch\u00fcsse in der Alterssicherung der Landwirte f\u00fcr das Jahr 2013"
+    },
+    {
         "abbreviation": "ALG",
         "slug": "alg",
         "name": "Gesetz \u00fcber die Alterssicherung der Landwirte"
@@ -795,6 +1010,11 @@
         "name": "Verordnung \u00fcber die Seelotsreviere und ihre Grenzen"
     },
     {
+        "abbreviation": "AM-HandelsV",
+        "slug": "amgrhdlbetrv",
+        "name": "Verordnung \u00fcber den Gro\u00dfhandel und die Arzneimittelvermittlung"
+    },
+    {
         "abbreviation": "AM-NutzenV",
         "slug": "am-nutzenv",
         "name": "Verordnung \u00fcber die Nutzenbewertung von Arzneimitteln nach \u00a7 35a Absatz 1 SGB V f\u00fcr Erstattungsvereinbarungen nach \u00a7 130b SGB V"
@@ -803,11 +1023,6 @@
         "abbreviation": "AMAusbV 2004",
         "slug": "amausbv_2004",
         "name": "Verordnung \u00fcber die Berufsausbildung zum Aufbereitungsmechaniker/zur Aufbereitungsmechanikerin"
-    },
-    {
-        "abbreviation": "AMBezV",
-        "slug": "ambezv",
-        "name": "Verordnung \u00fcber die Bezeichnung der Art der wirksamen Bestandteile von Fertigarzneimitteln"
     },
     {
         "abbreviation": "AMbG",
@@ -853,11 +1068,6 @@
         "abbreviation": "AMGKostV",
         "slug": "amgkostv",
         "name": "Kostenverordnung f\u00fcr die Zulassung von Arzneimitteln durch das Bundesinstitut f\u00fcr Arzneimittel und Medizinprodukte und das Bundesamt f\u00fcr Verbraucherschutz und Lebensmittelsicherheit"
-    },
-    {
-        "abbreviation": "AMGrHdlBetrV",
-        "slug": "amgrhdlbetrv",
-        "name": "Betriebsverordnung f\u00fcr Arzneimittelgro\u00dfhandelsbetriebe"
     },
     {
         "abbreviation": "AMHV",
@@ -1153,6 +1363,11 @@
         "abbreviation": "ArbSV",
         "slug": "arbsv",
         "name": "Verordnung \u00fcber die Feststellung und Deckung des Arbeitskr\u00e4ftebedarfs nach dem Arbeitssicherstellungsgesetz"
+    },
+    {
+        "abbreviation": "ArbUnfErhV",
+        "slug": "arbunferhv",
+        "name": "Verordnung \u00fcber statistische Erhebungen zu Arbeitsunf\u00e4llen und arbeitsbedingten Gesundheitsproblemen im Rahmen der Arbeitskr\u00e4fteerhebung in der Europ\u00e4ischen Union"
     },
     {
         "abbreviation": "ArbVAbkGBRG",
@@ -1976,7 +2191,7 @@
     },
     {
         "abbreviation": "AUV",
-        "slug": "auv_1991",
+        "slug": "auv_2012",
         "name": "Verordnung \u00fcber die Umzugskostenverg\u00fctung bei Auslandsumz\u00fcgen"
     },
     {
@@ -2293,6 +2508,11 @@
         "abbreviation": "BArchKostV",
         "slug": "barchkostv",
         "name": "Verordnung \u00fcber Kosten beim Bundesarchiv"
+    },
+    {
+        "abbreviation": "BargeldPr\u00fcfV",
+        "slug": "bargeldpr_fv",
+        "name": "Verordnung \u00fcber die Pr\u00fcfung von Bargeld"
     },
     {
         "abbreviation": "BArtSchV",
@@ -2836,7 +3056,7 @@
     },
     {
         "abbreviation": "BDZV",
-        "slug": "bdzv",
+        "slug": "bdzv_2010",
         "name": "Verordnung \u00fcber die Gew\u00e4hrung eines Zuschlags zu den Dienstbez\u00fcgen bei begrenzter Dienstf\u00e4higkeit"
     },
     {
@@ -3118,6 +3338,11 @@
         "abbreviation": "BEG\u00a7172DV 53",
         "slug": "beg_172dv_53",
         "name": "Dreiundf\u00fcnfzigste Verordnung zur Durchf\u00fchrung des \u00a7 172 des Bundesentsch\u00e4digungsgesetzes"
+    },
+    {
+        "abbreviation": "BEG\u00a7172DV 54",
+        "slug": "beg_172dv_54",
+        "name": "Vierundf\u00fcnfzigste Verordnung zur Durchf\u00fchrung des \u00a7 172 des Bundesentsch\u00e4digungsgesetzes"
     },
     {
         "abbreviation": "BehAppAusbV",
@@ -3690,6 +3915,11 @@
         "name": "Bundeskostenverordnung zum Gentechnikgesetz"
     },
     {
+        "abbreviation": "BGeoRG",
+        "slug": "bgeorg",
+        "name": "Gesetz \u00fcber die geod\u00e4tischen Referenzsysteme, -netze und geotopographischen Referenzdaten des Bundes"
+    },
+    {
         "abbreviation": "BGG",
         "slug": "bgg",
         "name": "Gesetz zur Gleichstellung behinderter Menschen"
@@ -4020,9 +4250,9 @@
         "name": "Verordnung \u00fcber die Entgelte f\u00fcr die Leistungen der Binnenlotsen auf dem Rhein zwischen Bingen und St. Goar"
     },
     {
-        "abbreviation": "BinSchLotsVergV 2006",
-        "slug": "binschlotsvergv_2006",
-        "name": "Verordnung \u00fcber die Entgelte f\u00fcr die Leistungen der Binnenlotsen auf der Bundeswasserstra\u00dfe Rhein zwischen Iffezheim und Mannheim"
+        "abbreviation": "BinSchLotsVergV 2012",
+        "slug": "binschlotsvergv_2012",
+        "name": "Verordnung \u00fcber die Entgelte f\u00fcr die Leistungen der Binnenlotsen auf der Bundeswasserstra\u00dfe Rhein zwischen den Schleusen Iffezheim und Mannheim/Ludwigshafen"
     },
     {
         "abbreviation": "BinSchLV",
@@ -4118,6 +4348,16 @@
         "abbreviation": "BinSchUO2008Anh XII",
         "slug": "binschuo2008anh_xii",
         "name": "Erg\u00e4nzende technische Mindestvorschriften auf Binnenwasserstra\u00dfen der Zonen 1, 2, 3 und 4 f\u00fcr Fahrzeuge, die ein Gemeinschaftszeugnis beantragen (Anhang XII zur Binnenschiffsuntersuchungsordnung)"
+    },
+    {
+        "abbreviation": "BinSchUO2008Anh XIII",
+        "slug": "binschuo2008anh_xiii",
+        "name": "Gleichwertige Typgenehmigungen und Vorschriften zum Einbau und zur Funktionspr\u00fcfung sowie Konformit\u00e4tserkl\u00e4rungen (Anhang XIII zur Binnenschiffsuntersuchungsordnung)"
+    },
+    {
+        "abbreviation": "BinSchUO2008AnhIIAnl M",
+        "slug": "binschuo2008anhiianl_m",
+        "name": "Navigationsradaranlagen und Wendeanzeiger in der Rheinschifffahrt (Anlage M zu Anhang II der Binnenschiffsuntersuchungsordnung)"
     },
     {
         "abbreviation": "BinSchUOEV",
@@ -4593,6 +4833,11 @@
         "abbreviation": "BMinBFBeihZustAnO 2010",
         "slug": "bminbfbeihzustano_2010",
         "name": "Anordnung zur \u00dcbertragung von Zust\u00e4ndigkeiten f\u00fcr den Erlass von Widerspruchsbescheiden und die Vertretung des Dienstherrn bei Klagen von Besch\u00e4ftigten des Bundesministeriums f\u00fcr Bildung und Forschung in Angelegenheiten nach den Beihilfevorschriften des Bundes"
+    },
+    {
+        "abbreviation": "BMinBFZustAnO",
+        "slug": "bminbfzustano",
+        "name": "Anordnung zur \u00dcbertragung der Zust\u00e4ndigkeit f\u00fcr die Vertretung des Dienstherrn bei Klagen von Besch\u00e4ftigten des Bundesinstituts f\u00fcr Berufsbildung im Gesch\u00e4ftsbereich des Bundesministeriums f\u00fcr Bildung und Forschung in Angelegenheiten nach den Beihilfevorschriften des Bundes"
     },
     {
         "abbreviation": "BMinELVWidAnO",
@@ -5690,6 +5935,11 @@
         "name": "Gesetz zur Bestimmung der Beitragss\u00e4tze in der gesetzlichen Rentenversicherung f\u00fcr das Jahr 2007"
     },
     {
+        "abbreviation": "BSG 2013",
+        "slug": "bsg_2013",
+        "name": "Gesetz zur Festsetzung der Beitragss\u00e4tze in der gesetzlichen Rentenversicherung f\u00fcr das Jahr 2013"
+    },
+    {
         "abbreviation": "BSGWidAnO",
         "slug": "bsgwidano",
         "name": "Anordnung zur \u00dcbertragung von Zust\u00e4ndigkeiten f\u00fcr den Erlass von Widerspruchsbescheiden und die Vertretung des Dienstherrn bei Klagen von Besch\u00e4ftigten des Bundessozialgerichts, des Bundesversicherungsamtes und des Robert Koch-Instituts in Angelegenheiten nach den Beihilfevorschriften des Bundes"
@@ -6710,6 +6960,11 @@
         "name": "Abkommen zwischen der Bundesrepublik Deutschland und dem K\u00f6nigreich Saudi-Arabien zur Vermeidung der Doppelbesteuerung auf dem Gebiet der Steuern vom Einkommen und vom Verm\u00f6gen von Luftfahrtunternehmen und der Steuern von den Verg\u00fctungen ihrer Arbeitnehmer"
     },
     {
+        "abbreviation": "DBA Taipeh",
+        "slug": "dba_taipeh",
+        "name": "Abkommen zwischen dem Deutschen Institut in Taipeh und der Taipeh Vertretung in der Bundesrepublik Deutschland zur Vermeidung der Doppelbesteuerung und zur Verhinderung der Steuerverk\u00fcrzung hinsichtlich der Steuern vom Einkommen und vom Verm\u00f6gen"
+    },
+    {
         "abbreviation": "DBA USA 1980",
         "slug": "dba_usa_1980",
         "name": "Abkommen zwischen der Bundesrepublik Deutschland und dem Vereinigten Staaten von Amerika zur Vermeidung der Doppelbesteuerung auf dem Gebiet der Nachla\u00df-, Erbschaft- und Schenkungsteuern"
@@ -6920,6 +7175,11 @@
         "name": "Protokoll zum Abkommen vom 26. November 1997 zwischen der Bundesrepublik Deutschland und der Republik Kasachstan zur Vermeidung der Doppelbesteuerung auf dem Gebiet der Steuern vom Einkommen und vom Verm\u00f6gen"
     },
     {
+        "abbreviation": "DBAProt Taipeh",
+        "slug": "dbaprot_taipeh",
+        "name": "Protokoll zum Abkommen zwischen dem Deutschen Institut in Taipeh und der Taipeh Vertretung in der Bundesrepublik Deutschland zur Vermeidung der Doppelbesteuerung und zur Verhinderung der Steuerverk\u00fcrzung hinsichtlich der Steuern vom Einkommen und vom Verm\u00f6gen unterzeichnet am 28. Dezember 2011 in Taipeh und am 19. Dezember 2011 in Berlin"
+    },
+    {
         "abbreviation": "DBAProt VerArabEm",
         "slug": "dbaprot_verarabem",
         "name": "Protokoll zur Verl\u00e4ngerung des Abkommens vom 9. April 1995 zwischen der Bundesrepublik Deutschland und den Vereinigten Arabischen Emiraten zur Vermeidung der Doppelbesteuerung auf dem Gebiet der Steuern vom Einkommen und vom Verm\u00f6gen und zur Belebung der wirtschaftlichen Beziehungen"
@@ -6983,6 +7243,11 @@
         "abbreviation": "DBAZAbkBELG",
         "slug": "dbazabkbelg",
         "name": "Gesetz zu dem Zusatzabkommen vom 5. November 2002 zum Abkommen vom 11. April 1967 zwischen der Bundesrepublik Deutschland und dem K\u00f6nigreich Belgien zur Vermeidung der Doppelbesteuerungen und zur Regelung verschiedener anderer Fragen auf dem Gebiete der Steuern vom Einkommen und vom Verm\u00f6gen einschlie\u00dflich der Gewerbesteuer und der Grundsteuern"
+    },
+    {
+        "abbreviation": "DBBankAbkG GBR",
+        "slug": "dbbankabkg_gbr",
+        "name": "Gesetz zu dem Abkommen vom 7. Dezember 2011 zwischen der Bundesrepublik Deutschland und dem Vereinigten K\u00f6nigreich Gro\u00dfbritannien und Nordirland zur Vermeidung der Doppelbelastung bei der Bankenabgabe"
     },
     {
         "abbreviation": "DBBeamtRAnO 1976",
@@ -7460,11 +7725,6 @@
         "name": "Verordnung \u00fcber die Berufsausbildung zum Drechsler (Elfenbeinschnitzer)/zur Drechslerin (Elfenbeinschnitzerin)"
     },
     {
-        "abbreviation": "DRG-EKV 2012",
-        "slug": "drg-ekv_2012",
-        "name": "Verordnung zum DRG-Entgeltkatalog f\u00fcr das Jahr 2012"
-    },
-    {
         "abbreviation": "DRiG",
         "slug": "drig",
         "name": "Deutsches Richtergesetz"
@@ -7586,7 +7846,7 @@
     },
     {
         "abbreviation": "D\u00fcMV",
-        "slug": "d_mv_2008",
+        "slug": "d_mv_2012",
         "name": "Verordnung \u00fcber das Inverkehrbringen von D\u00fcngemitteln, Bodenhilfsstoffen, Kultursubstraten und Pflanzenhilfsmitteln"
     },
     {
@@ -8030,11 +8290,6 @@
         "name": "Verordnung zur \u00dcberleitung des Rechts der Europ\u00e4ischen Gemeinschaften auf das in Artikel 3 des Einigungsvertrages genannte Gebiet"
     },
     {
-        "abbreviation": "EGRL 3/2004",
-        "slug": "egrl_3_2004",
-        "name": "Richtlinie 2004/3/EG des Europ\u00e4ischen Parlaments und des Rates vom 11. Februar 2004 zur \u00c4nderung der Richtlinien 70/156/EWG und 80/1268/EWG des Rates im Hinblick auf die Messung der Kohlendioxidemissionen und des Kraftstoffverbrauchs von Fahrzeugen der Klasse N1"
-    },
-    {
         "abbreviation": "EGRL 51/2006",
         "slug": "egrl_51_2006",
         "name": "Richtlinie 2006/51/EG der Kommission vom 6. Juni 2006 zur \u00c4nderung, zwecks Anpassung an den technischen Fortschritt, von Anhang I der Richtlinie 2005/55/EG des Europ\u00e4ischen Parlaments und des Rates sowie der Anh\u00e4nge IV und V der Richtlinie 2005/78/EG hinsichtlich der Anforderungen an \u00dcberwachungssysteme emissionsmindernder Einrichtungen zum Einbau in Fahrzeuge und hinsichtlich der Ausnahmen f\u00fcr Gasmotoren"
@@ -8058,11 +8313,6 @@
         "abbreviation": "EGV 1998/2006",
         "slug": "egv_1998_2006",
         "name": "Verordnung (EG) Nr. 1998/2006 der Kommission \u00fcber die Anwendung der Artikel 87 und 88 EG-Vertrag auf \"De-minimis\"-Beihilfen"
-    },
-    {
-        "abbreviation": "EGV 595/2009",
-        "slug": "egv_595_2009",
-        "name": "Verordnung (EG) Nr. 595/2009 des Europ\u00e4ischen Parlaments und des Rates \u00fcber die Typgenehmigung von Kraftfahrzeugen und Motoren hinsichtlich der Emissionen von schweren Nutzfahrzeugen (Euro VI) und \u00fcber den Zugang zu Fahrzeugreparatur- und -wartungsinformationen, zur \u00c4nderung der Verordnung (EG) Nr. 715/2007 und der Richtlinie 2007/46/EG sowie zur Aufhebung der Richtlinien 80/1269/EWG, 2005/55/EG und 2005/78/EG"
     },
     {
         "abbreviation": "EGV1333/2008Bek",
@@ -8175,9 +8425,9 @@
         "name": "Verordnung \u00fcber die Mindestanforderungen an die Vereinbarungen \u00fcber Leistungen der Eingliederung nach dem Zweiten Buch Sozialgesetzbuch"
     },
     {
-        "abbreviation": "EinglMV 2012",
-        "slug": "einglmv_2012",
-        "name": "Verordnung \u00fcber andere und erg\u00e4nzende Ma\u00dfst\u00e4be f\u00fcr die Verteilung der Mittel f\u00fcr Leistungen zur Eingliederung in Arbeit und der Verwaltungskosten der Grundsicherung f\u00fcr Arbeitsuchende im Jahr 2012"
+        "abbreviation": "EinglMV 2013",
+        "slug": "einglmv_2013",
+        "name": "Verordnung \u00fcber andere und erg\u00e4nzende Ma\u00dfst\u00e4be f\u00fcr die Verteilung der Mittel f\u00fcr Leistungen zur Eingliederung in Arbeit und der Verwaltungskosten der Grundsicherung f\u00fcr Arbeitsuchende im Jahr 2013"
     },
     {
         "abbreviation": "EinhEuA",
@@ -8247,7 +8497,7 @@
     {
         "abbreviation": "EJKoV",
         "slug": "ejkov",
-        "name": "Verordnung \u00fcber Koordinierung der Zusammenarbeit mit Eurojust"
+        "name": "Verordnung \u00fcber die Koordinierung der Zusammenarbeit mit Eurojust"
     },
     {
         "abbreviation": "EJTAnV",
@@ -8428,11 +8678,6 @@
         "abbreviation": "EnergieStG",
         "slug": "energiestg",
         "name": "Energiesteuergesetz"
-    },
-    {
-        "abbreviation": "EnergieStG\u00a755Abs1aBek 2012",
-        "slug": "energiestg_55abs1abek_2012",
-        "name": "Bekanntmachung nach \u00a7 55 Absatz 1a des Energiesteuergesetzes"
     },
     {
         "abbreviation": "EnergieStV",
@@ -8710,6 +8955,11 @@
         "name": "Gesetz \u00fcber die Feststellung des Wirtschaftsplans des ERP-Sonderverm\u00f6gens f\u00fcr das Jahr 2012"
     },
     {
+        "abbreviation": "ERPWiPlanG 2013",
+        "slug": "erpwiplang_2013",
+        "name": "Gesetz \u00fcber die Feststellung des Wirtschaftsplans des ERP-Sonderverm\u00f6gens f\u00fcr das Jahr 2013"
+    },
+    {
         "abbreviation": "ErrV",
         "slug": "errv",
         "name": "Verordnung \u00fcber die Errichtung von Truppendienstgerichten"
@@ -8868,6 +9118,21 @@
         "abbreviation": "ETWStBefrV",
         "slug": "etwstbefrv",
         "name": "Verordnung \u00fcber die Gew\u00e4hrung von Steuerbefreiungen f\u00fcr die European Transsonic Windtunnel GmbH"
+    },
+    {
+        "abbreviation": "EU-FahrgRSchG",
+        "slug": "eu-fahrgrschg",
+        "name": "EU-Fahrgastrechte-Schifffahrt-Gesetz"
+    },
+    {
+        "abbreviation": "EU-FahrgRSchGebV",
+        "slug": "eu-fahrgrschgebv",
+        "name": "Verordnung \u00fcber die Geb\u00fchren und Auslagen f\u00fcr Amtshandlungen zur Durchsetzung der EU-Fahrgastrechte-Schifffahrt"
+    },
+    {
+        "abbreviation": "EU-FahrgRSchV",
+        "slug": "eu-fahrgrschv",
+        "name": "Verordnung zur Durchsetzung von Fahrgastrechten der Europ\u00e4ischen Union in der Schifffahrt"
     },
     {
         "abbreviation": "EU-Rh\u00dcbk",
@@ -10105,6 +10370,16 @@
         "name": "Verordnung \u00fcber Finanzr\u00fcckversicherungsvertr\u00e4ge und Vertr\u00e4ge ohne hinreichenden Risikotransfer"
     },
     {
+        "abbreviation": "FinStabG",
+        "slug": "finstabg",
+        "name": "Gesetz zur \u00dcberwachung der Finanzstabilit\u00e4t"
+    },
+    {
+        "abbreviation": "FinVermV",
+        "slug": "finvermv",
+        "name": "Verordnung \u00fcber die Finanzanlagenvermittlung"
+    },
+    {
         "abbreviation": "FischBeihV",
         "slug": "fischbeihv",
         "name": "Verordnung \u00fcber die Gew\u00e4hrung von Beihilfen f\u00fcr die private Lagerhaltung bestimmter Fischereierzeugnisse"
@@ -10148,6 +10423,11 @@
         "abbreviation": "FischSeuchV 2008",
         "slug": "fischseuchv_2008",
         "name": "Fischseuchenverordnung"
+    },
+    {
+        "abbreviation": "FischSeuchV2008\u00c4ndV 1",
+        "slug": "fischseuchv2008_ndv_1",
+        "name": "Erste Verordnung zur \u00c4nderung der Fischseuchenverordnung"
     },
     {
         "abbreviation": "FischVerg\u00fcnstV",
@@ -10221,8 +10501,8 @@
     },
     {
         "abbreviation": "FleiMstrV",
-        "slug": "fleimstrv",
-        "name": "Verordnung \u00fcber das Berufsbild und \u00fcber die Pr\u00fcfungsanforderungen im praktischen und im fachtheoretischen Teil der Meisterpr\u00fcfung f\u00fcr das Fleischer-Handwerk"
+        "slug": "fleimstrv_2012",
+        "name": "Verordnung \u00fcber die Meisterpr\u00fcfung in den Teilen I und II im Fleischer-Handwerk"
     },
     {
         "abbreviation": "FlErwV",
@@ -10850,9 +11130,9 @@
         "name": "Zweite Verordnung zur \u00c4nderung der Grenze des Freihafens Deggendorf"
     },
     {
-        "abbreviation": "FrHfHbgGrV 1997",
-        "slug": "frhfhbggrv_1997",
-        "name": "Verordnung \u00fcber die Grenzen des Freihafens Hamburg"
+        "abbreviation": "FrHfHbgAufhG",
+        "slug": "frhfhbgaufhg",
+        "name": "Gesetz zur Aufhebung des Freihafens Hamburg"
     },
     {
         "abbreviation": "FrischZV",
@@ -11585,11 +11865,6 @@
         "name": "Verordnung \u00fcber die \u00dcberwachung von Getreide aus Interventionsbest\u00e4nden zur Ausfuhr oder zur Verarbeitung zu bestimmten Erzeugnissen"
     },
     {
-        "abbreviation": "GetrIntervV",
-        "slug": "getrintervv",
-        "name": "Verordnung \u00fcber die Mindestmenge f\u00fcr die Intervention bei Getreide"
-    },
-    {
         "abbreviation": "GewAbfV",
         "slug": "gewabfv",
         "name": "Verordnung \u00fcber die Entsorgung von gewerblichen Siedlungsabf\u00e4llen und von bestimmten Bau- und Abbruchabf\u00e4llen"
@@ -11638,11 +11913,6 @@
         "abbreviation": "GewStG",
         "slug": "gewstg",
         "name": "Gewerbesteuergesetz"
-    },
-    {
-        "abbreviation": "GewStUEZV 2012",
-        "slug": "gewstuezv_2012",
-        "name": "Verordnung zur Festsetzung der Erh\u00f6hungszahl f\u00fcr die Gewerbesteuerumlage nach \u00a7 6 Absatz 5 des Gemeindefinanzreformgesetzes im Jahr 2012"
     },
     {
         "abbreviation": "GFG",
@@ -11805,6 +12075,11 @@
         "name": "Gesetz zu dem Internationalen \u00dcbereinkommen vom 20. Dezember 2006 zum Schutz aller Personen vor dem Verschwindenlassen"
     },
     {
+        "abbreviation": "GII121378",
+        "slug": "gii121378",
+        "name": "Gesetz zum Vorschlag f\u00fcr einen Beschluss des Rates zur Festlegung eines Mehrjahresrahmens (2013 - 2017) f\u00fcr die Agentur der Europ\u00e4ischen Union f\u00fcr Grundrechte"
+    },
+    {
         "abbreviation": "GII1381",
         "slug": "gii1381",
         "name": "Gesetz zu dem Abkommen vom 19. M\u00e4rz 2010 zwischen der Regierung der Bundesrepublik Deutschland und der Regierung von Anguilla \u00fcber den steuerlichen Informationsaustausch"
@@ -11918,11 +12193,6 @@
         "abbreviation": "GlPrZHadamarV",
         "slug": "glprzhadamarv",
         "name": "Verordnung zur Gleichstellung von Pr\u00fcfungszeugnissen der Erwin-Stein-Schule, Staatliche Glasfachschule Hadamar, mit den Zeugnissen \u00fcber das Bestehen der Abschluss- und Gesellenpr\u00fcfung in Ausbildungsberufen"
-    },
-    {
-        "abbreviation": "GlPrZHanauV",
-        "slug": "glprzhanauv",
-        "name": "Verordnung zur Gleichstellung von Pr\u00fcfungszeugnissen der Staatlichen Zeichenakademie Hanau mit den Zeugnissen \u00fcber das Bestehen der Abschluss- und Gesellenpr\u00fcfung in Ausbildungsberufen"
     },
     {
         "abbreviation": "GlPrZHerneV",
@@ -12350,11 +12620,6 @@
         "name": "Abkommen zwischen der Bundesrepublik Deutschland und dem Gro\u00dfherzogtum Luxemburg \u00fcber den Bau und die Unterhaltung einer Grenzbr\u00fccke \u00fcber die Sauer zwischen den Gemeinden Langsur und Mertert"
     },
     {
-        "abbreviation": "GrBr\u00fcckAbk2000CZEG",
-        "slug": "grbr_ckabk2000czeg",
-        "name": "Gesetz zu dem Vertrag vom 12. September 2000 zwischen der Bundesrepublik Deutschland und der Tschechischen Republik \u00fcber den Zusammenschluss der deutschen Autobahn A 17 und der tschechischen Autobahn D 8 an der gemeinsamen Staatsgrenze durch Errichtung einer Grenzbr\u00fccke"
-    },
-    {
         "abbreviation": "GrBr\u00fcckAbk2000POLG",
         "slug": "grbr_ckabk2000polg",
         "name": "Gesetz zu dem Abkommen vom 21. November 2000 zwischen der Regierung der Bundesrepublik Deutschland und der Regierung der Republik Polen \u00fcber den Bau und die Erhaltung von Grenzbr\u00fccken im nachgeordneten Stra\u00dfennetz"
@@ -12378,6 +12643,16 @@
         "abbreviation": "GrBr\u00fcckPerlAbkLUXG",
         "slug": "grbr_ckperlabkluxg",
         "name": "Gesetz zu dem Abkommen vom 18. April 1994 zwischen der Bundesrepublik Deutschland und dem Gro\u00dfherzogtum Luxemburg \u00fcber den Autobahnzusammenschlu\u00df und den Bau einer Grenzbr\u00fccke \u00fcber die Mosel im Raum Perl und Schengen"
+    },
+    {
+        "abbreviation": "GrBr\u00fcckVbgFRAV",
+        "slug": "grbr_ckvbgfrav",
+        "name": "Verordnung zu der Vereinbarung vom 20. M\u00e4rz/25. April 2012 zwischen der Bundesrepublik Deutschland und der Franz\u00f6sischen Republik \u00fcber die Errichtung einer Grenzbr\u00fccke \u00fcber den Rhein zwischen Kehl und Stra\u00dfburg"
+    },
+    {
+        "abbreviation": "GrBr\u00fcckVtr2000CZEG",
+        "slug": "grbr_ckvtr2000czeg",
+        "name": "Gesetz zu dem Vertrag vom 12. September 2000 zwischen der Bundesrepublik Deutschland und der Tschechischen Republik \u00fcber den Zusammenschluss der deutschen Autobahn A 17 und der tschechischen Autobahn D 8 an der gemeinsamen Staatsgrenze durch Errichtung einer Grenzbr\u00fccke"
     },
     {
         "abbreviation": "GrdstVG",
@@ -12575,6 +12850,16 @@
         "name": "Verordnung \u00fcber die Ausbildung und Pr\u00fcfung f\u00fcr den gehobenen technischen Dienst in der Bundeswehrverwaltung &#8211; Fachrichtung Wehrtechnik &#8211;"
     },
     {
+        "abbreviation": "GtDWSVVDV",
+        "slug": "gtdwsvvdv",
+        "name": "Verordnung \u00fcber den Vorbereitungsdienst f\u00fcr den gehobenen technischen Verwaltungsdienst in der Wasser- und Schifffahrtsverwaltung des Bundes"
+    },
+    {
+        "abbreviation": "GTNSitzAbkG",
+        "slug": "gtnsitzabkg",
+        "name": "Gesetz zu dem Abkommen vom 29. Juni 2012 zwischen der Bundesrepublik Deutschland und dem Globalen Treuhandfonds f\u00fcr Nutzpflanzenvielfalt \u00fcber den Sitz des Globalen Treuhandfonds f\u00fcr Nutzpflanzenvielfalt"
+    },
+    {
         "abbreviation": "G\u00dcG",
         "slug": "g_g_2008",
         "name": "Gesetz zur \u00dcberwachung des Verkehrs mit Grundstoffen, die f\u00fcr die unerlaubte Herstellung von Bet\u00e4ubungsmitteln missbraucht werden k\u00f6nnen"
@@ -12628,6 +12913,11 @@
         "abbreviation": "GVGEG",
         "slug": "gvgeg",
         "name": "Einf\u00fchrungsgesetz zum Gerichtsverfassungsgesetz"
+    },
+    {
+        "abbreviation": "GVIDVDV",
+        "slug": "gvidvdv",
+        "name": "Verordnung \u00fcber den Vorbereitungsdienst f\u00fcr den gehobenen Verwaltungsinformatikdienst des Bundes"
     },
     {
         "abbreviation": "GvKostG",
@@ -12885,6 +13175,11 @@
         "name": "Gesetz \u00fcber die Feststellung des Bundeshaushaltsplans f\u00fcr das Haushaltsjahr 2012"
     },
     {
+        "abbreviation": "HG 2013",
+        "slug": "hg_2013",
+        "name": "Gesetz \u00fcber die Feststellung des Bundeshaushaltsplans f\u00fcr das Haushaltsjahr 2013"
+    },
+    {
         "abbreviation": "HGB",
         "slug": "hgb",
         "name": "Handelsgesetzbuch"
@@ -12950,6 +13245,16 @@
         "name": "Gesetz zur Aufhebung des Heimkehrergesetzes und zur \u00c4nderung anderer Vorschriften"
     },
     {
+        "abbreviation": "HkNDV",
+        "slug": "hkndv",
+        "name": "Durchf\u00fchrungsverordnung \u00fcber Herkunftsnachweise f\u00fcr Strom aus erneuerbaren Energien"
+    },
+    {
+        "abbreviation": "HkNGebV",
+        "slug": "hkngebv",
+        "name": "Geb\u00fchrenverordnung zur Herkunftsnachweisverordnung"
+    },
+    {
         "abbreviation": "HkNV",
         "slug": "hknv",
         "name": "Verordnung \u00fcber Herkunftsnachweise f\u00fcr Strom aus erneuerbaren Energien"
@@ -12973,6 +13278,11 @@
         "abbreviation": "HOAI",
         "slug": "hoai",
         "name": "Verordnung \u00fcber die Honorare f\u00fcr Architekten- und Ingenieurleistungen"
+    },
+    {
+        "abbreviation": "HoBaMstrV",
+        "slug": "hobamstrv",
+        "name": "Verordnung \u00fcber die Meisterpr\u00fcfung in den Teilen I und II im Holz- und Bautenschutzgewerbe"
     },
     {
         "abbreviation": "HoblMstrV",
@@ -13658,6 +13968,11 @@
         "abbreviation": "InsoKostV",
         "slug": "insokostv",
         "name": "Verordnung \u00fcber die Pauschalierung der sonstigen Kosten f\u00fcr die Erbringung von Insolvenzgeld"
+    },
+    {
+        "abbreviation": "InsStatG",
+        "slug": "insstatg",
+        "name": "Gesetz \u00fcber die Insolvenzstatistik"
     },
     {
         "abbreviation": "InstallateurHeizungsbauerMstrV",
@@ -14416,7 +14731,7 @@
     },
     {
         "abbreviation": "KapMuG",
-        "slug": "kapmug",
+        "slug": "kapmug_2012",
         "name": "Gesetz \u00fcber Musterverfahren in kapitalmarktrechtlichen Streitigkeiten"
     },
     {
@@ -14881,8 +15196,8 @@
     },
     {
         "abbreviation": "KlagRegV",
-        "slug": "klagregv",
-        "name": "Verordnung \u00fcber das Klageregister nach dem Kapitalanleger- Musterverfahrensgesetz"
+        "slug": "klagregv_2012",
+        "name": "Verordnung \u00fcber das Klageregister nach dem Kapitalanleger-Musterverfahrensgesetz"
     },
     {
         "abbreviation": "KlauenPflPrV",
@@ -15220,11 +15535,6 @@
         "name": "Gesetz zur Regelung der finanziellen Kompensation zugunsten der L\u00e4nder infolge der \u00dcbertragung der Ertragshoheit der Kraftfahrzeugsteuer auf den Bund"
     },
     {
-        "abbreviation": "KraftStNRG",
-        "slug": "kraftstnrg",
-        "name": "Gesetz zur Neuregelung der Kraftfahrzeugsteuer und \u00c4nderung anderer Gesetze"
-    },
-    {
         "abbreviation": "KraftstoffLBV",
         "slug": "kraftstofflbv",
         "name": "Verordnung \u00fcber Lieferbeschr\u00e4nkungen f\u00fcr Kraftstoff in einer Versorgungskrise"
@@ -15313,6 +15623,11 @@
         "abbreviation": "KredWG\u00c4ndG 3",
         "slug": "kredwg_ndg_3",
         "name": "Drittes Gesetz zur \u00c4nderung des Gesetzes \u00fcber das Kreditwesen"
+    },
+    {
+        "abbreviation": "KrFArbZG",
+        "slug": "krfarbzg",
+        "name": "Gesetz zur Regelung der Arbeitszeit von selbst\u00e4ndigen Kraftfahrern"
     },
     {
         "abbreviation": "KrFrHemmG",
@@ -15495,8 +15810,8 @@
         "name": "Verordnung \u00fcber die zollfreie Einfuhr von Kontingentswaren aus Frankreich in das Saarland (KtgWV)"
     },
     {
-        "abbreviation": "KuArbGeldFristV 2009",
-        "slug": "kuarbgeldfristv_2009",
+        "abbreviation": "KuArbGeldFristV 2012",
+        "slug": "kuarbgeldfristv_2012",
         "name": "Verordnung \u00fcber die Bezugsdauer f\u00fcr das Kurzarbeitergeld"
     },
     {
@@ -15648,11 +15963,6 @@
         "abbreviation": "KVKG",
         "slug": "kvkg",
         "name": "Gesetz zur D\u00e4mpfung der Ausgabenentwicklung und zur Strukturverbesserung in der gesetzlichen Krankenversicherung"
-    },
-    {
-        "abbreviation": "KVLG",
-        "slug": "kvlg",
-        "name": "Gesetz zur Weiterentwicklung des Rechts der gesetzlichen Krankenversicherung"
     },
     {
         "abbreviation": "KVLG 1989",
@@ -15863,11 +16173,6 @@
         "abbreviation": "LAP-gtDBahnwesenV",
         "slug": "lap-gtdbahnwesenv",
         "name": "Verordnung \u00fcber die Laufbahn, Ausbildung und Pr\u00fcfung f\u00fcr den gehobenen technischen Dienst - Fachrichtung Bahnwesen -"
-    },
-    {
-        "abbreviation": "LAP-gtDWSVV",
-        "slug": "lap-gtdwsvv",
-        "name": "Verordnung \u00fcber die Laufbahn, Ausbildung und Pr\u00fcfung f\u00fcr den gehobenen technischen Verwaltungsdienst in der Wasser- und Schifffahrtsverwaltung des Bundes"
     },
     {
         "abbreviation": "LAP-hADV 2004",
@@ -16248,16 +16553,6 @@
         "abbreviation": "LSVAAbkB\u00fcsG",
         "slug": "lsvaabkb_sg",
         "name": "Gesetz zu dem Abkommen vom 7. Dezember 2004 zwischen der Regierung der Bundesrepublik Deutschland und dem Schweizerischen Bundesrat zum Vertrag vom 23. November 1964 \u00fcber die Einbeziehung der Gemeinde B\u00fcsingen am Hochrhein in das schweizerische Zollgebiet \u00fcber die Erhebung und die Ausrichtung eines Anteils der von der Schweiz in ihrem Staatsgebiet und im Gebiet der Gemeinde B\u00fcsingen am Hochrhein erhobenen leistungsabh\u00e4ngigen Schwerverkehrsabgabe (LSVA-Abkommen B\u00fcsingen)"
-    },
-    {
-        "abbreviation": "LSVSpiVG",
-        "slug": "lsvspivg",
-        "name": "Gesetz zur Errichtung des Spitzenverbandes der landwirtschaftlichen Sozialversicherung"
-    },
-    {
-        "abbreviation": "LSV\u00dcG",
-        "slug": "lsv_g",
-        "name": "Gesetz zu \u00dcbergangsregelungen zur Modernisierung des Rechts der landwirtschaftlichen Sozialversicherung"
     },
     {
         "abbreviation": "LTV",
@@ -17153,6 +17448,11 @@
         "abbreviation": "Man\u00f6vAbkCANIGBR\u00dcbk",
         "slug": "man_vabkcanigbr_bk",
         "name": "\u00dcbereinkommen zwischen der Bundesrepublik Deutschland, Kanada und dem Vereinigten K\u00f6nigreich Gro\u00dfbritannien und Nordirland zur Au\u00dferkraftsetzung des Abkommens vom 3. August 1959 \u00fcber die Durchf\u00fchrung von Man\u00f6vern und anderen \u00dcbungen im Raume Soltau-L\u00fcneburg in der durch das Abkommen vom 12. Mai 1970 ge\u00e4nderten Fassung"
+    },
+    {
+        "abbreviation": "MaPrV",
+        "slug": "maprv",
+        "name": "Verordnung \u00fcber die H\u00f6he der Managementpr\u00e4mie f\u00fcr Strom aus Windenergie und solarer Strahlungsenergie"
     },
     {
         "abbreviation": "MargMFV",
@@ -18145,6 +18445,11 @@
         "name": "Bekanntmachung \u00fcber die Auspr\u00e4gung von deutschen Euro-Gedenkm\u00fcnzen im Nennwert von 100 Euro (Goldm\u00fcnze &#8222;UNESCO Welterbe Wartburg&#8220;)"
     },
     {
+        "abbreviation": "M\u00fcnz100EuroBek 2012",
+        "slug": "m_nz100eurobek_2012",
+        "name": "Bekanntmachung \u00fcber die Auspr\u00e4gung von deutschen Euro-Gedenkm\u00fcnzen im Nennwert von 100 Euro (Goldm\u00fcnze &#8222;UNESCO Welterbe - Dom zu Aachen&#8220;)"
+    },
+    {
         "abbreviation": "M\u00fcnz10DMBek",
         "slug": "m_nz10dmbek",
         "name": "Bekanntmachung \u00fcber die Auspr\u00e4gung von Bundesm\u00fcnzen im Nennwert von 10 Deutschen Mark (Gedenkm\u00fcnze 750-Jahr-Feier Berlins)"
@@ -18628,6 +18933,11 @@
         "abbreviation": "M\u00fcnz10EuroBek 2012-09-10",
         "slug": "m_nz10eurobek_2012-09-10",
         "name": "Bekanntmachung \u00fcber die Auspr\u00e4gung von deutschen Euro-Gedenkm\u00fcnzen im Nennwert von 10 Euro (Gedenkm\u00fcnze &#8222;100 Jahre Deutsche Nationalbibliothek&#8220;)"
+    },
+    {
+        "abbreviation": "M\u00fcnz10EuroBek 2012-11-19",
+        "slug": "m_nz10eurobek_2012-11-19",
+        "name": "Bekanntmachung \u00fcber die Auspr\u00e4gung von deutschen Euro-Gedenkm\u00fcnzen im Nennwert von 10 Euro (Gedenkm\u00fcnze &#8222;150. Geburtstag Gerhart Hauptmann&#8220;)"
     },
     {
         "abbreviation": "M\u00fcnz1DMBek",
@@ -19315,6 +19625,11 @@
         "name": "Gesetz zu dem \u00dcbereinkommen vom 25. November 2011 \u00fcber die Errichtung des Sekretariats der Partnerschaft f\u00fcr \u00f6ffentliche Gesundheit und soziales Wohlergehen im Rahmen der N\u00f6rdlichen Dimension (NDPHS)"
     },
     {
+        "abbreviation": "ND\u00dcV",
+        "slug": "nd_v",
+        "name": "Verordnung \u00fcber die \u00dcbermittlung von Ausk\u00fcnften an die Nachrichtendienste des Bundes"
+    },
+    {
         "abbreviation": "Neckar/MainG",
         "slug": "neckar_maing",
         "name": "Gesetz \u00fcber die Enteignung von Grundeigentum und \u00fcber die Beitragsleistung bei der Kanalisierung des Neckars von Mannheim bis Plochingen und des Mains von Aschaffenburg bis Bamberg sowie zum Ausbau der Donau von Passau bis Kelheim"
@@ -19381,7 +19696,7 @@
     },
     {
         "abbreviation": "NLPosV",
-        "slug": "nlposv",
+        "slug": "nlposv_2012",
         "name": "Verordnung zur Konkretisierung der Mitteilungs- und Ver\u00f6ffentlichungspflichten f\u00fcr Netto-Leerverkaufspositionen"
     },
     {
@@ -20250,11 +20565,6 @@
         "name": "Kostenverordnung f\u00fcr Amtshandlungen im entgeltlichen oder gesch\u00e4ftsm\u00e4\u00dfigen Personenverkehr mit Kraftfahrzeugen"
     },
     {
-        "abbreviation": "PBefG\u00a713aV",
-        "slug": "pbefg_13av",
-        "name": "Verordnung zur Anwendung von \u00a7 13a Abs. 1 Satz 3 des Personenbef\u00f6rderungsgesetzes"
-    },
-    {
         "abbreviation": "PBefG\u00a745aV 5",
         "slug": "pbefg_45av_5",
         "name": "F\u00fcnfte Verordnung \u00fcber die durchschnittlichen verkehrsspezifischen Kosten nach dem Personenbef\u00f6rderungsgesetz"
@@ -20313,6 +20623,11 @@
         "abbreviation": "PEntgV",
         "slug": "pentgv",
         "name": "Post-Entgeltregulierungsverordnung"
+    },
+    {
+        "abbreviation": "PEPPV 2013",
+        "slug": "peppv_2013",
+        "name": "Verordnung zum pauschalierenden Entgeltsystem f\u00fcr psychiatrische und psychosomatische Einrichtungen f\u00fcr das Jahr 2013"
     },
     {
         "abbreviation": "PersAnpassG",
@@ -20553,6 +20868,11 @@
         "abbreviation": "PflSchSachkV",
         "slug": "pflschsachkv",
         "name": "Pflanzenschutz-Sachkundeverordnung"
+    },
+    {
+        "abbreviation": "PflvDV",
+        "slug": "pflvdv",
+        "name": "Verordnung zur Durchf\u00fchrung der Zulage f\u00fcr die private Pflegevorsorge nach dem Dreizehnten Kapitel des Elften Buches Sozialgesetzbuch"
     },
     {
         "abbreviation": "PflVG",
@@ -21145,11 +21465,6 @@
         "name": "Verordnung \u00fcber Sicherheit und Gesundheitsschutz bei der Benutzung pers\u00f6nlicher Schutzausr\u00fcstungen bei der Arbeit"
     },
     {
-        "abbreviation": "PsittakoseV",
-        "slug": "psittakosev",
-        "name": "Verordnung zum Schutz gegen die Psittakose und Ornithose"
-    },
-    {
         "abbreviation": "PStG",
         "slug": "pstg",
         "name": "Personenstandsgesetz"
@@ -21445,6 +21760,11 @@
         "name": "Bekanntmachung \u00fcber die H\u00f6he der Regelbedarfe nach \u00a7 20 Absatz 5 des Zweiten Buches Sozialgesetzbuch f\u00fcr die Zeit ab 1. Januar 2012"
     },
     {
+        "abbreviation": "RBBek 2013",
+        "slug": "rbbek_2013",
+        "name": "Bekanntmachung \u00fcber die H\u00f6he der Regelbedarfe nach \u00a7 20 Absatz 5 des Zweiten Buches Sozialgesetzbuch f\u00fcr die Zeit ab 1. Januar 2013"
+    },
+    {
         "abbreviation": "RBDL",
         "slug": "bdlr",
         "name": "Richtlinien der Bank deutscher L\u00e4nder zur Erstellung der Reichsmark-Schlu\u00dfbilanz und der Umstellungsrechnung der Geldinstitute"
@@ -21470,9 +21790,9 @@
         "name": "Erla\u00df \u00fcber die Erm\u00e4chtigung des Pr\u00e4sidenten der Deutschen Reichsbank zur Bestellung von st\u00e4ndigen Vertretern"
     },
     {
-        "abbreviation": "RBSFV 2012",
-        "slug": "rbsfv_2012",
-        "name": "Verordnung zur Fortschreibung der Regelbedarfsstufen nach \u00a7 138 Nummer 2 des Zw\u00f6lften Buches Sozialgesetzbuch f\u00fcr das Jahr 2012"
+        "abbreviation": "RBSFV 2013",
+        "slug": "rbsfv_2013",
+        "name": "Verordnung zur Bestimmung des f\u00fcr die Fortschreibung der Regelbedarfsstufen nach \u00a7 28a des Zw\u00f6lften Buches Sozialgesetzbuch ma\u00dfgeblichen Vomhundertsatzes sowie zur Erg\u00e4nzung der Anlage zu \u00a7 28 des Zw\u00f6lften Buches Sozialgesetzbuch f\u00fcr das Jahr 2013"
     },
     {
         "abbreviation": "RDeckInfV",
@@ -21613,6 +21933,11 @@
         "abbreviation": "RennwLottGABest",
         "slug": "rennwlottgabest",
         "name": "Ausf\u00fchrungsbestimmungen zum Rennwett- und Lotteriegesetz"
+    },
+    {
+        "abbreviation": "RennwLottGZuStV",
+        "slug": "rennwlottgzustv",
+        "name": "Verordnung \u00fcber die \u00f6rtliche Zust\u00e4ndigkeit zum Vollzug des Rennwett- und Lotteriegesetzes"
     },
     {
         "abbreviation": "ReNoPatAusb-FachEigV",
@@ -22575,11 +22900,6 @@
         "name": "Verordnung \u00fcber die Berufsausbildung zum Schornsteinfeger und zur Schornsteinfegerin"
     },
     {
-        "abbreviation": "SchfG",
-        "slug": "schfg",
-        "name": "Gesetz \u00fcber das Schornsteinfegerwesen"
-    },
-    {
         "abbreviation": "SchfHwG",
         "slug": "schfhwg",
         "name": "Gesetz \u00fcber das Berufsrecht und die Versorgung im Schornsteinfegerhandwerk"
@@ -22815,6 +23135,11 @@
         "name": "Protokoll zu dem \u00dcbereinkommen zur Durchf\u00fchrung des \u00dcbereinkommens von Schengen vom 14. Juni 1985 zwischen den Regierungen der Staaten der Benelux-Wirtschaftsunion, der Bundesrepublik Deutschland und der Franz\u00f6sischen Republik betreffend den schrittweisen Abbau der Kontrollen an den gemeinsamen Grenzen"
     },
     {
+        "abbreviation": "SchuFV",
+        "slug": "schufv",
+        "name": "Verordnung \u00fcber die F\u00fchrung des Schuldnerverzeichnisses"
+    },
+    {
         "abbreviation": "SchuhfAusbV 1998",
         "slug": "schuhfausbv_1998",
         "name": "Verordnung \u00fcber die Berufsausbildung zum Schuhfertiger/zur Schuhfertigerin"
@@ -22890,6 +23215,11 @@
         "name": "Verordnung \u00fcber die Erf\u00fcllung von Entsch\u00e4digungs- und Ausgleichsleistungsanspr\u00fcchen durch Begebung und Zuteilung von Schuldverschreibungen des Entsch\u00e4digungsfonds"
     },
     {
+        "abbreviation": "SchuVAbdrV",
+        "slug": "schuvabdrv",
+        "name": "Verordnung \u00fcber den Bezug von Abdrucken aus dem Schuldnerverzeichnis"
+    },
+    {
         "abbreviation": "SchuVVO",
         "slug": "schuvvo",
         "name": "Verordnung \u00fcber das Schuldnerverzeichnis"
@@ -22918,11 +23248,6 @@
         "abbreviation": "SchVG",
         "slug": "schvg",
         "name": "Gesetz \u00fcber Schuldverschreibungen aus Gesamtemissionen"
-    },
-    {
-        "abbreviation": "SchVmV",
-        "slug": "schvmv",
-        "name": "Verordnung \u00fcber die Schiffs- und Schiffsbeh\u00e4ltervermessung"
     },
     {
         "abbreviation": "SchwarzArbG",
@@ -23455,6 +23780,11 @@
         "name": "Verordnung \u00fcber die pauschalierten Nettoentgelte f\u00fcr das Kurzarbeitergeld f\u00fcr das Jahr 2012"
     },
     {
+        "abbreviation": "SGB3EntgV 2013",
+        "slug": "sgb3entgv_2013",
+        "name": "Verordnung \u00fcber die pauschalierten Nettoentgelte f\u00fcr das Kurzarbeitergeld f\u00fcr das Jahr 2013"
+    },
+    {
         "abbreviation": "SGB3LEntgV 2004",
         "slug": "sgb3lentgv_2004",
         "name": "Verordnung \u00fcber die Leistungsentgelte f\u00fcr das Arbeitslosengeld, das Teilarbeitslosengeld, das Unterhaltsgeld und die Arbeitslosenhilfe sowie die pauschalierten Nettoentgelte f\u00fcr das Kurzarbeitergeld und das Winterausfallgeld f\u00fcr das Jahr 2004"
@@ -23753,6 +24083,11 @@
         "abbreviation": "SozhiEinOG",
         "slug": "sozhieinog",
         "name": "Gesetz zur Einordnung des Sozialhilferechts in das Sozialgesetzbuch"
+    },
+    {
+        "abbreviation": "Sozialversicherungs-Rechengr\u00f6\u00dfenverordnung 2013",
+        "slug": "svbezgrv_2013",
+        "name": "Verordnung \u00fcber ma\u00dfgebende Rechengr\u00f6\u00dfen der Sozialversicherung f\u00fcr 2013"
     },
     {
         "abbreviation": "SozPflegerV",
@@ -24595,9 +24930,9 @@
         "name": "Drittes Gesetz zur \u00c4nderung des Steuerberatungsgesetzes"
     },
     {
-        "abbreviation": "StBGebV",
+        "abbreviation": "StBVV",
         "slug": "stbgebv",
-        "name": "Geb\u00fchrenverordnung f\u00fcr Steuerberater, Steuerbevollm\u00e4chtigte und Steuerberatungsgesellschaften"
+        "name": "Verg\u00fctungsverordnung f\u00fcr Steuerberater, Steuerbevollm\u00e4chtigte und Steuerberatungsgesellschaften"
     },
     {
         "abbreviation": "STCW-Code",
@@ -24898,11 +25233,6 @@
         "abbreviation": "StromStG",
         "slug": "stromstg",
         "name": "Stromsteuergesetz"
-    },
-    {
-        "abbreviation": "StromStG\u00a710Abs1aBek 2012",
-        "slug": "stromstg_10abs1abek_2012",
-        "name": "Bekanntmachung nach \u00a7 10 Absatz 1a des Stromsteuergesetzes"
     },
     {
         "abbreviation": "StromStV",
@@ -25340,6 +25670,16 @@
         "name": "Abkommen zwischen der Regierung der Bundesrepublik Deutschland und dem schweizerischen Bundesrat \u00fcber die Abschaffung des Sichtvermerkszwangs f\u00fcr Fl\u00fcchtlinge"
     },
     {
+        "abbreviation": "SVLFGG",
+        "slug": "svlfgg",
+        "name": "Gesetz zur Errichtung der Sozialversicherung f\u00fcr Landwirtschaft, Forsten und Gartenbau"
+    },
+    {
+        "abbreviation": "SVLF\u00dcG",
+        "slug": "svlf_g",
+        "name": "Gesetz zu \u00dcbergangsregelungen zur Errichtung der Sozialversicherung f\u00fcr Landwirtschaft, Forsten und Gartenbau"
+    },
+    {
         "abbreviation": "SVOrgSaarG",
         "slug": "svorgsaarg",
         "name": "Gesetz zur Neuordnung der Sozialversicherungstr\u00e4ger im Saarland"
@@ -25535,9 +25875,9 @@
         "name": "Verordnung \u00fcber die Interoperabilit\u00e4t des transeurop\u00e4ischen Eisenbahnsystems"
     },
     {
-        "abbreviation": "TeleFinV 2012",
-        "slug": "telefinv_2012",
-        "name": "Verordnung zur Anpassung des Betrags zur Finanzierung der Gesellschaft f\u00fcr Telematik f\u00fcr das Jahr 2012"
+        "abbreviation": "TeleFinV 2013",
+        "slug": "telefinv_2013",
+        "name": "Verordnung zur Anpassung des Betrags zur Finanzierung der Gesellschaft f\u00fcr Telematik f\u00fcr das Jahr 2013"
     },
     {
         "abbreviation": "TelekAGSa",
@@ -25786,8 +26126,8 @@
     },
     {
         "abbreviation": "TierSchlV",
-        "slug": "tierschlv",
-        "name": "Verordnung zum Schutz von Tieren im Zusammenhang mit der Schlachtung oder T\u00f6tung"
+        "slug": "tierschlv_2013",
+        "name": "Verordnung zum Schutz von Tieren im Zusammenhang mit der Schlachtung oder T\u00f6tung und zur Durchf\u00fchrung der Verordnung (EG) Nr. 1099/2009 des Rates"
     },
     {
         "abbreviation": "TierSchNutztV",
@@ -26133,11 +26473,6 @@
         "abbreviation": "TVMindestlohn 2011",
         "slug": "tvmindestlohn_2011",
         "name": "Rechtsnormen des Tarifvertrags zur Regelung der Mindestl\u00f6hne im Baugewerbe im Gebiet der Bundesrepublik Deutschland (TV Mindestlohn) (Anlage 1 der Achten Verordnung \u00fcber zwingende Arbeitsbedingungen im Baugewerbe)"
-    },
-    {
-        "abbreviation": "TVMindestlohn Abfall 4",
-        "slug": "tvmindestlohn_abfall_4",
-        "name": "Rechtsnormen des Mindestlohntarifvertrages f\u00fcr die Branche Abfallwirtschaft vom 7. Januar 2009 in der Fassung der \u00c4nderungstarifvertr\u00e4ge vom 12. August 2009, 19. August 2010, 16. Juni 2011 und 6. M\u00e4rz 2012"
     },
     {
         "abbreviation": "TVMindestlohn Maler 6",
@@ -27010,6 +27345,11 @@
         "name": "Gesetz \u00fcber die Statistik der Verdienste und Arbeitskosten"
     },
     {
+        "abbreviation": "VerdStatV 2012",
+        "slug": "verdstatv_2012",
+        "name": "Verordnung zur Aussetzung und Erg\u00e4nzung von Merkmalen nach dem Verdienststatistikgesetz"
+    },
+    {
         "abbreviation": "VereinsG",
         "slug": "vereinsg",
         "name": "Gesetz zur Regelung des \u00f6ffentlichen Vereinsrechts"
@@ -27215,6 +27555,11 @@
         "name": "Verordnung \u00fcber Verm\u00f6gensanlagen-Verkaufsprospekte"
     },
     {
+        "abbreviation": "VermVV",
+        "slug": "vermvv",
+        "name": "Verordnung \u00fcber das Verm\u00f6gensverzeichnis"
+    },
+    {
         "abbreviation": "VerpackV",
         "slug": "verpackv_1998",
         "name": "Verordnung \u00fcber die Vermeidung und Verwertung von Verpackungsabf\u00e4llen"
@@ -27327,6 +27672,11 @@
     {
         "abbreviation": "VersorgAusglUmrFaktorBek 2012",
         "slug": "versorgausglumrfaktorbek_2012",
+        "name": "Bekanntmachung der Umrechnungsfaktoren f\u00fcr den Versorgungsausgleich in der Rentenversicherung"
+    },
+    {
+        "abbreviation": "VersorgAusglUmrFaktorBek 2013",
+        "slug": "versorgausglumrfaktorbek_2013",
         "name": "Bekanntmachung der Umrechnungsfaktoren f\u00fcr den Versorgungsausgleich in der Rentenversicherung"
     },
     {
@@ -27486,7 +27836,7 @@
     },
     {
         "abbreviation": "VIGGebV",
-        "slug": "viggebv",
+        "slug": "viggebv_2012",
         "name": "Verordnung \u00fcber die Geb\u00fchren nach dem Verbraucherinformationsgesetz"
     },
     {
@@ -28100,6 +28450,11 @@
         "name": "Verordnung \u00fcber die Festsetzung der Schleusenbetriebszeiten an den Bundeswasserstra\u00dfen im Zust\u00e4ndigkeitsbereich der Wasser- und Schifffahrtsdirektion West"
     },
     {
+        "abbreviation": "WaStrSchlBetrZV 2013",
+        "slug": "wastrschlbetrzv_2013",
+        "name": "Verordnung \u00fcber die Betriebszeiten der Schleusen und Hebewerke an den Bundeswasserstra\u00dfen im Zust\u00e4ndigkeitsbereich der Wasser- und Schifffahrtsdirektion Ost"
+    },
+    {
         "abbreviation": "WaStrTrave\u00dcbgV",
         "slug": "wastrtrave_bgv",
         "name": "Verordnung \u00fcber den \u00dcbergang von zur Bundeswasserstra\u00dfe Trave geh\u00f6renden Nebenstrecken auf die Hansestadt L\u00fcbeck"
@@ -28470,6 +28825,11 @@
         "name": "Gesetz zu dem Abkommen vom 16. Mai 1991 zwischen der Regierung der Bundesrepublik Deutschland und der Regierung der Union der Sozialistischen Sowjetrepubliken \u00fcber die Beendigung der T\u00e4tigkeit der Sowjetisch-Deutschen Aktiengesellschaft Wismut"
     },
     {
+        "abbreviation": "WissFG",
+        "slug": "wissfg",
+        "name": "Gesetz zur Flexibilisierung von haushaltsrechtlichen Rahmenbedingungen au\u00dferuniversit\u00e4rer Wissenschaftseinrichtungen"
+    },
+    {
         "abbreviation": "WissZeitVG",
         "slug": "wisszeitvg",
         "name": "Gesetz \u00fcber befristete Arbeitsvertr\u00e4ge in der Wissenschaft"
@@ -28673,6 +29033,11 @@
         "abbreviation": "WpHG",
         "slug": "wphg",
         "name": "Gesetz \u00fcber den Wertpapierhandel"
+    },
+    {
+        "abbreviation": "WpHGMaAnzV",
+        "slug": "wphgmaanzv",
+        "name": "Verordnung \u00fcber den Einsatz von Mitarbeitern in der Anlageberatung, als Vertriebsbeauftragte oder als Compliance-Beauftragte und \u00fcber die Anzeigepflichten nach \u00a7 34d des Wertpapierhandelsgesetzes"
     },
     {
         "abbreviation": "WpHMV",
@@ -28888,6 +29253,11 @@
         "abbreviation": "WV\u00f6gelAbkG",
         "slug": "wv_gelabkg",
         "name": "Gesetz zu dem Abkommen vom 16. Juni 1995 zur Erhaltung der afrikanisch-eurasischen wandernden Wasserv\u00f6gel"
+    },
+    {
+        "abbreviation": "WVwA\u00dcG",
+        "slug": "wvwa_g",
+        "name": "Gesetz zur \u00dcbertragung von Aufgaben der Bundeswehrverwaltung auf neue Beh\u00f6rden der Personalmanagementorganisation der Bundeswehr"
     },
     {
         "abbreviation": "WWSUG",
@@ -29720,21 +30090,6 @@
         "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
     },
     {
-        "abbreviation": "WZSchBek 2011-05-05",
-        "slug": "wzschbek_2011-05-05",
-        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
-    },
-    {
-        "abbreviation": "WZSchBek 2011-12-22",
-        "slug": "wzschbek_2011-12-22",
-        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
-    },
-    {
-        "abbreviation": "WZSchBek 2012-01-25",
-        "slug": "wzschbek_2012-01-25",
-        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
-    },
-    {
         "abbreviation": "WZSchBek 2012-03-30",
         "slug": "wzschbek_2012-03-30",
         "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
@@ -29742,6 +30097,16 @@
     {
         "abbreviation": "WZSchBek 2012-07-11",
         "slug": "wzschbek_2012-07-11",
+        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
+    },
+    {
+        "abbreviation": "WZSchBek 2012-10-05",
+        "slug": "wzschbek_2012-10-05",
+        "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
+    },
+    {
+        "abbreviation": "WZSchBek 2012-12-20",
+        "slug": "wzschbek_2012-12-20",
         "name": "Bekanntmachung \u00fcber den Schutz von Mustern und Marken auf Ausstellungen"
     },
     {
@@ -30755,6 +31120,11 @@
         "name": "Zweite Verordnung zur Durchf\u00fchrung des Gesetzes zur Einf\u00fchrung von Vorschriften des Lastenausgleichsrechts im Saarland"
     },
     {
+        "abbreviation": "2. PKHB 2012",
+        "slug": "pkhb_2012_2",
+        "name": "Zweite Bekanntmachung zu \u00a7 115 der Zivilprozessordnung"
+    },
+    {
         "abbreviation": "2. RAG",
         "slug": "rag_2",
         "name": "Zweites Gesetz \u00fcber die Anpassung der Renten aus den gesetzlichen Rentenversicherungen aus Anla\u00df der Ver\u00e4nderung der allgemeinen Bemessungsgrundlage f\u00fcr das Jahr 1959"
@@ -30828,11 +31198,6 @@
         "abbreviation": "24. DonauSchPVAbweichV",
         "slug": "donauschpv1993abwpv_24",
         "name": "Vierundzwanzigste Verordnung zur vor\u00fcbergehenden Abweichung von der Donauschifffahrtspolizeiverordnung"
-    },
-    {
-        "abbreviation": "24. MoselSchPVAbweichV",
-        "slug": "moselschpv1997abwv_24",
-        "name": "Vierundzwanzigste Verordnung zur vor\u00fcbergehenden Abweichung von der Moselschifffahrtspolizeiverordnung"
     },
     {
         "abbreviation": "24. UhAnpV",
@@ -30975,11 +31340,6 @@
         "name": "Neununddrei\u00dfigste Verordnung zur Durchf\u00fchrung des Bundes-Immissionsschutzgesetzes Verordnung \u00fcber Luftqualit\u00e4tsstandards und Emissionsh\u00f6chstmengen"
     },
     {
-        "abbreviation": "4. AbfallArbbV",
-        "slug": "abfallarbbv_4",
-        "name": "Vierte Verordnung \u00fcber zwingende Arbeitsbedingungen f\u00fcr die Abfallwirtschaft einschlie\u00dflich Stra\u00dfenreinigung und Winterdienst"
-    },
-    {
         "abbreviation": "4. \u00c4ndG LAG",
         "slug": "lag_ndg_4",
         "name": "Viertes Gesetz zur \u00c4nderung des Lastenausgleichsgesetzes"
@@ -31018,6 +31378,11 @@
         "abbreviation": "5. BImSchV",
         "slug": "bimschv_5_1993",
         "name": "F\u00fcnfte Verordnung zur Durchf\u00fchrung des Bundes-Immissionsschutzgesetzes"
+    },
+    {
+        "abbreviation": "5. BinSchUOAbweichV",
+        "slug": "binschuo2008abwv_5",
+        "name": "F\u00fcnfte Verordnung zur vor\u00fcbergehenden Abweichung von der Binnenschiffsuntersuchungsordnung"
     },
     {
         "abbreviation": "5. DV-BEG",
