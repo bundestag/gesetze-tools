@@ -23,29 +23,21 @@ import requests
 class BGBLScraper(object):
     BASE_URL = 'http://www.bgbl.de/Xaver/'
     START = 'start.xav?startbk=Bundesanzeiger_BGBl'
-    BASE_TOC = ('toc.xav?tocf=Bundesanzeiger_BGBl_tocFrame'
-                '&tf=Bundesanzeiger_BGBl_mainFrame'
-                '&qmf=Bundesanzeiger_BGBl_mainFrame'
-                '&hlf=Bundesanzeiger_BGBl_mainFrame'
-                '&bk=Bundesanzeiger_BGBl')
-    MAIN_TOC = ('toc.xav?tocf=Bundesanzeiger_BGBl_tocFrame'
-                '&tf=Bundesanzeiger_BGBl_mainFrame'
-                '&qmf=Bundesanzeiger_BGBl_mainFrame'
-                '&hlf=Bundesanzeiger_BGBl_mainFrame'
-                '&start=2&bk=Bundesanzeiger_BGBl'
-                '&dir=down&op=%s&noca=36')
-    YEAR_TOC = ('toc.xav?tocf=Bundesanzeiger_BGBl_tocFrame'
-                '&tf=Bundesanzeiger_BGBl_mainFrame'
-                '&qmf=Bundesanzeiger_BGBl_mainFrame'
-                '&hlf=Bundesanzeiger_BGBl_mainFrame&start=2'
-                '&bk=Bundesanzeiger_BGBl&dir=down&op=__docid__&noca=10')
-
-    TEXT = ('text.xav?tocf=Bundesanzeiger_BGBl_tocFrame&'
-                'tf=Bundesanzeiger_BGBl_mainFrame'
-                '&qmf=Bundesanzeiger_BGBl_mainFrame'
-                '&hlf=Bundesanzeiger_BGBl_mainFrame'
-                '&start=%2f%2f*%5B%40node_id%3D%27__docid__%27%5D'
-                '&bk=Bundesanzeiger_BGBl')
+    BASE_TOC = ('toc.xav?tocf=xaver.component.TOC_0'
+                '&tf=xaver.component.Text_0&qmf=&hlf='
+                '&bk=Bundesanzeiger_BGBl&dir=center'
+                '&start=1&cur=1&op=1')
+    MAIN_TOC = ('toc.xav?tocf=xaver.component.TOC_0'
+                '&tf=xaver.component.Text_0&qmf=&hlf='
+                '&bk=Bundesanzeiger_BGBl&dir=center'
+                '&op=%s')
+    YEAR_TOC = ('toc.xav?tocf=xaver.component.TOC_0'
+                '&tf=xaver.component.Text_0&qmf=&hlf='
+                '&bk=Bundesanzeiger_BGBl&dir=center'
+                '&op=%(tocid)s&cur=%(tocid)s&start=%(tocid)s')
+    TEXT = ('text.xav?tf=xaver.component.Text_0&tocf='
+            '&qmf=&hlf=xaver.component.Hitlist_0'
+            '&bk=Bundesanzeiger_BGBl&start=%2F%2F*%5B%40node_id%3D%27__docid__%27%5D')
 
     year_toc = defaultdict(dict)
     year_docs = defaultdict(dict)
@@ -75,6 +67,7 @@ class BGBLScraper(object):
     def scrape(self, low=0, high=10000):
         collection = {}
         self.toc_offsets = self.get_base_toc()
+        # import pdb; pdb.set_trace()
         for part in range(1, self.part_count + 1):
             print part
             self.get_main_toc(part)
@@ -82,15 +75,23 @@ class BGBLScraper(object):
             collection.update(self.get_all_tocs(part, low, high))
         return collection
 
+    def parse(self, response):
+        response.encoding = 'utf-8'
+        html = re.sub('([,\{])(\w+):', '\\1"\\2":', response.text)
+        html = json.loads(html)['innerhtml']
+        return lxml.html.fromstring(html)
+
     def get_base_toc(self):
         url = self.BASE_URL + self.BASE_TOC
         response = self.get(url)
-        root = lxml.html.fromstring(response.text)
-        selector = '.tocelement a'
+        root = self.parse(response)
+        selector = 'a.tocEntry'
         toc_offsets = []
         for a in root.cssselect(selector):
+            if not 'Bundesgesetzblatt Teil' in a.attrib.get('title', ''):
+                continue
             link_href = a.attrib['href']
-            match = re.search('op=(\d+)&', link_href)
+            match = re.search('tocid=(\d+)&', link_href)
             if match:
                 toc_offsets.append(match.group(1))
         return toc_offsets
@@ -102,15 +103,14 @@ class BGBLScraper(object):
         offset = self.toc_offsets[part - 1]
         url = self.BASE_URL + (self.MAIN_TOC % offset)
         response = self.get(url)
-        root = lxml.html.fromstring(response.text)
-        selector = '.tocelement a[target="Bundesanzeiger_BGBl_mainFrame"]'
+        root = self.parse(response)
+        selector = 'a.tocEntry'
         for a in root.cssselect(selector):
             try:
                 year = int(a.text_content())
             except ValueError:
                 continue
-            doc_id = re.search('start=%2f%2f\*%5B%40node_id%3D%27(\d+)%27%5D',
-                               a.attrib['href'])
+            doc_id = re.search('tocid=(\d+)&', a.attrib['href'])
             if doc_id is not None:
                 self.year_toc[part][year] = doc_id.group(1)
 
@@ -123,15 +123,17 @@ class BGBLScraper(object):
 
     def get_year_toc(self, part, year):
         year_doc_id = self.year_toc[part][year]
-        url = self.BASE_URL + self.YEAR_TOC.replace('__docid__', year_doc_id)
+        # import pdb; pdb.set_trace()
+        url = self.BASE_URL + self.YEAR_TOC % {'tocid': year_doc_id}
         response = self.get(url)
-        root = lxml.html.fromstring(response.text)
-        selector = '.tocelement a[target="Bundesanzeiger_BGBl_mainFrame"]'
+        root = self.parse(response)
+        selector = 'a.tocEntry'
         for a in root.cssselect(selector):
             match = re.search('Nr\. (\d+) vom (\d{2}\.\d{2}\.\d{4})',
                               a.text_content())
             if match is None:
                 continue
+            print a.text_content()
             number = int(match.group(1))
             date = match.group(2)
             doc_id = re.search('start=%2f%2f\*%5B%40node_id%3D%27(\d+)%27%5D',
@@ -164,7 +166,7 @@ class BGBLScraper(object):
         doc_id = year_doc['doc_id']
         url = self.BASE_URL + self.TEXT.replace('__docid__', doc_id)
         response = self.get(url)
-        root = lxml.html.fromstring(response.text)
+        root = self.parse(response)
         toc = []
         for tr in root.cssselect('tr'):
             td = tr.cssselect('td')[1]
