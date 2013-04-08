@@ -17,9 +17,15 @@ import os
 import json
 import time
 import datetime
+import requests
 
 import lxml.html
-import requests
+
+
+def get_url(url):
+    response = requests.get(url)
+    response.encoding = 'latin1'
+    return response.text
 
 
 def ctext(el):
@@ -54,8 +60,8 @@ class VkblScraper(object):
             tries = 0
             while True:
                 try:
-                    response = requests.get(self.URL % year)
-                except requests.exceptions.ConnectionError:
+                    response = get_url(self.URL % year)
+                except Exception:
                     tries += 1
                     if tries > 10:
                         raise
@@ -63,7 +69,7 @@ class VkblScraper(object):
                     continue
                 else:
                     break
-            root = lxml.html.fromstring(response.text)
+            root = lxml.html.fromstring(response)
             total_sum += len(root.cssselect(".tabelle2"))
             print year, len(root.cssselect(".tabelle2"))
             for i, table in enumerate(root.cssselect(".tabelle2")):
