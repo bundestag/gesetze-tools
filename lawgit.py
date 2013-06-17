@@ -2,7 +2,7 @@
 """LawGit - Semi-automatic law change commits.
 
 Usage:
-  lawgit.py autocommit <repopath> [--dry-run] [--consider-old]
+  lawgit.py autocommit <repopath> [--dry-run] [--consider-old] [--grep=<grep>]
   lawgit.py -h | --help
   lawgit.py --version
 
@@ -33,8 +33,10 @@ class BGBlSource(object):
     change_re = [
         re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
         re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
+        re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), (?P<page>\d+)'),
         re.compile('\d{1,2}\.\.?\d{1,2}\.\.?(?P<year>\d{4}) (?P<part>I+) (?:S\. )?(?P<page>\d+)'),
-        re.compile(u'(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)')
+        re.compile(u'(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)'),
+        # re.compile(u'Art. \d+ G v. (?P<day>\d{1,2}).(?P<month>\d{1,2}).(?P<year>\d{4})')
     ]
 
     transient = (
@@ -65,13 +67,19 @@ class BGBlSource(object):
                 for match in c_re.finditer(line):
                     if any(t in line for t in self.transient):
                         raise TransientState
-                    key = (
-                        int(match.group('year')),
-                        int(match.group('page')),
-                        len(match.group('part'))
-                    )
-                    if key in self.data:
-                        candidates.append(key)
+                    matchdict = match.groupdict()
+                    if 'page' in matchdict:
+                        key = (
+                            int(matchdict['year']),
+                            int(matchdict['page']),
+                            len(matchdict['part'])
+                        )
+                        if key in self.data:
+                            candidates.append(key)
+                    # elif 'month' in matchdict:
+                    #     for key, toc in self.data.iteritems():
+                    #         if toc['date'] == '{day:0>2}.{month:0>2}.{year}'.format(**matchdict):
+                    #             candidates.append(key)
         return candidates
 
     def get_order_key(self, key):
@@ -151,19 +159,89 @@ class BAnzSource(object):
                 '%(additional_str)s' % entry)
 
 
+class VkblSource(object):
+    """VkBl as a source for law change"""
+
+    transient = (
+        u"noch nicht berücksichtigt",
+        u"noch nicht abschließend bearbeitet"
+    )
+
+    change_re = [
+        re.compile(u'VkBl: *(?P<year>\d{4}),? +(?:S\. )?(?P<page>\d+)')
+    ]
+
+    def __init__(self, source):
+        self.load(source)
+
+    def __str__(self):
+        return self.__class__.__name__
+
+    def load(self, source):
+        self.data = {}
+        data = json.load(file(source))
+        for key, value in data.iteritems():
+            if value['jahr'] and value['seite']:
+                ident = (int(value['jahr']), int(value['seite']))
+                value['date'] = value['verffentlichtam']
+                self.data[ident] = value
+
+    def find_candidates(self, lines):
+        candidates = []
+        for line in lines:
+            for c_re in self.change_re:
+                for match in c_re.finditer(line):
+                    if any(t in line for t in self.transient):
+                        raise TransientState
+                    matchdict = match.groupdict()
+                    key = (
+                        int(matchdict['year']),
+                        int(matchdict['page']),
+                    )
+                    if key in self.data:
+                        candidates.append(key)
+        return candidates
+
+    def get_order_key(self, key):
+        return self.get_date(key)
+
+    def get_date(self, key):
+        entry = self.data[key]
+        return datetime.strptime(entry['verffentlichtam'], '%d.%m.%Y')
+
+    def get_branch_name(self, key):
+        entry = self.data[key]
+        return 'vkbl/%s/%s' % (
+            entry['verffentlichtam'].split('.')[2],
+            '-'.join(reversed(entry['date'].split('.')[:2]))
+        )
+
+    def get_ident(self, key):
+        return key
+
+    def get_message(self, key):
+        """
+        {u'description': u'', u'vid': u'19463', u'seite': u'945', u'price': 3.4, u'edition': u'23/2012', u'aufgehobenam': u'', 'date': u'15.12.2012', u'verffentlichtam': u'15.12.2012', u'pages': 9, u'title': u'Verordnung \xfcber die Betriebszeiten der Schleusen und Hebewerke an den Bundeswasserstra\xdfen im Zust\xe4ndigkeitsbereich der Wasser- und Schifffahrtsdirektion Ost', u'jahr': u'2012', u'inkraftab': u'01.01.2013', u'verkndetam': u'22.11.2012', u'link': u'../shop/in_basket.php?vID=19463', u'aktenzeichen': u'', u'genre': u'Wasserstra\xdfen, Schifffahrt', u'vonummer': u'215'}"
+        """
+        entry = dict(self.data[key])
+        return ('%(title)s\n\n%(verkndetam)s: %(edition)s S. %(seite)s (%(vonummer)s)' % entry)
+
+
 class LawGit(object):
     laws = defaultdict(list)
     law_changes = {}
     bgbl_changes = defaultdict(list)
 
-    def __init__(self, path, dry_run=False, consider_old=False):
+    def __init__(self, path, dry_run=False, consider_old=False, grep=None):
         self.path = path
         self.dry_run = dry_run
+        self.grep = grep
         self.consider_old = consider_old
         self.repo = Repo(path)
         self.sources = [
             BGBlSource('data/bgbl.json'),
-            BAnzSource('data/banz.json')
+            BAnzSource('data/banz.json'),
+            VkblSource('data/vkbl.json')
         ]
 
     def prepare_commits(self):
@@ -189,6 +267,8 @@ class LawGit(object):
         wdiff = hcommit.diff(None, create_patch=True)
         for diff in wdiff:
             law_name = diff.b_blob.path.split('/')[1]
+            if self.grep and not self.grep in law_name:
+                continue
             filename = '/'.join(diff.b_blob.path.split('/')[:2] + ['index.md'])
             filename = os.path.join(self.path, filename)
             if os.path.exists(filename):
@@ -197,6 +277,8 @@ class LawGit(object):
 
         for filename in self.repo.untracked_files:
             law_name = filename.split('/')[1]
+            if self.grep and not self.grep in law_name:
+                continue
             self.laws[law_name].append(filename)
             filename = '/'.join(filename.split('/')[:2] + ['index.md'])
             filename = os.path.join(self.path, filename)
@@ -270,7 +352,8 @@ class LawGit(object):
 def main(arguments):
     kwargs = {
         'dry_run': arguments['--dry-run'],
-        'consider_old': arguments['--consider-old']
+        'consider_old': arguments['--consider-old'],
+        'grep': arguments['--grep']
     }
 
     lg = LawGit(arguments['<repopath>'], **kwargs)
