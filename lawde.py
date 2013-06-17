@@ -18,6 +18,7 @@ import re
 from StringIO import StringIO
 import json
 import shutil
+import time
 
 from docopt import docopt
 import requests
@@ -27,7 +28,6 @@ from xml.dom.minidom import parseString
 
 class Lawde(object):
     BASE_URL = 'http://www.gesetze-im-internet.de'
-    LAWLIST_URL = 'https://api.scraperwiki.com/api/1.0/datastore/sqlite?format=json&name=gesetzesliste&query=select+*+from+`swdata`&apikey='
     BASE_PATH = 'laws/'
     INDENT_CHAR = ' '
     INDENT = 2
@@ -42,8 +42,21 @@ class Lawde(object):
         return '%s/%s/xml.zip' % (self.BASE_URL, law)
 
     def download_law(self, law):
-        res = requests.get(self.build_zip_url(law))
-        file('test.zip', 'w').write(res.content)
+        tries = 0
+        while True:
+            try:
+                res = requests.get(self.build_zip_url(law))
+                file('test.zip', 'w').write(res.content)
+            except Exception as e:
+                tries += 1
+                print e
+                if tries > 3:
+                    raise e
+                else:
+                    print "Sleeping %d" % tries * 3
+                    time.sleep(tries * 3)
+            else:
+                break
         try:
             zipf = zipfile.ZipFile(StringIO(res.content))
         except zipfile.BadZipfile:
@@ -96,8 +109,29 @@ class Lawde(object):
         self.load(self.get_all_laws())
 
     def update_list(self):
-        res = requests.get(self.LAWLIST_URL)
-        file(self.lawlist, 'w').write(res.content)
+        BASE_URL = 'http://www.gesetze-im-internet.de/Teilliste_%s.html'
+        CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789'
+        # Evil parsing of HTML with regex'
+        REGEX = re.compile('href="\./([^\/]+)/index.html"><abbr title="([^"]*)">([^<]+)</abbr>')
+
+        laws = []
+
+        for char in CHARS:
+            print "Loading part list %s" % char
+            try:
+                response = requests.get(BASE_URL % char.upper())
+                html = response.content
+            except Exception:
+                continue
+            html = html.decode('iso-8859-1')
+            matches = REGEX.findall(html)
+            for match in matches:
+                laws.append({
+                    'slug': match[0],
+                    'name': match[1].replace('&quot;', '"'),
+                    'abbreviation': match[2].strip()
+                })
+        json.dump(laws, file(self.lawlist, 'w'))
 
 
 def main(arguments):
