@@ -4,9 +4,9 @@ BundesGit Gesetze Tools
 These scripts are used to keep the law repository up to date.
 
 Install requirements:
-
-    pip install -r requirements.txt
-
+```bash
+pip install -r requirements.txt
+```
 
 For help see their docstring, command line help or source code.
 
