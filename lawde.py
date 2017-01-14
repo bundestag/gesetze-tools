@@ -13,6 +13,7 @@ Options:
   --version     Show version.
 
 """
+import datetime
 import os
 import re
 from StringIO import StringIO
@@ -39,7 +40,8 @@ class Lawde(object):
         self.lawlist = lawlist
 
     def build_zip_url(self, law):
-        return '%s/%s/xml.zip' % (self.BASE_URL, law)
+        url = '%s/%s/xml.zip' % (self.BASE_URL, law)
+        return url
 
     def download_law(self, law):
         tries = 0
@@ -67,9 +69,15 @@ class Lawde(object):
 
     def load(self, laws):
         total = float(len(laws))
+        ts1 = datetime.datetime.now()
+        print "Laws to download: %d" % len(laws)
         for i, law in enumerate(laws):
+            if i == 9:
+                ts2 = datetime.datetime.now()
+                ts_diff = ts2 - ts1
+                print "Estimated download time: %d minutes" % ((ts_diff.seconds * len(laws)/10) / 60)
             if i % 10 == 0:
-                print '%d%%' % (i / total * 100)
+                print '%.1f%%' % (i / total * 100)
             zipfile = self.download_law(law)
             if zipfile is not None:
                 self.store(law, zipfile)
