@@ -12,6 +12,9 @@ Options:
   --version     Show version.
   --no-yaml
 
+Examples:
+  lawdown.py convert laws laws-md
+
 """
 import os
 import sys

@@ -16,12 +16,14 @@ Downloads all laws as XML files from
 [www.gesetze-im-internet.de](http://www.gesetze-im-internet.de/)
 and extracts them to a directory.
 
+Last tested: 2017-01-14
 
 ## lawdown.py
 
 Converts all XML laws to Markdown and copies them with other files related
 to the law into specified working directory.
 
+Last tested: 2017-01-14
 
 ## bgbl_scraper.py
 
