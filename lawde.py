@@ -7,6 +7,9 @@ Usage:
   lawde.py -h | --help
   lawde.py --version
 
+Examples:
+  lawde.py load kaeaano
+
 Options:
   --path=<path>  Path to laws dir [default: laws].
   -h --help     Show this screen.
