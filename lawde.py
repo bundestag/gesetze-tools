@@ -15,6 +15,9 @@ Options:
   -h --help     Show this screen.
   --version     Show version.
 
+Duration Estimates:
+  2-4 hours for total download
+
 """
 import datetime
 import os

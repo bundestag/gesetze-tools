@@ -16,26 +16,28 @@ Downloads all laws as XML files from
 [www.gesetze-im-internet.de](http://www.gesetze-im-internet.de/)
 and extracts them to a directory.
 
-Last tested: 2017-01-14
+Last tested: 2017-01-14 SUCCESS
 
 ## lawdown.py
 
 Converts all XML laws to Markdown and copies them with other files related
 to the law into specified working directory.
 
-Last tested: 2017-01-14
+Last tested: 2017-01-14 SUCCESS
 
 ## bgbl_scraper.py
 
 Scrapes the table of contents of all issues of the Bundesgesetzblatt and dumps
 the result to JSON.
 
+Last tested: 2017-01-14 FAILED ("KeyError: xaversid")
 
 ## banz_scraper.py
 
 Scrapes the table of contents of all available issues of the Bundesanzeiger and
 dumps the result to JSON.
 
+Last tested: 2017-01-14 SUCCESS
 
 ## lawgit.py
 

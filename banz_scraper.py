@@ -10,6 +10,11 @@ Options:
   -h --help     Show this screen.
   --version     Show version.
 
+Duration Estimates:
+  2-5 minutes per year
+  30-75 minutes in total
+  
+
 """
 import os
 import re
