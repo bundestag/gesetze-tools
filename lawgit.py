@@ -339,7 +339,7 @@ class LawGit(object):
             msg = source.get_message(key)
             print 'git commit -m"%s"' % msg
             if not self.dry_run:
-                self.repo.index.commit(msg.encode('utf-8'))
+                self.repo.index.commit(msg)
             print ""
         print "git checkout master"
         if not self.dry_run:

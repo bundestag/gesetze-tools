@@ -44,3 +44,5 @@ Last tested: 2017-01-14 SUCCESS
 Checks the repositories working directory for changes, tries to find relations
 to table of content entries in BGBl and BAnz data, commits the changes to a branch
 and merges the branch into master.
+
+Last tested: 2017-01-14 SUCCESS
