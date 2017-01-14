@@ -1,4 +1,4 @@
-GitPython==0.3.2.RC1
+GitPython==0.3.2
 PyYAML==3.10
 docopt==0.4.1
 lxml==2.3.5
