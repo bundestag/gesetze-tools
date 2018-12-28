@@ -22,15 +22,15 @@ Duration Estimates:
 import datetime
 import os
 import re
-from StringIO import StringIO
+from io import BytesIO
 import json
 import shutil
 import time
+import zipfile
+from xml.dom.minidom import parseString
 
 from docopt import docopt
 import requests
-import zipfile
-from xml.dom.minidom import parseString
 
 
 class Lawde(object):
@@ -40,7 +40,7 @@ class Lawde(object):
     INDENT = 2
 
     def __init__(self, path=BASE_PATH, lawlist='data/laws.json',
-                **kwargs):
+                 **kwargs):
         self.indent = self.INDENT_CHAR * self.INDENT
         self.path = path
         self.lawlist = lawlist
@@ -54,21 +54,22 @@ class Lawde(object):
         while True:
             try:
                 res = requests.get(self.build_zip_url(law))
-                file('test.zip', 'w').write(res.content)
+                with open('test.zip', 'wb') as f:
+                    f.write(res.content)
             except Exception as e:
                 tries += 1
-                print e
+                print(e)
                 if tries > 3:
                     raise e
                 else:
-                    print "Sleeping %d" % tries * 3
+                    print("Sleeping %d" % tries * 3)
                     time.sleep(tries * 3)
             else:
                 break
         try:
-            zipf = zipfile.ZipFile(StringIO(res.content))
+            zipf = zipfile.ZipFile(BytesIO(res.content))
         except zipfile.BadZipfile:
-            print "Removed %s" % law
+            print("Removed %s" % law)
             self.remove_law(law)
             return None
         return zipf
@@ -99,25 +100,29 @@ class Lawde(object):
     def store(self, law, zipf):
         self.remove_law(law)
         law_path = self.build_law_path(law)
-        norm_date_re = re.compile('<norm builddate="\d+"')
+        # norm_date_re = re.compile('<norm builddate="\d+"')
         os.makedirs(law_path)
         for name in zipf.namelist():
             if name.endswith('.xml'):
                 xml = zipf.open(name).read()
-                xml = norm_date_re.sub('<norm', xml)
-                dom = parseString(xml)
-                xml = dom.toprettyxml(encoding='utf-8',
-                    indent=self.indent)
+                # xml = norm_date_re.sub('<norm', xml.decode('utf-8'))
+                dom = parseString(xml.decode('utf-8'))
+                xml = dom.toprettyxml(
+                    encoding='utf-8',
+                    indent=self.indent
+                )
                 if not name.startswith('_'):
                     law_filename = os.path.join(law_path, '%s.xml' % law)
                 else:
                     law_filename = name
-                file(law_filename, 'w').write(xml)
+                with open(law_filename, 'w') as f:
+                    f.write(xml)
             else:
                 zipf.extract(name, law_path)
 
     def get_all_laws(self):
-        return [l['slug'] for l in json.load(file(self.lawlist))]
+        with open(self.lawlist) as f:
+            return [l['slug'] for l in json.load(f)]
 
     def loadall(self):
         self.load(self.get_all_laws())
@@ -131,7 +136,7 @@ class Lawde(object):
         laws = []
 
         for char in CHARS:
-            print "Loading part list %s" % char
+            print("Loading part list %s" % char)
             try:
                 response = requests.get(BASE_URL % char.upper())
                 html = response.content
@@ -145,7 +150,8 @@ class Lawde(object):
                     'name': match[1].replace('&quot;', '"'),
                     'abbreviation': match[2].strip()
                 })
-        json.dump(laws, file(self.lawlist, 'w'))
+        with open(self.lawlist, 'w') as f:
+            json.dump(laws, f)
 
 
 def main(arguments):
@@ -162,6 +168,7 @@ def main(arguments):
         lawde.loadall()
     elif arguments['updatelist']:
         lawde.update_list()
+
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='LawDe 0.0.1')
