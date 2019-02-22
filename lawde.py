@@ -77,14 +77,16 @@ class Lawde(object):
     def load(self, laws):
         total = float(len(laws))
         ts1 = datetime.datetime.now()
-        print "Laws to download: %d" % len(laws)
+        print("Laws to download: %d" % len(laws))
         for i, law in enumerate(laws):
             if i == 9:
                 ts2 = datetime.datetime.now()
                 ts_diff = ts2 - ts1
-                print "Estimated download time: %d minutes" % ((ts_diff.seconds * len(laws)/10) / 60)
+                print("Estimated download time: %d minutes" % (
+                    (ts_diff.seconds * len(laws)/10) / 60)
+                )
             if i % 10 == 0:
-                print '%.1f%%' % (i / total * 100)
+                print('%.1f%%' % (i / total * 100), end='\r')
             zipfile = self.download_law(law)
             if zipfile is not None:
                 self.store(law, zipfile)
@@ -116,7 +118,7 @@ class Lawde(object):
                 else:
                     law_filename = name
                 with open(law_filename, 'w') as f:
-                    f.write(xml)
+                    f.write(xml.decode('utf-8'))
             else:
                 zipf.extract(name, law_path)
 
