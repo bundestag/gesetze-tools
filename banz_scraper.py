@@ -19,7 +19,8 @@ Examples:
   banz_scaper.py data/banz.json
 
 """
-from pathlib import Path
+import os
+import sys
 import re
 import json
 
@@ -57,7 +58,7 @@ class BAnzScraper:
                 continue
             dates = self.get_dates(year)
             for date in dates:
-                print(year, date)
+                print(year + ' ' + date)
                 collection.update(self.get_items(year, date))
         return collection
 
@@ -156,13 +157,20 @@ def main(arguments):
     print('You will see all dates with publications appear below as they are parsed.')
     banz = BAnzScraper()
     data = {}
-    if Path(arguments['<outputfile>']).exists():
-        with open(arguments['<outputfile>']) as f:
-            data = json.load(f)
+    if os.path.exists(arguments['<outputfile>']):
+        if (sys.version_info > (3, 0)):
+            with open(arguments['<outputfile>']) as f:
+                data = json.load(f)
+        else:
+            with file(arguments['<outputfile>']) as f:
+                data = json.load(f)
     data.update(banz.scrape(minyear, maxyear))
-    with open(arguments['<outputfile>'], 'w') as f:
-        json.dump(data, f, indent=4)
-
+    if (sys.version_info > (3, 0)):
+        with open(arguments['<outputfile>'], 'w+') as f:
+            json.dump(data, f)
+    else:
+        with file(arguments['<outputfile>'], 'w') as f:
+            json.dump(data, f)
 
 if __name__ == '__main__':
     from docopt import docopt
