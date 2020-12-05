@@ -17,6 +17,7 @@ Duration Estimates:
 
 """
 import os
+import sys
 import re
 import json
 
@@ -48,7 +49,7 @@ class BAnzScraper(object):
                 continue
             dates = self.get_dates(year)
             for date in dates:
-                print year, date
+                print(year + ' ' + date)
                 collection.update(self.get_items(year, date))
         return collection
 
@@ -123,11 +124,19 @@ def main(arguments):
     banz = BAnzScraper()
     data = {}
     if os.path.exists(arguments['<outputfile>']):
-        with file(arguments['<outputfile>']) as f:
-            data = json.load(f)
+        if (sys.version_info > (3, 0)):
+            with open(arguments['<outputfile>']) as f:
+                data = json.load(f)
+        else:
+            with file(arguments['<outputfile>']) as f:
+                data = json.load(f)
     data.update(banz.scrape(minyear, maxyear))
-    with file(arguments['<outputfile>'], 'w') as f:
-        json.dump(data, f)
+    if (sys.version_info > (3, 0)):
+        with open(arguments['<outputfile>'], 'w+') as f:
+            json.dump(data, f)
+    else:
+        with file(arguments['<outputfile>'], 'w') as f:
+            json.dump(data, f)
 
 if __name__ == '__main__':
     from docopt import docopt

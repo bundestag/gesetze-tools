@@ -24,9 +24,16 @@ from glob import glob
 from xml import sax
 from collections import defaultdict
 from textwrap import wrap
-from StringIO import StringIO
-
 import yaml
+if (sys.version_info > (3, 0)):
+    # Python 3 code in this block
+    import io
+    from io import StringIO
+else:
+    # Python 2 code in this block
+    from StringIO import StringIO
+
+
 
 
 DEFAULT_YAML_HEADER = {
@@ -67,8 +74,10 @@ class LawToMarkdown(sax.ContentHandler):
         self.orig_slug = orig_slug
 
     def out(self, content):
-        if isinstance(content, unicode):
-            content = content.encode('utf-8')
+        if (sys.version_info < (3, 0)):
+            # Only python 2.x distinguishes between str and unicode
+            if isinstance(content, unicode):
+                content = content.encode('utf-8')
         self.fileout.write(content)
         return self
 
@@ -348,7 +357,10 @@ class LawToMarkdown(sax.ContentHandler):
                 title = self.meta['titel'][0]
         if not title:
             return
-        hn = hn * min(heading_num, 6)
+        if (sys.version_info > (3, 0)):
+            hn = hn + str( min(heading_num, 6) )
+        else:
+            hn = hn * min(heading_num, 6)
         if self.heading_anchor:
             if link:
                 link = re.sub('\(X+\)', '', link).strip()
@@ -400,17 +412,27 @@ def main(arguments):
         law_to_markdown(sys.stdin, sys.stdout, name=arguments['--name'])
         return
     paths = set()
+    #print("os.path.join(arguments['<inputpath>'], '*/*/*.xml') : " + str(os.path.join(arguments['<inputpath>'], '*/*/*.xml')))
+    #print("glob(os.path.join(arguments['<inputpath>'], '*/*/*.xml')) : " + str(glob(os.path.join(arguments['<inputpath>'], '*/*/*.xml'))))
     for filename in glob(os.path.join(arguments['<inputpath>'], '*/*/*.xml')):
+        #print('trying to parse ' + filename)
         inpath = os.path.dirname(os.path.abspath(filename))
+        #print('Converting to absolute path: ' + inpath)
         if inpath in paths:
             continue
         paths.add(inpath)
         law_name = inpath.split('/')[-1]
-        with file(filename) as infile:
-            out = law_to_markdown(infile)
+        if (sys.version_info > (3, 0)):
+            # Python 3 code in this block
+            with io.FileIO(filename) as infile:
+                out = law_to_markdown(infile)
+        else:
+            # Python 2 code in this block
+            with file(filename) as infile:
+                out = law_to_markdown(infile)
         slug = out.filename
         outpath = os.path.abspath(os.path.join(arguments['<outputpath>'], slug[0], slug))
-        print outpath
+        print(outpath)
         assert outpath.count('/') > 2  # um, better be safe
         outfilename = os.path.join(outpath, 'index.md')
         shutil.rmtree(outpath, ignore_errors=True)
@@ -420,12 +442,21 @@ def main(arguments):
                 continue
             part_filename = os.path.basename(part)
             shutil.copy(part, os.path.join(outpath, part_filename))
-        with file(outfilename, 'w') as outfile:
-            outfile.write(out.getvalue())
+        if (sys.version_info > (3, 0)):
+            # Python 3 code in this block
+            with open(outfilename, 'w+') as outfile:
+                outfile.write(out.getvalue())
+        else:
+            # Python 2 code in this block
+            with file(outfilename, 'w') as outfile:
+                outfile.write(out.getvalue())
         out.close()
 
 
 if __name__ == '__main__':
     from docopt import docopt
-    arguments = docopt(__doc__, version='LawDown 0.0.1')
-    main(arguments)
+    try:
+        arguments = docopt(__doc__, version='LawDe 0.0.1')
+        main(arguments)
+    except KeyboardInterrupt:
+        print '\nAborted'
