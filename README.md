@@ -22,7 +22,7 @@ Update your list of laws first:
 python lawde.py updatelist
 ```
 
-You can then download all laws by calling (<span style="color:red">**not recommended!**</span>)
+You can then download all laws by calling 
 ```bash
 python lawde.py loadall
 ```
@@ -32,7 +32,7 @@ Alternatively, you can find the individual law you're interested in in [./data/l
 ```bash
 {"slug": "<shortname>", "name": "<longname>", "abbreviation": "<abbreviation>"}
 ```
-You can download individual laws by calling (<span style="color:red">**recommended**</span>)
+You can download individual laws by calling 
 ```bash
 python lawde.py load <shortname>
 ```
