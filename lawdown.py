@@ -412,12 +412,8 @@ def main(arguments):
         law_to_markdown(sys.stdin, sys.stdout, name=arguments['--name'])
         return
     paths = set()
-    #print("os.path.join(arguments['<inputpath>'], '*/*/*.xml') : " + str(os.path.join(arguments['<inputpath>'], '*/*/*.xml')))
-    #print("glob(os.path.join(arguments['<inputpath>'], '*/*/*.xml')) : " + str(glob(os.path.join(arguments['<inputpath>'], '*/*/*.xml'))))
     for filename in glob(os.path.join(arguments['<inputpath>'], '*/*/*.xml')):
-        #print('trying to parse ' + filename)
         inpath = os.path.dirname(os.path.abspath(filename))
-        #print('Converting to absolute path: ' + inpath)
         if inpath in paths:
             continue
         paths.add(inpath)
@@ -459,4 +455,4 @@ if __name__ == '__main__':
         arguments = docopt(__doc__, version='LawDe 0.0.1')
         main(arguments)
     except KeyboardInterrupt:
-        print '\nAborted'
+        print('\nAborted')
