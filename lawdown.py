@@ -27,6 +27,15 @@ from textwrap import wrap
 from io import StringIO
 
 import yaml
+if (sys.version_info > (3, 0)):
+    # Python 3 code in this block
+    import io
+    from io import StringIO
+else:
+    # Python 2 code in this block
+    from StringIO import StringIO
+
+
 
 
 DEFAULT_YAML_HEADER = {
@@ -428,5 +437,8 @@ def main(arguments):
 
 if __name__ == '__main__':
     from docopt import docopt
-    arguments = docopt(__doc__, version='LawDown 0.0.1')
-    main(arguments)
+    try:
+        arguments = docopt(__doc__, version='LawDe 0.0.1')
+        main(arguments)
+    except KeyboardInterrupt:
+        print("\nAbort")
