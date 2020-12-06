@@ -91,7 +91,7 @@ class LawToMarkdown(sax.ContentHandler):
         self.out(content + ('\n' if not nobreak else ''))
         return self
 
-    def write_wrapped(self, text, indent=None):
+    def write_wrapped(self, text, indent=None, nobreak=False):
         if indent is None:
             indent = self.indent_level
         first_indent = ''
@@ -100,18 +100,22 @@ class LawToMarkdown(sax.ContentHandler):
                               (len(self.last_list_index) + 1))
             first_indent = f" {self.indent_by[0:space_count]}"
             self.last_list_index = None
-        for line in wrap(text):
-            if first_indent:
-                self.out(first_indent)
-            else:
-                self.out(self.indent_by * indent)
-                line = self.list_start_re.sub('\\1\\.', line)
-            first_indent = ''
-            self.write(line)
+        if nobreak:
+            self.out(self.indent_by * indent)
+            self.write(text, nobreak=nobreak)
+        else:
+            for line in wrap(text):
+                if first_indent:
+                    self.out(first_indent)
+                else:
+                    self.out(self.indent_by * indent)
+                    line = self.list_start_re.sub('\\1\\.', line)
+                first_indent = ''
+                self.write(line)
 
-    def flush_text(self):
+    def flush_text(self, nobreak=False):
         if self.text.strip():
-            self.write_wrapped(self.text)
+            self.write_wrapped(self.text, nobreak=nobreak)
         self.text = ''
 
     def startElement(self, name, attrs):
@@ -150,29 +154,69 @@ class LawToMarkdown(sax.ContentHandler):
 
         if name == 'table':
             self.flush_text()
-            self.write()
+            self.current_text = '|'
+            self.state = 'table'
+            self.table_header = '|'
+        elif name == 'colspec':
+            self.current_text += '       |' 
+            self.table_header += ' :---: |'# might want to check for centering etc. in colspec via 'attrs'
+        elif name == 'tbody':
+            self.flush_text()
+            #self.write()
+            self.current_text += self.table_header
+            #self.write()
         elif name == 'dl':
             self.flush_text()
             self.write()
             self.indent_level += 1
+        elif name == 'br':
+            if self.state == 'table':
+                blocks = self.text.split('| ')
+                if len(blocks) > 1:
+                    blocks[-1] = blocks[-1].strip()
+                    self.text = '| '.join(blocks)
+                blocks = self.text.split('\ ')
+                if len(blocks) > 1:
+                    blocks[-1] = blocks[-1].strip() 
+                    self.text = '\ '.join(blocks)
         elif name == 'row' or name == 'dd':
             if name == 'row':
+                if self.state == 'table':
+                    #self.current_text += '| '
+                    #self.current_text += '\n'
+                    self.flush_text()
+                    #self.write()
+                    pass
+                else:
+                    self.indent_level += 1
+                    self.list_index = '*'
+                    self.write_list_item()
+            self.in_list_item += 1 # does this get removed?
+        elif name == 'entry':
+            if self.state == 'table':
+                self.current_text += ' | '
+                #self.flush_text()
+                #self.write()
+                #self.in_list_item += 1
+            else:
                 self.indent_level += 1
+                self.in_list_item += 1
                 self.list_index = '*'
                 self.write_list_item()
-            self.in_list_item += 1
-        elif name == 'entry':
-            self.indent_level += 1
-            self.in_list_item += 1
-            self.list_index = '*'
-            self.write_list_item()
         elif name == 'img':
             self.flush_text()
-            self.out_indented(
-                f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
+            if self.state == 'table':
+                self.current_text += ' ![%s](%s) ' % (attrs.get('ALT', attrs['SRC']), attrs['SRC'])
+            else:
+                self.flush_text()
+                self.out_indented(
+                    f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
         elif name == 'dt':
             self.in_list_index = True
-        elif name in ('u', 'b', 'f'):
+        #elif name == 'br':
+        #    if self.state == 'table':
+        #        self.current_text += '\n'
+        elif name in ('u', 'b', 'f', 'tgroup'): # skip tgroup only in state table?
             pass
         else:
             self.flush_text()
@@ -234,24 +278,43 @@ class LawToMarkdown(sax.ContentHandler):
             return
 
         if name == 'br':
-            self.text += '\n'
+            if self.state == 'table':
+                self.text += '\ '
+            else:
+                self.text += '\n'
         elif name == 'table':
             self.write()
+            self.state = 'text' # reset this to what it was, might want to use some stack...
         elif name == 'dl':
             self.indent_level -= 1
             self.write()
         elif name == 'dd' or name == 'entry':
+            if self.state == 'table': 
+                # remove leading spaces from last line (if there are multiple ones)
+                blocks = self.text.split('\ ')
+                if len(blocks) > 1:
+                    blocks[-1] = blocks[-1].strip() 
+                    self.text = ' '.join(blocks) # don't placeholder for linebreaks - migt want to change the join string to '\ '
+                return #self.text += ' ' # keep the space at the end? Might get deleted anyways...
             self.in_list_item -= 1
-            if name == 'entry':
+            if name == 'entry': 
                 self.flush_text()
                 self.indent_level -= 1
             self.write()
         elif name == 'la' or name == 'row':
+            if self.state == 'table':
+                self.text += ' |\n' # indent according to self.indent_level
+                self.flush_text(nobreak=True)
+                #self.write(self.text, nobreak=True)
+                #self.text = ''
             self.flush_text()
-            self.write()
+            #self.write()
             if name == 'row':
-                self.indent_level -= 1
-                self.in_list_item -= 1
+                if self.state == 'table':
+                    pass
+                else:
+                    self.indent_level -= 1
+                    self.in_list_item -= 1
         elif name == 'p':
             self.flush_text()
             self.write()
