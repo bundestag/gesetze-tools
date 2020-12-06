@@ -358,10 +358,7 @@ class LawToMarkdown(sax.ContentHandler):
                 title = self.meta['titel'][0]
         if not title:
             return
-        if (sys.version_info > (3, 0)):
-            hn = hn + str( min(heading_num, 6) )
-        else:
-            hn = hn * min(heading_num, 6)
+        hn = hn * int(min(heading_num, 6))
         if self.heading_anchor:
             if link:
                 link = re.sub('\(X+\)', '', link).strip()
