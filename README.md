@@ -19,12 +19,12 @@ and extracts them to a directory.
 ### Usage
 Update your list of laws first:
 ```bash
-python lawde.py updatelist
+python3 lawde.py updatelist
 ```
 
 You can then download all laws by calling 
 ```bash
-python lawde.py loadall
+python3 lawde.py loadall
 ```
 Which will take approx. 2-3hrs.
 
@@ -34,7 +34,7 @@ Alternatively, you can find the individual law you're interested in in [./data/l
 ```
 You can download individual laws by calling 
 ```bash
-python lawde.py load <shortname>
+python3 lawde.py load <shortname>
 ```
 
 Last tested: 2020-12-05 SUCCESS
@@ -46,8 +46,8 @@ to the law into specified working directory.
 
 ### Usage
 ```bash
-python lawdown.py convert <inpath> <outpath>
-python lawdown.py convert ./laws ./laws-md
+python3 lawdown.py convert <inpath> <outpath>
+python3 lawdown.py convert ./laws ./laws-md
 ```
 
 Last tested: 2020-12-05 SUCCESS
