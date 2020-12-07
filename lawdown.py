@@ -43,7 +43,7 @@ DEFAULT_YAML_HEADER = {
 
 
 class LawToMarkdown(sax.ContentHandler):
-    state = None
+    state = [None]
     text = ''
     current_text = ''
     indent_by = ' ' * 4
@@ -114,6 +114,25 @@ class LawToMarkdown(sax.ContentHandler):
                 self.write(line)
 
     def flush_text(self, nobreak=False):
+        # remove leading spaces from last line (if there are multiple ones)
+        blocks = self.text.split('\ ')
+        if len(blocks) > 1:
+            blocks[-1] = blocks[-1].replace('\ ', ' ').strip()
+            # print first block as-is
+            self.text = blocks[0]
+            self.flush_text(nobreak=nobreak)
+            # then increase indentation
+            if blocks[0] != '':
+                self.write()
+                self.indent_level += 1
+            # then print individual blocks with line breaks
+            for block in blocks[1:]:
+                self.text = block # might want to print everything but the first indented once
+                self.flush_text(nobreak=nobreak)
+                self.write()
+            # then reduce the indentation again
+            if blocks[0] != '':
+                self.indent_level -= 1
         if self.text.strip():
             self.write_wrapped(self.text, nobreak=nobreak)
         self.text = ''
@@ -124,7 +143,7 @@ class LawToMarkdown(sax.ContentHandler):
         if self.ignore_until is not None:
             return
         if name == 'fnr':
-            if self.state == 'meta':
+            if self.state[-1] == 'meta':
                 self.ignore_until = 'fnr'
                 return
             else:
@@ -135,42 +154,42 @@ class LawToMarkdown(sax.ContentHandler):
             self.ignore_until = 'fussnoten'
         if name == "metadaten":
             self.meta = defaultdict(list)
-            self.state = 'meta'
+            self.state.append('meta')
             return
         if name == "text":
             self.indent_level = 0
-            self.state = 'text'
+            self.state.append('text')
         if name == 'footnotes':
-            self.state = 'footnotes'
-        if self.state == 'footnotes':
+            self.state.append('footnotes')
+        if self.state[-1] == 'footnotes':
             if name == 'footnote':
                 self.indent_level += 1
                 self.current_footnote = attrs['ID']
             return
 
+        # This seems superfluous. Might want to strip Newlines and Spaces in Characters callback
         self.text += self.current_text
         self.text = self.text.replace('\n', ' ').strip()
         self.current_text = ''
 
         if name == 'table':
+            self.text += ' '
             self.flush_text()
             self.current_text = '|'
-            self.state = 'table'
+            self.state.append('table')
             self.table_header = '|'
         elif name == 'colspec':
             self.current_text += '       |' 
             self.table_header += ' :---: |'# might want to check for centering etc. in colspec via 'attrs'
         elif name == 'tbody':
             self.flush_text()
-            #self.write()
             self.current_text += self.table_header
-            #self.write()
         elif name == 'dl':
             self.flush_text()
             self.write()
             self.indent_level += 1
         elif name == 'br':
-            if self.state == 'table':
+            if self.state[-1] == 'table':
                 blocks = self.text.split('| ')
                 if len(blocks) > 1:
                     blocks[-1] = blocks[-1].strip()
@@ -181,39 +200,30 @@ class LawToMarkdown(sax.ContentHandler):
                     self.text = '\ '.join(blocks)
         elif name == 'row' or name == 'dd':
             if name == 'row':
-                if self.state == 'table':
-                    #self.current_text += '| '
-                    #self.current_text += '\n'
+                if self.state[-1] == 'table':
                     self.flush_text()
-                    #self.write()
                     pass
                 else:
                     self.indent_level += 1
                     self.list_index = '*'
                     self.write_list_item()
-            self.in_list_item += 1 # does this get removed?
+            self.in_list_item += 1 # TODO: does this get removed?
         elif name == 'entry':
-            if self.state == 'table':
+            if self.state[-1] == 'table':
                 self.current_text += ' | '
-                #self.flush_text()
-                #self.write()
-                #self.in_list_item += 1
             else:
                 self.indent_level += 1
                 self.in_list_item += 1
                 self.list_index = '*'
                 self.write_list_item()
         elif name == 'img':
-            if self.state == 'table':
+            if self.state[-1] == 'table':
                 self.current_text += ' ![%s](%s) ' % (attrs.get('ALT', attrs['SRC']), attrs['SRC'])
             else:
                 self.flush_text()
                 self.out('![%s](%s)' % (attrs.get('ALT', attrs['SRC']), attrs['SRC']))
         elif name == 'dt':
             self.in_list_index = True
-        #elif name == 'br':
-        #    if self.state == 'table':
-        #        self.current_text += '\n'
         elif name in ('u', 'b', 'f', 'tgroup'): # skip tgroup only in state table?
             pass
         else:
@@ -234,12 +244,13 @@ class LawToMarkdown(sax.ContentHandler):
         elif name == 'b':
             self.current_text = u' **%s** ' % self.current_text.strip()
 
+        # This seems superfluous. Might want to strip Newlines and Spaces in Characters callback
         self.text += self.current_text
         self.text = self.text.replace('\n', ' ').strip()
         self.current_text = ''
 
         if name == "metadaten":
-            self.state = None
+            self.state.pop()
             if self.first_meta:
                 self.first_meta = False
                 self.write_big_header()
@@ -247,19 +258,21 @@ class LawToMarkdown(sax.ContentHandler):
                 self.write_norm_header()
             self.text = ''
             return
-        if self.state == 'meta':
+        if name == 'text':
+            self.state.pop()
+        if self.state[-1] == 'meta':
             if name == 'enbez' and self.text == u'Inhaltsübersicht':
                 self.ignore_until = 'textdaten'
             else:
                 self.meta[name].append(self.text)
             self.text = ''
             return
-        elif self.state == 'footnotes':
+        elif self.state[-1] == 'footnotes':
             if name == 'footnote':
                 self.flush_text()
                 self.indent_level -= 1
             if name == 'footnotes':
-                self.state = None
+                self.state.pop()
                 self.write()
         if self.current_footnote:
             self.out('[^%s]: ' % self.current_footnote)
@@ -276,44 +289,53 @@ class LawToMarkdown(sax.ContentHandler):
             return
 
         if name == 'br':
-            if self.state == 'table':
+            if self.state[-1] == 'table':
                 self.text += '\ '
             else:
-                self.text += '\n'
+                blocks = self.text.split(' \ ')
+                if len(blocks) > 1:
+                    blocks[-1] = blocks[-1].replace('\ ', ' ').strip()
+                    self.text = ' \ '.join(blocks)
+                self.text += ' \ '
         elif name == 'table':
             self.write()
-            self.state = 'text' # reset this to what it was, might want to use some stack...
+            self.state.pop() # reset this to what it was
         elif name == 'dl':
             self.indent_level -= 1
             self.write()
         elif name == 'dd' or name == 'entry':
-            if self.state == 'table': 
+            if self.state[-1] == 'table': 
                 # remove leading spaces from last line (if there are multiple ones)
                 blocks = self.text.split('\ ')
                 if len(blocks) > 1:
                     blocks[-1] = blocks[-1].strip() 
-                    self.text = ' '.join(blocks) # don't placeholder for linebreaks - migt want to change the join string to '\ '
-                return #self.text += ' ' # keep the space at the end? Might get deleted anyways...
+                    self.text = ' '.join(blocks) # don't keep placeholder for linebreaks - might want to change the join string to '\ '
+                return 
+            else:
+                self.flush_text()
             self.in_list_item -= 1
             if name == 'entry': 
                 self.flush_text()
                 self.indent_level -= 1
             self.write()
         elif name == 'la' or name == 'row':
-            if self.state == 'table':
-                self.text += ' |\n' # indent according to self.indent_level
+            if self.state[-1] == 'table':
+                self.text += ' |\n'
                 self.flush_text(nobreak=True)
-                #self.write(self.text, nobreak=True)
-                #self.text = ''
+            self.text += ' '
             self.flush_text()
             #self.write()
             if name == 'row':
-                if self.state == 'table':
+                if self.state[-1] == 'table':
                     pass
                 else:
                     self.indent_level -= 1
                     self.in_list_item -= 1
+        elif name == 'nb':
+            if self.state[-1] != 'table': # TODO: might not need this
+                self.flush_text()
         elif name == 'p':
+            self.text += ' '
             self.flush_text()
             self.write()
         elif name == 'title':
@@ -332,7 +354,7 @@ class LawToMarkdown(sax.ContentHandler):
             return
         for no_emph_re in self.no_emph_re:
             text = no_emph_re.sub(r'\1\\\2\3', text)
-        self.current_text += text
+        self.current_text += text.replace('\n', ' ').strip()
         self.no_tag = True
 
     def endDocument(self):
@@ -413,6 +435,9 @@ class LawToMarkdown(sax.ContentHandler):
         if 'enbez' in self.meta:
             title = self.meta['enbez'][0]
             link = title
+            if self.meta['enbez'][0] == '§ 38':
+                title = title
+                pass
         if 'titel' in self.meta:
             if title:
                 title = u'%s %s' % (title, self.meta['titel'][0])
