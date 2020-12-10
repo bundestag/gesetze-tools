@@ -481,7 +481,7 @@ class LawToMarkdown(sax.ContentHandler):
         if 'enbez' in self.meta:
             title = self.meta['enbez'][0]
             link = title
-            if self.meta['enbez'][0] == 'Anlage 1':
+            if self.meta['enbez'][0] == 'Anlage 2':
                 title = title
                 pass
         if 'titel' in self.meta:
