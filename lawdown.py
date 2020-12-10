@@ -87,11 +87,11 @@ class LawToMarkdown(sax.ContentHandler):
         self.out(self.indent_by * indent)
         self.out(content)
 
-    def write(self, content='', nobreak=False):
-        self.out(content + ('\n' if not nobreak else ''))
+    def write(self, content='', custombreaks=False):
+        self.out(content + (u'\n' if not custombreaks else ''))
         return self
 
-    def write_wrapped(self, text, indent=None, nobreak=False):
+    def write_wrapped(self, text, indent=None, custombreaks=False):
         if indent is None:
             indent = self.indent_level
         first_indent = ''
@@ -100,9 +100,9 @@ class LawToMarkdown(sax.ContentHandler):
                               (len(self.last_list_index) + 1))
             first_indent = f" {self.indent_by[0:space_count]}"
             self.last_list_index = None
-        if nobreak:
+        if custombreaks:
             self.out(self.indent_by * indent)
-            self.write(text, nobreak=nobreak)
+            self.write(text, custombreaks=custombreaks)
         else:
             for line in wrap(text):
                 if first_indent:
@@ -113,15 +113,15 @@ class LawToMarkdown(sax.ContentHandler):
                 first_indent = ''
                 self.write(line)
 
-    def flush_text(self, nobreak=False):
-        if not nobreak:
+    def flush_text(self, custombreaks=False):
+        if not custombreaks:
             # remove leading spaces from last line (if there are multiple ones)
             blocks = self.text.split('\ ')
             if len(blocks) > 1:
                 blocks[-1] = blocks[-1].replace('\ ', ' ').strip()
                 # print first block as-is
                 self.text = blocks[0]
-                self.flush_text(nobreak=nobreak)
+                self.flush_text(custombreaks=custombreaks)
                 # then increase indentation
                 if blocks[0] != '':
                     self.write()
@@ -129,13 +129,13 @@ class LawToMarkdown(sax.ContentHandler):
                 # then print individual blocks with line breaks
                 for block in blocks[1:]:
                     self.text = block # might want to print everything but the first indented once
-                    self.flush_text(nobreak=nobreak)
+                    self.flush_text(custombreaks=custombreaks)
                     self.write()
                 # then reduce the indentation again
                 if blocks[0] != '':
                     self.indent_level -= 1
         if self.text.strip():
-            self.write_wrapped(self.text, nobreak=nobreak)
+            self.write_wrapped(self.text, custombreaks=custombreaks)
         self.text = ''
 
     def startElement(self, name, attrs):
@@ -151,7 +151,7 @@ class LawToMarkdown(sax.ContentHandler):
                 if not attrs['ID'] in self.footnotes:
                     self.footnotes[attrs['ID']] = None
                     self.write(f"[^{attrs['ID']}]")
-        if name == 'fussnoten':
+        if name == 'fussnoten': # add a state "kommentar" in which line breaks are not printed? Might be sufficient to do that on end of "kommentar"
             self.ignore_until = 'fussnoten'
         if name == "metadaten":
             self.meta = defaultdict(list)
@@ -186,10 +186,10 @@ class LawToMarkdown(sax.ContentHandler):
             self.header_col = 0
             self.state.append('thead')
         elif name == 'tbody':
-            self.text = self.table_header + '\n'
-            self.flush_text(nobreak=True)
+            self.text = self.table_header.replace('\ ', '<br> ') + '\n'
+            self.flush_text(custombreaks=True)
             self.text = self.head_separator + '\n'
-            self.flush_text(nobreak=True)
+            self.flush_text(custombreaks=True)
             self.state.append('tbody')
         elif name == 'dl': # this is a list, might want to move to state 'list'?
             self.flush_text()
@@ -360,12 +360,12 @@ class LawToMarkdown(sax.ContentHandler):
             self.text += ' '
             self.flush_text()
             #self.write()
-            
-            #self.in_list_item -= 1 
+        elif name == 'kommentar':
+            self.text = self.text.replace('\ ', '')
         elif name == 'row':
             if self.state[-1] in ('table', 'tbody'):
                 self.text += ' |\n'
-                self.flush_text(nobreak=True)
+                self.flush_text(custombreaks=True)
             elif self.state[-1] in ('thead'):
                 self.head_col = 0             
         elif name == 'nb':
@@ -473,7 +473,7 @@ class LawToMarkdown(sax.ContentHandler):
         if 'enbez' in self.meta:
             title = self.meta['enbez'][0]
             link = title
-            if self.meta['enbez'][0] == 'Anlage 1':
+            if self.meta['enbez'][0] == 'Anlage 2':
                 title = title
                 pass
         if 'titel' in self.meta:
