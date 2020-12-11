@@ -62,6 +62,9 @@ class LawToMarkdown(sax.ContentHandler):
     footnotes = {}
     current_heading_num = 1
     current_footnote = None
+    col_num = 0
+    table_header = ''
+    head_separator = ''
     no_emph_re = [
         re.compile(r'(\S?|^)([\*_])(\S)'),
         re.compile('([^\\\\s])([\\*_])(\\S?|$)')
@@ -168,9 +171,9 @@ class LawToMarkdown(sax.ContentHandler):
                 self.current_footnote = attrs['ID']
             return
 
-        # This seems superfluous. Might want to strip Newlines and Spaces in Characters callback
+        # This seems superfluous. Now stripping Newlines and Spaces in Characters callback
         self.text += self.current_text
-        self.text = self.text.replace('\n', ' ').strip()
+        #self.text = self.text.replace('\n', ' ').strip()
         self.current_text = ''
 
         if name == 'table':
@@ -183,32 +186,37 @@ class LawToMarkdown(sax.ContentHandler):
             self.table_header += '      | ' 
             self.head_separator += ' :---: |'# might want to check for centering etc. in colspec via 'attrs'
         elif name == 'thead':
-            self.header_col = 0
+            self.col_num = 0
             self.state.append('thead')
         elif name == 'tbody':
-            self.text = self.table_header.replace('\ ', '<br> ') + '\n'
+            self.text = self.table_header.replace('\ ', '<br>') + '\n'
             self.flush_text(custombreaks=True)
             self.text = self.head_separator + '\n'
             self.flush_text(custombreaks=True)
             self.state.append('tbody')
-        elif name == 'dl': # this is a list, might want to move to state 'list'?
-            self.flush_text()
-            self.write()
+        elif name == 'dl': # this is a list
+            if not 'table' in self.state:
+                self.flush_text()
+                self.write()
+            else:
+                self.text += '<br>'
             self.indent_level += 1
             self.state.append('list')
         elif name == 'br':
             if self.state[-1] in ('table', 'theader', 'tbody'):
-                blocks = self.text.split('| ')
-                if len(blocks) > 1:
-                    blocks[-1] = blocks[-1].strip()
-                    self.text = '| '.join(blocks)
-                blocks = self.text.split('\ ')
-                if len(blocks) > 1:
-                    blocks[-1] = blocks[-1].strip() 
-                    self.text = '\ '.join(blocks)
+                #blocks = self.text.split('| ')
+                #if len(blocks) > 1: # moved stripping into character parsing, so don't need this anymore
+                #    blocks[-1] = blocks[-1].strip()
+                #    self.text = '| '.join(blocks)
+                #blocks = self.text.split('\ ')
+                #if len(blocks) > 1:
+                #    blocks[-1] = blocks[-1].strip() 
+                #    self.text = '\ '.join(blocks)
+                #self.text += '\ ' # TODO: remove.
+                pass
         elif name == 'row':
             if self.state[-1] in ('thead'):
-                self.header_col = 0 
+                self.col_num = 0 
         elif name == 'dd':
             #self.indent_level += 1
             if self.state[-1] == 'have_tick_number':
@@ -217,9 +225,13 @@ class LawToMarkdown(sax.ContentHandler):
                 self.list_index = '*'
                 self.write_list_item()
             self.in_list_item += 1
+        elif name == 'la' and 'table' in self.state:
+            self.last_list_index = self.list_index
+            self.text += self.list_index + ' '
+            self.list_index = ''
         elif name == 'entry':
             if self.state[-1] in ('table', 'tbody'):
-                self.current_text += ' | '
+                self.current_text = self.current_text.strip() + ' | '
             elif self.state[-1] in ('thead'):
                 pass
             else:
@@ -236,8 +248,8 @@ class LawToMarkdown(sax.ContentHandler):
                     f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
         elif name == 'dt': 
             self.state.append('read_list_index')#self.in_list_index = True
-        elif name in ('u', 'b', 'f', 'tgroup'): # skip tgroup only in state table?
-            pass
+        elif name in ('u', 'b', 'f', 'sp', 'tgroup'): # skip tgroup only in state table?
+            pass # might also want to skip on 'sp' (spanning rows in a table)
         else:
             self.flush_text()
 
@@ -252,13 +264,13 @@ class LawToMarkdown(sax.ContentHandler):
         if name == 'u':
             self.current_text = f' *{self.current_text.strip()}* '
         elif name == 'f':
-            self.current_text = '*'
-        elif name == 'b':
+            self.current_text = u'*'
+        elif name == 'b': # make bold
             self.current_text = f' **{self.current_text.strip()}** '
 
-        # This seems superfluous. Might want to strip Newlines and Spaces in Characters callback
+        # This seems superfluous. Now stripping Newlines and Spaces in Characters callback
         self.text += self.current_text
-        self.text = self.text.replace('\n', ' ').strip()
+        #self.text = self.text.replace('\n', ' ').strip()
         self.current_text = ''
 
         if name == "metadaten":
@@ -296,14 +308,15 @@ class LawToMarkdown(sax.ContentHandler):
             if name == 'dt':
                 if not self.list_index:
                     self.list_index = '*'
-                self.write_list_item()
+                if not 'table' in self.state: # only write the new line outside of tables
+                    self.write_list_item()
                 self.state.pop()# self.in_list_index = False
                 self.state.append('have_tick_number')
             return
 
         if name == 'br':
             if self.state[-1] in ('table', 'theader', 'tbody'):
-                self.text += '\ '
+                self.text += '\ ' 
             elif self.state[-1] in ('list'):
                 self.text = self.text
                 pass
@@ -322,26 +335,27 @@ class LawToMarkdown(sax.ContentHandler):
         elif name == 'tbody':
             self.state.pop()
         elif name == 'dl':
+            if not 'table' in self.state:
+                self.write()
             self.indent_level -= 1
-            self.write()
             self.state.pop()
         elif name == 'entry':
+            self.col_num += 1 # cell[0] is before the first pipe, so the first content cell is cell[1]
             if self.state[-1] in ('table', 'tbody'): 
                 # remove leading spaces from last line (if there are multiple ones)
-                blocks = self.text.split('\ ')
-                if len(blocks) > 1:
-                    blocks[-1] = blocks[-1].strip() 
-                    self.text = ' '.join(blocks) # don't keep placeholder for linebreaks - might want to change the join string to '\ '
-                return
+                #blocks = self.text.split('\ ')
+                #if len(blocks) > 1:
+                #    blocks[-1] = blocks[-1].strip() 
+                #    self.text = ' '.join(blocks) # don't keep placeholder for linebreaks - might want to change the join string to '\ '
+                pass
             elif self.state[-1] in ('theader'):
                 # enter additional information in header cell
-                self.header_col += 1 # cell[0] is before the first pipe, so the first content cell is cell[1]
                 # get all header cells
                 cells = self.table_header.split('| ')
                 # add information to current one
-                cells[self.header_col] = cells[self.header_col].strip() + '\ ' + self.text
+                cells[self.col_num] = cells[self.col_num].strip() + '\ ' + self.text
                 # strip leading \ and spaces
-                cells[self.header_col] = cells[self.header_col].strip(' \\') + ' '
+                cells[self.col_num] = cells[self.col_num].strip(' \\') + ' '
                 # re-assemble header
                 self.table_header = '| '.join(cells)
                 self.text = ''
@@ -352,19 +366,24 @@ class LawToMarkdown(sax.ContentHandler):
                 self.indent_level -= 1
                 self.write()
         elif name == 'dd':
-            self.flush_text()
-            self.in_list_item -= 1
-            #self.indent_level -= 1 # this was in la before...
-            self.write()
+            if not 'table' in self.state: # only do this when not in a table
+                self.flush_text()
+                self.in_list_item -= 1
+                #self.indent_level -= 1 # this was in la before...
+                self.write()
+            else:
+                self.text = self.text
         elif name == 'la':
-            self.text += ' '
-            self.flush_text()
-            #self.write()
+            if not 'table' in self.state:
+                self.text += ' '
+                self.flush_text()
+            else:
+                self.text += '<br>'
         elif name == 'kommentar':
             self.text = self.text.replace('\ ', '')
         elif name == 'row':
             if self.state[-1] in ('table', 'tbody'):
-                self.text += ' |\n'
+                self.text = self.text.replace('\ ','<br>') + ' |\n'
                 self.flush_text(custombreaks=True)
             elif self.state[-1] in ('thead'):
                 self.head_col = 0             
@@ -473,11 +492,11 @@ class LawToMarkdown(sax.ContentHandler):
         if 'enbez' in self.meta:
             title = self.meta['enbez'][0]
             link = title
-            if self.meta['enbez'][0] == 'Anlage 2':
+            if self.meta['enbez'][0] == 'Anlage 2': # TODO: remove me, I'm here for debugging!
                 title = title
                 pass
         if 'titel' in self.meta:
-            if title:
+            if title: # could also add the "brief" in "br" here
                 title = f"{title} {self.meta['titel'][0]}"
             else:
                 title = self.meta['titel'][0]
