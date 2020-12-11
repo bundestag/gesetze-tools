@@ -164,7 +164,7 @@ class LawToMarkdown(sax.ContentHandler):
                 self.current_footnote = attrs['ID']
             return
 
-        # This seems superfluous. Might want to strip Newlines and Spaces in Characters callback
+        # This seems superfluous. Now stripping Newlines and Spaces in Characters callback
         self.text += self.current_text
         self.current_text = ''
 
@@ -257,7 +257,7 @@ class LawToMarkdown(sax.ContentHandler):
         elif name == 'b': # make bold
             self.current_text = f' **{self.current_text.strip()}** '
 
-        # This seems superfluous. Might want to strip Newlines and Spaces in Characters callback
+        # This seems superfluous. Now stripping Newlines and Spaces in Characters callback
         self.text += self.current_text
         self.current_text = ''
 
@@ -481,7 +481,7 @@ class LawToMarkdown(sax.ContentHandler):
         if 'enbez' in self.meta:
             title = self.meta['enbez'][0]
             link = title
-            if self.meta['enbez'][0] == 'Anlage 2':
+            if self.meta['enbez'][0] == 'Anlage 2': # TODO: remove me, I'm here for debugging!
                 title = title
                 pass
         if 'titel' in self.meta:
