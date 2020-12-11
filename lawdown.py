@@ -297,7 +297,14 @@ class LawToMarkdown(sax.ContentHandler):
                 if not self.list_index:
                     self.list_index = '*'
                 if not 'table' in self.state: # only write the new line outside of tables
+                    #increase_indent = False
+                    #if len(self.list_index) > 1:
+                    #    if self.list_index[-2].isalpha():   # If this there is a letter before the dot/bracket
+                    #        self.indent_level += 1          # increase indentation
+                    #        increase_indent = True
                     self.write_list_item()
+                    #if increase_indent:
+                    #    self.indent_level -= 1              # decrease indentation again
                 self.state.pop()# self.in_list_index = False
                 self.state.append('have_tick_number')
             return
