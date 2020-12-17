@@ -164,7 +164,6 @@ class LawToMarkdown(sax.ContentHandler):
                 self.current_footnote = attrs['ID']
             return
 
-        # This seems superfluous. Now stripping Newlines and Spaces in Characters callback
         self.text += self.current_text
         self.current_text = ''
 
@@ -257,7 +256,6 @@ class LawToMarkdown(sax.ContentHandler):
         elif name == 'b': # make bold
             self.current_text = f' **{self.current_text.strip()}** '
 
-        # This seems superfluous. Now stripping Newlines and Spaces in Characters callback
         self.text += self.current_text
         self.current_text = ''
 
@@ -297,14 +295,7 @@ class LawToMarkdown(sax.ContentHandler):
                 if not self.list_index:
                     self.list_index = '*'
                 if not 'table' in self.state: # only write the new line outside of tables
-                    #increase_indent = False
-                    #if len(self.list_index) > 1:
-                    #    if self.list_index[-2].isalpha():   # If this there is a letter before the dot/bracket
-                    #        self.indent_level += 1          # increase indentation
-                    #        increase_indent = True
                     self.write_list_item()
-                    #if increase_indent:
-                    #    self.indent_level -= 1              # decrease indentation again
                 self.state.pop()# self.in_list_index = False
                 self.state.append('have_tick_number')
             return
@@ -488,9 +479,6 @@ class LawToMarkdown(sax.ContentHandler):
         if 'enbez' in self.meta:
             title = self.meta['enbez'][0]
             link = title
-            if self.meta['enbez'][0] == 'Anlage 2': # TODO: remove me, I'm here for debugging!
-                title = title
-                pass
         if 'titel' in self.meta:
             if title: # could also add the "brief" in "br" here
                 title = f"{title} {self.meta['titel'][0]}"
