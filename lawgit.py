@@ -254,7 +254,7 @@ class LawGit(object):
             source, key = result
             date = source.get_date(key)
             if not self.consider_old and date + timedelta(days=30 * 12) < datetime.now():
-                print "Skipped %s %s (too old)" % (law, result)
+                print("Skipped %s %s (too old)" % (law, result))
                 continue
             branch_name = source.get_branch_name(key)
             ident = source.get_ident(key)
@@ -315,11 +315,11 @@ class LawGit(object):
         if not self.dry_run:
             self.repo.git.stash()
         try:
-            print "git checkout -b %s" % branch
+            print("git checkout -b %s" % branch)
             if not self.dry_run:
                 self.repo.git.checkout(b=branch)
         except GitCommandError:
-            print "git checkout %s" % branch
+            print("git checkout %s" % branch)
             if not self.dry_run:
                 self.repo.git.checkout(branch)
         if not self.dry_run:
@@ -329,22 +329,22 @@ class LawGit(object):
             for law_name, source, key in commits[ident]:
                 for filename in self.laws[law_name]:
                     if os.path.exists(os.path.join(self.path, filename)):
-                        print "git add %s" % filename
+                        print("git add %s" % filename)
                         if not self.dry_run:
                             self.repo.index.add([filename])
                     else:
-                        print "git rm %s" % filename
+                        print("git rm %s" % filename)
                         if not self.dry_run:
                             self.repo.index.remove([filename])
             msg = source.get_message(key)
-            print 'git commit -m"%s"' % msg
+            print('git commit -m"%s"' % msg)
             if not self.dry_run:
                 self.repo.index.commit(msg)
-            print ""
-        print "git checkout master"
+            print("")
+        print("git checkout master")
         if not self.dry_run:
             self.repo.heads.master.checkout()
-        print "git merge %s --no-ff" % branch
+        print("git merge %s --no-ff" % branch)
         if not self.dry_run:
             self.repo.git.merge(branch, no_ff=True)
 
