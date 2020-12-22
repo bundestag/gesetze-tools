@@ -20,7 +20,9 @@ from collections import defaultdict
 import lxml.html
 import requests
 
-# Landing page might be this one: https://www.bgbl.de/xaver/bgbl/start.xav#__bgbl__%2F%2F*[%40attr_id%3D'I_2020_57_inhaltsverz']__1607176275258
+# Landing page might be this one: 
+# https://www.bgbl.de/xaver/bgbl/start.xav#__bgbl__%2F%2F*[%40attr_id%3D'I_2020_57_inhaltsverz']__1607176275258
+# https://www.bgbl.de/xaver/bgbl/start.xav?start=//*[@attr_id=%27%27]#__bgbl__%2F%2F*%5B%40attr_id%3D%27I_2020_62_inhaltsverz%27%5D__1608231069168
 class BGBLScraper(object):
     BASE_URL = 'http://www.bgbl.de/Xaver/'
     START = 'start.xav?startbk=Bundesanzeiger_BGBl'
@@ -224,7 +226,7 @@ def main(arguments):
     data.update(bgbl.scrape(minyear, maxyear))
     if (sys.version_info > (3, 0)):
         with open(arguments['<outputfile>'], 'w+') as f:
-            json.dump(data, f)
+            json.dump(data, f, indent=2, sort_keys=True)
     else:
         with file(arguments['<outputfile>'], 'w') as f:
             json.dump(data, f)
