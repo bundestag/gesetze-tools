@@ -58,7 +58,7 @@ class BAnzScraper:
                 continue
             dates = self.get_dates(year)
             for date in dates:
-                print(year + ' ' + date)
+                print(str(year) + ' ' + date)
                 collection.update(self.get_items(year, date))
         return collection
 
