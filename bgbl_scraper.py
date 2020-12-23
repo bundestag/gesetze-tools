@@ -225,8 +225,8 @@ def main(arguments):
                 data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
     if (sys.version_info > (3, 0)):
-        with open(arguments['<outputfile>'], 'w+') as f:
-            json.dump(data, f, indent=2, sort_keys=True)
+        with open(arguments['<outputfile>'], 'w+', encoding='utf8') as f:
+            json.dump(data, f, indent=2, sort_keys=True, ensure_ascii=False)
     else:
         with file(arguments['<outputfile>'], 'w') as f:
             json.dump(data, f)

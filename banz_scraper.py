@@ -34,6 +34,11 @@ class BAnzScraper(object):
     LIST = ('genericsearch_param.edition=%s&genericsearch_param.sort_type='
             '&%%28page.navid%%3Dofficial_starttoofficial_start_update%%29='
             'Veröffentlichungen+anzeigen')
+    # Website changed, so I am changing the links here
+    BASE_URL = 'https://www.bundesanzeiger.de/pub/de/amtlicher-teil?'
+    BASE = ''
+    YEAR = '&year=%s'
+    LIST = '&edition=BAnz+AT+%s'
 
     MONTHS = [u'Januar', u'Februar', u'März', u'April', u'Mai', u'Juni', u'Juli',
             u'August', u'September', u'Oktober', u'November', u'Dezember']
@@ -49,22 +54,27 @@ class BAnzScraper(object):
                 continue
             dates = self.get_dates(year)
             for date in dates:
-                print(year + ' ' + date)
+                print(str(year) + ' ' + date)
                 collection.update(self.get_items(year, date))
         return collection
 
     def get_years(self):
         url = self.BASE_URL + self.BASE
+        # this is the landing page of the Bundesanzeiger
+        # https://www.bundesanzeiger.de/ebanzwww/wexsservlet?page.navid=to_official_part&global_data.designmode=eb
+        # which resolves to: https://www.bundesanzeiger.de/pub/de/amtlicher-teil
         response = self.get(url)
         years = []
         root = lxml.html.fromstring(response.text)
-        selector = '#td_sub_menu_v li'
+        selector = '#id3' # was: selector = '#td_sub_menu_v li'
+        # This is the YEAR dropdown selector on top of the table (checked 2020/12/22)
         for li in root.cssselect(selector):
             try:
-                year = int(li.text_content())
+                years += [int(x) for x in li.text_content().split('\n') if x]
+                #was: year = int(li.text_content())
             except ValueError:
                 continue
-            years.append(year)
+            #was: years.append(year)
         return years
 
     def get_dates(self, year):
@@ -72,47 +82,57 @@ class BAnzScraper(object):
         response = self.get(url)
         dates = []
         root = lxml.html.fromstring(response.text)
-        selector = 'select[name="genericsearch_param.edition"] option'
+        selector = '#id4' # was: selector = 'select[name="genericsearch_param.edition"] option'
+        # This is the DATE dropdown selector on top of the table (checked 2020/12/22)
         for option in root.cssselect(selector):
-            dates.append((option.attrib['value'], option.text_content().strip()))
+            #was: dates.append((option.attrib['value'], option.text_content().strip()))
+            dates += [x for x in option.text_content().split('\n') if x]
         return dates
 
     def get_items(self, year, date):
-        url = self.BASE_URL + self.LIST % date[0]
+        #url = self.BASE_URL + self.LIST % date[0]
+        url = self.BASE_URL + self.YEAR % year + self.LIST % date
         response = self.get(url)
         items = {}
         root = lxml.html.fromstring(response.text)
-        selector = 'table[summary="Trefferliste"] tr'
-        for tr in root.cssselect(selector):
-            tds = tr.cssselect('td')
-            if len(tds) != 3:
-                continue
-            public_body = tds[0].text_content().strip()
-            link = tds[1].cssselect('a')[0]
-            additional = []
-            for c in tds[1].getchildren()[1:]:
-                if c.tail is not None and c.tail.strip():
-                    additional.append(c.tail.strip())
-            orig_date = None
-            for a in additional:
-                match = re.search('[Vv]om (\d+)\. (\w+) (\d{4})', a, re.U)
-                if match is not None:
-                    day = int(match.group(1))
-                    month = self.MONTHS.index(match.group(2)) + 1
-                    year = int(match.group(3))
-                    orig_date = '%02d.%02d.%d' % (day, month, year)
-                    break
-            name = link.text_content()[1:]
-            name = re.sub('\s+', ' ', name)
-            ident = tds[2].text_content().strip()
-            items[ident] = {
-                'ident': ident,
-                'public_body': public_body,
-                'name': name,
-                'date': date[1],
-                'original_date': orig_date,
-                'additional': additional
-            }
+        selector = 'div.container:nth-child(5)' #was: selector = 'table[summary="Trefferliste"] tr'
+        #This is the actual TABLE
+        for tr in root.cssselect(selector): # might be unnecessary
+            for row in tr.cssselect('div.row'): # Iterate over the rows of the table
+                tds = row.getchildren()
+                #print( lxml.html.tostring(row) )
+                if len(tds) != 3:
+                    continue
+                public_body = tds[0].text_content().strip()
+                if public_body.lower() == 'behörde': # this is the header of the table
+                    continue
+                # TODO: Find how to evaluate the links properly?
+                # https://www.bundesanzeiger.de/pub/de/amtlicher-teil?0-1.-table~panel-row-0-publication~info~cell-result~link
+                link = tds[1].cssselect('a')[0]#.attrib['href']
+                additional = []
+                for c in tds[1].getchildren()[0].getchildren()[1:]:
+                    if c.tail is not None and c.tail.strip():
+                        additional.append(c.tail.strip())
+                orig_date = None
+                for a in additional:
+                    match = re.search('[Vv]om:\xa0(\d+)\. (\w+) (\d{4})', a, re.U)
+                    if match is not None:
+                        day = int(match.group(1))
+                        month = self.MONTHS.index(match.group(2)) + 1
+                        year = int(match.group(3))
+                        orig_date = '%02d.%02d.%d' % (day, month, year)
+                        break
+                name = link.text_content()#[1:]
+                name = re.sub('\s+', ' ', name)
+                ident = tds[2].text_content().strip()
+                items[ident] = {
+                    'ident': ident,
+                    'public_body': public_body,
+                    'name': name,
+                    'date': date[1],
+                    'original_date': orig_date,
+                    'additional': additional
+                }
         return items
 
 

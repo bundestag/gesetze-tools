@@ -66,7 +66,7 @@ Issue seems to be a restructure of the Bundesanzeiger Webpage. The original bgbl
 Scrapes the table of contents of all available issues of the Bundesanzeiger and
 dumps the result to JSON.
 
-Last tested: 2017-01-14 SUCCESS
+Last tested: 2020-12-23 SUCCESS
 
 ## lawgit.py
 
