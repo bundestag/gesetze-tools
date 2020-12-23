@@ -65,7 +65,7 @@ Last tested: 2021-03-30 SUCCESS
 Scrapes the table of contents of all available issues of the Bundesanzeiger and
 dumps the result to JSON.
 
-Last tested: 2017-01-14 SUCCESS
+Last tested: 2020-12-23 SUCCESS
 
 ## vkbl_scraper.py
 

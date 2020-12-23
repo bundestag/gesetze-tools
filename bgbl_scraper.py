@@ -166,7 +166,6 @@ def main(arguments):
     with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f, indent=4)
 
-
 if __name__ == '__main__':
     from docopt import docopt
     arguments = docopt(__doc__, version='BGBl-Scraper 0.0.1')
