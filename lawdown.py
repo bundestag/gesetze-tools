@@ -24,7 +24,7 @@ from glob import glob
 from xml import sax
 from collections import defaultdict
 from textwrap import wrap
-from StringIO import StringIO
+from io import StringIO
 
 import yaml
 
@@ -66,9 +66,7 @@ class LawToMarkdown(sax.ContentHandler):
         self.heading_anchor = heading_anchor
         self.orig_slug = orig_slug
 
-    def out(self, content):
-        if isinstance(content, unicode):
-            content = content.encode('utf-8')
+    def out(self, content: str):
         self.fileout.write(content)
         return self
 
@@ -348,7 +346,7 @@ class LawToMarkdown(sax.ContentHandler):
                 title = self.meta['titel'][0]
         if not title:
             return
-        hn = hn * min(heading_num, 6)
+        hn = hn * int(min(heading_num, 6))
         if self.heading_anchor:
             if link:
                 link = re.sub('\(X+\)', '', link).strip()
@@ -406,11 +404,11 @@ def main(arguments):
             continue
         paths.add(inpath)
         law_name = inpath.split('/')[-1]
-        with file(filename) as infile:
+        with open(filename, "r") as infile:
             out = law_to_markdown(infile)
         slug = out.filename
         outpath = os.path.abspath(os.path.join(arguments['<outputpath>'], slug[0], slug))
-        print outpath
+        print(outpath)
         assert outpath.count('/') > 2  # um, better be safe
         outfilename = os.path.join(outpath, 'index.md')
         shutil.rmtree(outpath, ignore_errors=True)
@@ -420,7 +418,7 @@ def main(arguments):
                 continue
             part_filename = os.path.basename(part)
             shutil.copy(part, os.path.join(outpath, part_filename))
-        with file(outfilename, 'w') as outfile:
+        with open(outfilename, 'w') as outfile:
             outfile.write(out.getvalue())
         out.close()
 
