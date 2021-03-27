@@ -20,7 +20,7 @@ Duration Estimates:
 
 """
 import datetime
-import os
+from pathlib import Path
 import re
 from io import BytesIO
 import json
@@ -42,7 +42,7 @@ class Lawde:
     def __init__(self, path=BASE_PATH, lawlist='data/laws.json',
                  **kwargs):
         self.indent = self.INDENT_CHAR * self.INDENT
-        self.path = path
+        self.path = Path(path)
         self.lawlist = lawlist
 
     def build_zip_url(self, law):
@@ -91,7 +91,7 @@ class Lawde:
 
     def build_law_path(self, law):
         prefix = law[0]
-        return os.path.join(self.path, prefix, law)
+        return self.path / prefix / law
 
     def remove_law(self, law):
         law_path = self.build_law_path(law)
@@ -101,7 +101,7 @@ class Lawde:
         self.remove_law(law)
         law_path = self.build_law_path(law)
         # norm_date_re = re.compile('<norm builddate="\d+"')
-        os.makedirs(law_path)
+        law_path.mkdir()
         for name in zipf.namelist():
             if name.endswith('.xml'):
                 xml = zipf.open(name).read()
@@ -112,7 +112,7 @@ class Lawde:
                     indent=self.indent
                 )
                 if not name.startswith('_'):
-                    law_filename = os.path.join(law_path, f'{law}.xml')
+                    law_filename = law_path / f'{law}.xml'
                 else:
                     law_filename = name
                 with open(law_filename, 'w') as f:

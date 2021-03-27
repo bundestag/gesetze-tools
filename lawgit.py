@@ -13,7 +13,7 @@ Options:
 
 """
 import re
-import os
+from pathlib import Path
 import json
 from datetime import datetime, timedelta
 from collections import defaultdict
@@ -224,7 +224,7 @@ class LawGit:
     bgbl_changes = defaultdict(list)
 
     def __init__(self, path, dry_run=False, consider_old=False, grep=None):
-        self.path = path
+        self.path = Path(path)
         self.dry_run = dry_run
         self.grep = grep
         self.consider_old = consider_old
@@ -261,8 +261,8 @@ class LawGit:
             if self.grep and not self.grep in law_name:
                 continue
             filename = '/'.join(diff.b_blob.path.split('/')[:2] + ['index.md'])
-            filename = os.path.join(self.path, filename)
-            if os.path.exists(filename):
+            filename = self.path / filename
+            if filename.exists():
                 self.laws[law_name].append(diff.b_blob.path)
                 self.law_changes[law_name] = (False, diff.diff, filename)
 
@@ -272,7 +272,7 @@ class LawGit:
                 continue
             self.laws[law_name].append(filename)
             filename = '/'.join(filename.split('/')[:2] + ['index.md'])
-            filename = os.path.join(self.path, filename)
+            filename = self.path / filename
             with open(filename) as f:
                 self.law_changes[law_name] = (True, f.read(), filename)
 
@@ -319,14 +319,14 @@ class LawGit:
         for ident in commits:
             for law_name, source, key in commits[ident]:
                 for filename in self.laws[law_name]:
-                    if os.path.exists(os.path.join(self.path, filename)):
+                    if (self.path / filename).exists():
                         print(f"git add {filename}")
                         if not self.dry_run:
-                            self.repo.index.add([filename])
+                            self.repo.index.add([str(filename)])
                     else:
-                        print(f"git rm {filename}")
+                        print(f"git rm {str(filename)}")
                         if not self.dry_run:
-                            self.repo.index.remove([filename])
+                            self.repo.index.remove([str(filename)])
             msg = source.get_message(key)
             print(f'git commit -m"{msg}"')
             if not self.dry_run:

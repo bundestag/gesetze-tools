@@ -15,7 +15,7 @@ Duration Estimates:
   
 
 """
-import os
+from pathlib import Path
 import re
 import json
 
@@ -121,7 +121,7 @@ def main(arguments):
     maxyear = int(maxyear)
     banz = BAnzScraper()
     data = {}
-    if os.path.exists(arguments['<outputfile>']):
+    if Path(arguments['<outputfile>']).exists():
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(banz.scrape(minyear, maxyear))

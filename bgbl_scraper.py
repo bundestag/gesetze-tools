@@ -10,7 +10,7 @@ Options:
   --version     Show version.
 
 """
-import os
+from pathlib import Path
 import re
 import json
 from collections import defaultdict
@@ -211,7 +211,7 @@ def main(arguments):
     maxyear = int(maxyear)
     bgbl = BGBLScraper()
     data = {}
-    if os.path.exists(arguments['<outputfile>']):
+    if Path(arguments['<outputfile>']).exists():
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))

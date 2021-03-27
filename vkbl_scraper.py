@@ -12,7 +12,7 @@ Options:
 """
 
 import re
-import os
+from pathlib import Path
 import json
 import time
 import datetime
@@ -119,7 +119,7 @@ def main(arguments):
     maxyear = int(maxyear)
     vkbl = VkblScraper()
     data = {}
-    if os.path.exists(arguments['<outputfile>']):
+    if Path(arguments['<outputfile>']).exists():
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(vkbl.scrape(minyear, maxyear))

@@ -15,11 +15,10 @@ Examples:
   lawdown.py convert laws laws-md
 
 """
-import os
+from pathlib import Path
 import sys
 import shutil
 import re
-from glob import glob
 from xml import sax
 from collections import defaultdict
 from textwrap import wrap
@@ -396,26 +395,26 @@ def main(arguments):
         law_to_markdown(sys.stdin, sys.stdout, name=arguments['--name'])
         return
     paths = set()
-    for filename in glob(os.path.join(arguments['<inputpath>'], '*/*/*.xml')):
-        inpath = os.path.dirname(os.path.abspath(filename))
+    for filename in Path(arguments['<inputpath>']).glob('*/*/*.xml'):
+        inpath = filename.resolve().parent
         if inpath in paths:
             continue
         paths.add(inpath)
-        law_name = inpath.split('/')[-1]
+        law_name = inpath.name
         with open(filename, "r") as infile:
             out = law_to_markdown(infile)
         slug = out.filename
-        outpath = os.path.abspath(os.path.join(arguments['<outputpath>'], slug[0], slug))
+        outpath = (Path(arguments['<outputpath>']) / slug[0] / slug).resolve()
         print(outpath)
-        assert outpath.count('/') > 2  # um, better be safe
-        outfilename = os.path.join(outpath, 'index.md')
+        assert len(outpath.parents) > 1  # um, better be safe
+        outfilename = outpath / 'index.md'
         shutil.rmtree(outpath, ignore_errors=True)
-        os.makedirs(outpath)
-        for part in glob(os.path.join(inpath, '*')):
+        outpath.mkdir()
+        for part in inpath.glob('*'):
             if part.endswith(f'{law_name}.xml'):
                 continue
-            part_filename = os.path.basename(part)
-            shutil.copy(part, os.path.join(outpath, part_filename))
+            part_filename = part.name
+            shutil.copy(part, outpath / part_filename)
         with open(outfilename, 'w') as outfile:
             outfile.write(out.getvalue())
         out.close()
