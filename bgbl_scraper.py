@@ -15,162 +15,98 @@ Examples:
   bgbl_scaper.py data/bgbl.json
 
 """
+import sys
 from pathlib import Path
 import re
 import json
 from collections import defaultdict
+import roman_numbers
 
 import lxml.html
 import requests
 
 
 class BGBLScraper:
-    BASE_URL = 'http://www.bgbl.de/Xaver/'
-    START = 'start.xav?startbk=Bundesanzeiger_BGBl'
-    BASE_TOC = ('toc.xav?tocf=xaver.component.TOC_0'
-                '&tf=xaver.component.Text_0&qmf=&hlf='
-                '&bk=Bundesanzeiger_BGBl&dir=center'
-                '&start=1&cur=1&op=1')
-    MAIN_TOC = ('toc.xav?tocf=xaver.component.TOC_0'
-                '&tf=xaver.component.Text_0&qmf=&hlf='
-                '&bk=Bundesanzeiger_BGBl&dir=center'
-                '&op=%s')
-    YEAR_TOC = ('toc.xav?tocf=xaver.component.TOC_0'
-                '&tf=xaver.component.Text_0&qmf=&hlf='
-                '&bk=Bundesanzeiger_BGBl&dir=center'
-                '&op=%(tocid)s&cur=%(tocid)s&start=%(tocid)s')
-    TEXT = ('text.xav?tf=xaver.component.Text_0&tocf='
-            '&qmf=&hlf=xaver.component.Hitlist_0'
-            '&bk=Bundesanzeiger_BGBl&start=%2F%2F*%5B%40node_id%3D%27__docid__%27%5D')
+    BASE_URL = 'http://www.bgbl.de/xaver/bgbl/'
+    TOC = ('ajax.xav?q=toclevel'
+           '&n=')
+    TEXT = ('text.xav?tf=xaver.component.Text_0'
+            '&hlf=xaver.component.Hitlist_0'
+            '&tocid=')
 
-    year_toc = defaultdict(dict)
-    year_docs = defaultdict(dict)
-    toc = {}
+    def __init__(self):
+        self.session = requests.session()
+        self.session.get(self.BASE_URL + 'start.xav')  # save cookies
 
-    def __init__(self, part_count=2):
-        self.sid = None
-        self.part_count = part_count
+    def downloadUrl(self, url):
+        response = self.session.get(self.BASE_URL + url)
+        return response.json()
 
-    def login(self):
-        response = requests.get(self.BASE_URL + self.START)
-        self.sid = response.headers['XaverSID']
+    def downloadToc(self, id = 0):
+        return self.downloadUrl(self.TOC + str(id))['items'][0]
 
-    def sessionify(self, url):
-        if not self.sid:
-            self.login()
-        return f'{url}&SID={self.sid}'
+    def downloadText(self, id):
+        response = self.downloadUrl(self.TEXT + str(id))
+        print(response)
+        return lxml.html.fromstring(response['innerhtml'])
 
-    def get(self, url):
-        while True:
-            response = requests.get(self.sessionify(url))
-            if 'Session veraltet' in response.text:
-                self.sid = None
-                continue
-            return response
+    def scrape(self, year_low=0, year_high=sys.maxsize):
+        self.year_low = year_low
+        self.year_high = year_high
 
-    def scrape(self, low=0, high=10000):
         collection = {}
-        self.toc_offsets = self.get_base_toc()
-        # import pdb; pdb.set_trace()
-        for part in range(1, self.part_count + 1):
-            print(part)
-            self.get_main_toc(part)
-            self.get_all_year_tocs(part, low, high)
-            collection.update(self.get_all_tocs(part, low, high))
+        for part, part_data in self.get_toc().items():
+            for year, year_data in part_data.items():
+                for number, number_data in year_data.items():
+                    items = []
+                    for item in number_data:
+                        item['part'] = part
+                        item['year'] = year
+                        item['number'] = number
+                        items.append(item)
+                    collection[f'{part}_{year}_{number}'] = items
         return collection
 
-    def parse(self, response):
-        response.encoding = 'utf-8'
-        html = re.sub(r'([,\{])(\w+):', '\\1"\\2":', response.text)
-        html = json.loads(html)['innerhtml']
-        return lxml.html.fromstring(html)
-
-    def get_base_toc(self):
-        url = self.BASE_URL + self.BASE_TOC
-        response = self.get(url)
-        root = self.parse(response)
-        selector = 'a.tocEntry'
-        toc_offsets = []
-        for a in root.cssselect(selector):
-            if 'Bundesgesetzblatt Teil' not in a.attrib.get('title', ''):
-                continue
-            link_href = a.attrib['href']
-            match = re.search(r'tocid=(\d+)&', link_href)
+    def get_toc(self):
+        response = self.downloadToc()
+        assert response['l'] == "Bundesgesetzblatt"
+        result = {}
+        for item in response['c']:
+            match = re.match(r'Bundesgesetzblatt Teil ([IVXLCDM]+)', item['l'], re.IGNORECASE)
             if match:
-                toc_offsets.append(match.group(1))
-        return toc_offsets
+                part = roman_numbers.number(match.group(1))
+                print(f"Getting Part TOC {part}")
+                result[part] = self.get_part_toc(item['id'])
+        return result
 
-    def get_main_toc(self, part=1):
-        self.get_main_toc_part(part)
-
-    def get_main_toc_part(self, part):
-        offset = self.toc_offsets[part - 1]
-        url = self.BASE_URL + (self.MAIN_TOC % offset)
-        response = self.get(url)
-        root = self.parse(response)
-        selector = 'a.tocEntry'
-        for a in root.cssselect(selector):
-            try:
-                year = int(a.text_content())
-            except ValueError:
+    def get_part_toc(self, part_id):
+        response = self.downloadToc(part_id)
+        assert response['id'] == part_id
+        result = {}
+        for item in response['c']:
+            year = int(item['l'])
+            if not (self.year_low <= year <= self.year_high):
                 continue
-            doc_id = re.search(r'tocid=(\d+)&', a.attrib['href'])
-            if doc_id is not None:
-                self.year_toc[part][year] = doc_id.group(1)
+            print(f"Getting Year TOC {year}")
+            result[year] = self.get_year_toc(item['id'])
+        return result
 
-    def get_all_year_tocs(self, part=1, low=0, high=10000):
-        for year in self.year_toc[part]:
-            if not (low <= year <= high):
-                continue
-            print(f"Getting Year TOC {year} for {part}")
-            self.get_year_toc(part, year)
+    def get_year_toc(self, year_id):
+        response = self.downloadToc(year_id)
+        assert response['id'] == year_id
+        print(response)
+        result = {}
+        for item in response['c']:
+            match = re.match(r'Nr\. (\d+) vom (\d{2}\.\d{2}\.\d{4})', item['l'])
+            if match:
+                number = int(match.group(1))
+                date = match.group(2)
+                print(f"Getting Number TOC {number} from {date}")
+                result[number] = self.get_number_toc(item['id'])
+        return result
 
-    def get_year_toc(self, part, year):
-        year_doc_id = self.year_toc[part][year]
-        # import pdb; pdb.set_trace()
-        url = self.BASE_URL + self.YEAR_TOC % {'tocid': year_doc_id}
-        response = self.get(url)
-        root = self.parse(response)
-        selector = 'a.tocEntry'
-        for a in root.cssselect(selector):
-            match = re.search(r'Nr\. (\d+) vom (\d{2}\.\d{2}\.\d{4})',
-                              a.text_content())
-            if match is None:
-                continue
-            print(a.text_content())
-            number = int(match.group(1))
-            date = match.group(2)
-            doc_id = re.search(r'start=%2f%2f\*%5B%40node_id%3D%27(\d+)%27%5D',
-                               a.attrib['href'])
-            doc_id = doc_id.group(1)
-            self.year_docs[part].setdefault(year, {})
-            self.year_docs[part][year][number] = {
-                'date': date,
-                'doc_id': doc_id
-            }
-
-    def get_all_tocs(self, part=1, low=0, high=10000):
-        collection = {}
-        for year in self.year_docs[part]:
-            if not (low <= year <= high):
-                continue
-            for number in self.year_docs[part][year]:
-                try:
-                    data = self.get_toc(part, year, number)
-                    collection[f'{part}_{year}_{number}'] = data
-                except:
-                    print(f'{year} {number}')
-                    json.dump(collection, open('temp.json', 'w'))
-                    raise
-                print(f'{year} {number}')
-        return collection
-
-    def get_toc(self, part, year, number):
-        year_doc = self.year_docs[part][year][number]
-        doc_id = year_doc['doc_id']
-        url = self.BASE_URL + self.TEXT.replace('__docid__', doc_id)
-        response = self.get(url)
-        root = self.parse(response)
+    def get_number_toc(self, number_id):
+        root = self.downloadText(number_id)
         toc = []
         for tr in root.cssselect('tr'):
             td = tr.cssselect('td')[1]
@@ -185,9 +121,7 @@ class BGBLScraper:
             link = divs[1].cssselect('a')[0]
             name = link.text_content().strip()
             href = link.attrib['href']
-            href = re.sub('SID=[^&]+&', '', href)
             text = divs[2].text_content().strip()
-            print(text)
             match = re.search(r'aus +Nr. +(\d+) +vom +(\d{1,2}\.\d{1,2}\.\d{4}),'
                               r' +Seite *(\d*)\w?\.?$', text)
             page = None
@@ -199,15 +133,15 @@ class BGBLScraper:
                 # FIXME: there are sometimes more meta rows
                 kind = 'meta'
             d = {
-                'part': part,
-                'year': year, 'toc_doc_id': doc_id,
-                'number': number, 'date': date,
-                'law_date': law_date, 'kind': kind,
-                'name': name, 'href': href, 'page': page
+                'kind': kind,
+                'date': date,
+                'law_date': law_date,
+                'name': name,
+                'page': page,
+                'href': self.BASE_URL + href,
             }
             toc.append(d)
         return toc
-
 
 def main(arguments):
     minyear = arguments['<minyear>'] or 0
