@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 """LawGit - Semi-automatic law change commits.
 
 Usage:

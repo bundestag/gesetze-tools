@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """LawDown - Law To Markdown.
 
 Usage:
