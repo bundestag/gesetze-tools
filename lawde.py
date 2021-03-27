@@ -133,7 +133,7 @@ class Lawde:
         BASE_URL = 'http://www.gesetze-im-internet.de/Teilliste_%s.html'
         CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789'
         # Evil parsing of HTML with regex'
-        REGEX = re.compile('href="\./([^\/]+)/index.html"><abbr title="([^"]*)">([^<]+)</abbr>')
+        REGEX = re.compile(r'href="\./([^\/]+)/index.html"><abbr title="([^"]*)">([^<]+)</abbr>')
 
         laws = []
 

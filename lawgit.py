@@ -30,11 +30,11 @@ class BGBlSource:
     """BGBl as a source for law change"""
 
     change_re = [
-        re.compile('BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
-        re.compile('BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
-        re.compile('BGBl +(?P<part>I+):? *(?P<year>\d{4}), (?P<page>\d+)'),
-        re.compile('\d{1,2}\.\.?\d{1,2}\.\.?(?P<year>\d{4}) (?P<part>I+) (?:S\. )?(?P<page>\d+)'),
-        re.compile('(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)'),
+        re.compile(r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
+        re.compile(r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
+        re.compile(r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), (?P<page>\d+)'),
+        re.compile(r'\d{1,2}\.\.?\d{1,2}\.\.?(?P<year>\d{4}) (?P<part>I+) (?:S\. )?(?P<page>\d+)'),
+        re.compile(r'(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)'),
         # re.compile(u'Art. \d+ G v. (?P<day>\d{1,2}).(?P<month>\d{1,2}).(?P<year>\d{4})')
     ]
 
@@ -121,8 +121,8 @@ class BAnzSource:
     def find_candidates(self, lines):
         candidates = []
         for line in lines:
-            line = re.sub('[^\w \.]', '', line)
-            line = re.sub(' \d{4} ', ' ', line)
+            line = re.sub(r'[^\w \.]', '', line)
+            line = re.sub(r' \d{4} ', ' ', line)
             for key in self.data:
                 if key in line:
                     if "noch nicht berücksichtigt" in line:
@@ -167,7 +167,7 @@ class VkblSource:
     )
 
     change_re = [
-        re.compile('VkBl: *(?P<year>\d{4}),? +(?:S\. )?(?P<page>\d+)')
+        re.compile(r'VkBl: *(?P<year>\d{4}),? +(?:S\. )?(?P<page>\d+)')
     ]
 
     def __init__(self, source):

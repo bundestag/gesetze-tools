@@ -93,15 +93,15 @@ class BAnzScraper:
                     additional.append(c.tail.strip())
             orig_date = None
             for a in additional:
-                match = re.search('[Vv]om (\d+)\. (\w+) (\d{4})', a, re.U)
+                match = re.search(r'[Vv]om (\d+)\. (\w+) (\d{4})', a, re.U)
                 if match is not None:
                     day = int(match.group(1))
                     month = self.MONTHS.index(match.group(2)) + 1
                     year = int(match.group(3))
-                    orig_date = '%02d.%02d.%d' % (day, month, year)
+                    orig_date = f'{int(day):02}.{int(month):02}.{int(year)}'
                     break
             name = link.text_content()[1:]
-            name = re.sub('\s+', ' ', name)
+            name = re.sub(r'\s+', ' ', name)
             ident = tds[2].text_content().strip()
             items[ident] = {
                 'ident': ident,

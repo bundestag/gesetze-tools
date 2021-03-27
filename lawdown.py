@@ -51,10 +51,10 @@ class LawToMarkdown(sax.ContentHandler):
     current_heading_num = 1
     current_footnote = None
     no_emph_re = [
-        re.compile('(\S?|^)([\*_])(\S)'),
-        re.compile('([^\\\s])([\*_])(\S?|$)')
+        re.compile(r'(\S?|^)([\*_])(\S)'),
+        re.compile('([^\\\\s])([\\*_])(\\S?|$)')
     ]
-    list_start_re = re.compile('^(\d+)\.')
+    list_start_re = re.compile(r'^(\d+)\.')
 
     def __init__(self, fileout,
             yaml_header=DEFAULT_YAML_HEADER,
@@ -348,7 +348,7 @@ class LawToMarkdown(sax.ContentHandler):
         hn = hn * int(min(heading_num, 6))
         if self.heading_anchor:
             if link:
-                link = re.sub('\(X+\)', '', link).strip()
+                link = re.sub(r'\(X+\)', '', link).strip()
                 link = link.replace('§', 'P')
                 link = ' [%s]' % link
         else:
@@ -369,7 +369,7 @@ class LawToMarkdown(sax.ContentHandler):
         }
         for k, v in list(replacements.items()):
             abk = abk.replace(k, v)
-        abk = re.sub('[^\w-]', '_', abk)
+        abk = re.sub(r'[^\w-]', '_', abk)
         self.filename = abk
 
 

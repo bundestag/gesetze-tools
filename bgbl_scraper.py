@@ -76,7 +76,7 @@ class BGBLScraper:
 
     def parse(self, response):
         response.encoding = 'utf-8'
-        html = re.sub('([,\{])(\w+):', '\\1"\\2":', response.text)
+        html = re.sub(r'([,\{])(\w+):', '\\1"\\2":', response.text)
         html = json.loads(html)['innerhtml']
         return lxml.html.fromstring(html)
 
@@ -90,7 +90,7 @@ class BGBLScraper:
             if not 'Bundesgesetzblatt Teil' in a.attrib.get('title', ''):
                 continue
             link_href = a.attrib['href']
-            match = re.search('tocid=(\d+)&', link_href)
+            match = re.search(r'tocid=(\d+)&', link_href)
             if match:
                 toc_offsets.append(match.group(1))
         return toc_offsets
@@ -109,7 +109,7 @@ class BGBLScraper:
                 year = int(a.text_content())
             except ValueError:
                 continue
-            doc_id = re.search('tocid=(\d+)&', a.attrib['href'])
+            doc_id = re.search(r'tocid=(\d+)&', a.attrib['href'])
             if doc_id is not None:
                 self.year_toc[part][year] = doc_id.group(1)
 
@@ -128,14 +128,14 @@ class BGBLScraper:
         root = self.parse(response)
         selector = 'a.tocEntry'
         for a in root.cssselect(selector):
-            match = re.search('Nr\. (\d+) vom (\d{2}\.\d{2}\.\d{4})',
+            match = re.search(r'Nr\. (\d+) vom (\d{2}\.\d{2}\.\d{4})',
                               a.text_content())
             if match is None:
                 continue
             print(a.text_content())
             number = int(match.group(1))
             date = match.group(2)
-            doc_id = re.search('start=%2f%2f\*%5B%40node_id%3D%27(\d+)%27%5D',
+            doc_id = re.search(r'start=%2f%2f\*%5B%40node_id%3D%27(\d+)%27%5D',
                                a.attrib['href'])
             doc_id = doc_id.group(1)
             self.year_docs[part].setdefault(year, {})
@@ -183,8 +183,8 @@ class BGBLScraper:
             href = re.sub('SID=[^&]+&', '', href)
             text = divs[2].text_content().strip()
             print(text)
-            match = re.search('aus +Nr. +(\d+) +vom +(\d{1,2}\.\d{1,2}\.\d{4}),'
-                              ' +Seite *(\d*)\w?\.?$', text)
+            match = re.search(r'aus +Nr. +(\d+) +vom +(\d{1,2}\.\d{1,2}\.\d{4}),'
+                              r' +Seite *(\d*)\w?\.?$', text)
             page = None
             date = match.group(2)
             if match.group(3):

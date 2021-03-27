@@ -50,7 +50,7 @@ def slugify(key):
 
 class VkblScraper:
     URL = 'http://www.verkehr-data.com/docs/artikelsuche.php?seitenzahl=1&anzahl=10000&start=0&Titel=&Datum=&Muster=&Muster2=&Jahrgang=%d&VerordnungsNr=&Seite=&Bereichsname=&DB=&Aktenzeichen='
-    PRICE_RE = re.compile('Preis: (\d+,\d+) \((\d+) Seite')
+    PRICE_RE = re.compile(r'Preis: (\d+,\d+) \((\d+) Seite')
 
     def scrape(self, low=1947, high=datetime.datetime.now().year):
         items = {}
