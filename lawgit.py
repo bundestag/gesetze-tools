@@ -90,11 +90,7 @@ class BGBlSource:
 
     def get_branch_name(self, key):
         bgbl_entry = self.data[key]
-        return 'bgbl/%s/%s-%s' % (
-            bgbl_entry['year'],
-            bgbl_entry['part'],
-            bgbl_entry['number']
-        )
+        return f"bgbl/{bgbl_entry['year']}/{bgbl_entry['part']}-{bgbl_entry['number']}"
 
     def get_ident(self, key):
         bgbl_entry = self.data[key]
@@ -139,10 +135,8 @@ class BAnzSource:
 
     def get_branch_name(self, key):
         entry = self.data[key]
-        return 'banz/%s/%s' % (
-            entry['date'].split('.')[2],
-            '-'.join(reversed(entry['date'].split('.')[:2]))
-        )
+        date_parts = entry['date'].split('.')
+        return f"banz/{date_parts[2]}/{'-'.join(reversed(date_parts[:2]))}"
 
     def get_ident(self, key):
         return key
@@ -210,10 +204,8 @@ class VkblSource:
 
     def get_branch_name(self, key):
         entry = self.data[key]
-        return 'vkbl/%s/%s' % (
-            entry['verffentlichtam'].split('.')[2],
-            '-'.join(reversed(entry['date'].split('.')[:2]))
-        )
+        date_parts = entry['verffentlichtam'].split('.')
+        return f"vkbl/{date_parts[2]}/{'-'.join(reversed(date_parts[:2]))}"
 
     def get_ident(self, key):
         return key
@@ -223,7 +215,7 @@ class VkblSource:
         {u'description': u'', u'vid': u'19463', u'seite': u'945', u'price': 3.4, u'edition': u'23/2012', u'aufgehobenam': u'', 'date': u'15.12.2012', u'verffentlichtam': u'15.12.2012', u'pages': 9, u'title': u'Verordnung \xfcber die Betriebszeiten der Schleusen und Hebewerke an den Bundeswasserstra\xdfen im Zust\xe4ndigkeitsbereich der Wasser- und Schifffahrtsdirektion Ost', u'jahr': u'2012', u'inkraftab': u'01.01.2013', u'verkndetam': u'22.11.2012', u'link': u'../shop/in_basket.php?vID=19463', u'aktenzeichen': u'', u'genre': u'Wasserstra\xdfen, Schifffahrt', u'vonummer': u'215'}"
         """
         entry = dict(self.data[key])
-        return ('%(title)s\n\n%(verkndetam)s: %(edition)s S. %(seite)s (%(vonummer)s)' % entry)
+        return (f"{entry['title']}\n\n{entry['verkndetam']}: {entry['edition']} S. {entry['seite']} ({entry['vonummer']})")
 
 
 class LawGit:
@@ -253,7 +245,7 @@ class LawGit:
             source, key = result
             date = source.get_date(key)
             if not self.consider_old and date + timedelta(days=30 * 12) < datetime.now():
-                print("Skipped %s %s (too old)" % (law, result))
+                print(f"Skipped {law} {result} (too old)")
                 continue
             branch_name = source.get_branch_name(key)
             ident = source.get_ident(key)
@@ -314,11 +306,11 @@ class LawGit:
         if not self.dry_run:
             self.repo.git.stash()
         try:
-            print("git checkout -b %s" % branch)
+            print(f"git checkout -b {branch}")
             if not self.dry_run:
                 self.repo.git.checkout(b=branch)
         except GitCommandError:
-            print("git checkout %s" % branch)
+            print(f"git checkout {branch}")
             if not self.dry_run:
                 self.repo.git.checkout(branch)
         if not self.dry_run:
@@ -328,22 +320,22 @@ class LawGit:
             for law_name, source, key in commits[ident]:
                 for filename in self.laws[law_name]:
                     if os.path.exists(os.path.join(self.path, filename)):
-                        print("git add %s" % filename)
+                        print(f"git add {filename}")
                         if not self.dry_run:
                             self.repo.index.add([filename])
                     else:
-                        print("git rm %s" % filename)
+                        print(f"git rm {filename}")
                         if not self.dry_run:
                             self.repo.index.remove([filename])
             msg = source.get_message(key)
-            print('git commit -m"%s"' % msg)
+            print(f'git commit -m"{msg}"')
             if not self.dry_run:
                 self.repo.index.commit(msg)
             print("")
         print("git checkout master")
         if not self.dry_run:
             self.repo.heads.master.checkout()
-        print("git merge %s --no-ff" % branch)
+        print(f"git merge {branch} --no-ff")
         if not self.dry_run:
             self.repo.git.merge(branch, no_ff=True)
 

@@ -53,7 +53,7 @@ class BGBLScraper:
     def sessionify(self, url):
         if not self.sid:
             self.login()
-        return '%s&SID=%s' % (url, self.sid)
+        return f'{url}&SID={self.sid}'
 
     def get(self, url):
         while True:
@@ -117,7 +117,7 @@ class BGBLScraper:
         for year in self.year_toc[part]:
             if not (low <= year <= high):
                 continue
-            print("Getting Year TOC %d for %d" % (year, part))
+            print(f"Getting Year TOC {year} for {part}")
             self.get_year_toc(part, year)
 
     def get_year_toc(self, part, year):
@@ -152,12 +152,12 @@ class BGBLScraper:
             for number in self.year_docs[part][year]:
                 try:
                     data = self.get_toc(part, year, number)
-                    collection['%d_%d_%d' % (part, year, number)] = data
+                    collection[f'{part}_{year}_{number}'] = data
                 except:
-                    print('%d %d' % (year, number))
+                    print(f'{year} {number}')
                     json.dump(collection, file('temp.json', 'w'))
                     raise
-                print('%d %d' % (year, number))
+                print(f'{year} {number}')
         return collection
 
     def get_toc(self, part, year, number):

@@ -46,7 +46,7 @@ class Lawde:
         self.lawlist = lawlist
 
     def build_zip_url(self, law):
-        url = '%s/%s/xml.zip' % (self.BASE_URL, law)
+        url = f'{self.BASE_URL}/{law}/xml.zip'
         return url
 
     def download_law(self, law):
@@ -62,14 +62,14 @@ class Lawde:
                 if tries > 3:
                     raise e
                 else:
-                    print(("Sleeping %d" % tries * 3))
+                    print(f"Sleeping {tries}" * 3)
                     time.sleep(tries * 3)
             else:
                 break
         try:
             zipf = zipfile.ZipFile(BytesIO(res.content))
         except zipfile.BadZipfile:
-            print(("Removed %s" % law))
+            print(f"Removed {law}")
             self.remove_law(law)
             return None
         return zipf
@@ -77,16 +77,14 @@ class Lawde:
     def load(self, laws):
         total = float(len(laws))
         ts1 = datetime.datetime.now()
-        print(("Laws to download: %d" % len(laws)))
+        print(f"Laws to download: {len(laws)}")
         for i, law in enumerate(laws):
             if i == 9:
                 ts2 = datetime.datetime.now()
                 ts_diff = ts2 - ts1
-                print(("Estimated download time: %d minutes" % (
-                    (ts_diff.seconds * len(laws)/10) / 60)
-                ))
+                print(f"Estimated download time: {len(laws)/10 * ts_diff.seconds/60:.1f} minutes")
             if i % 10 == 0:
-                print(('%.1f%%' % (i / total * 100)))
+                print(f'{i / total * 100:.1f}%')
             zipfile = self.download_law(law)
             if zipfile is not None:
                 self.store(law, zipfile)
@@ -114,7 +112,7 @@ class Lawde:
                     indent=self.indent
                 )
                 if not name.startswith('_'):
-                    law_filename = os.path.join(law_path, '%s.xml' % law)
+                    law_filename = os.path.join(law_path, f'{law}.xml')
                 else:
                     law_filename = name
                 with open(law_filename, 'w') as f:
@@ -138,7 +136,7 @@ class Lawde:
         laws = []
 
         for char in CHARS:
-            print(("Loading part list %s" % char))
+            print(f"Loading part list {char}")
             try:
                 response = requests.get(BASE_URL % char.upper())
                 html = response.content

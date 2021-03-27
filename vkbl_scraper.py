@@ -105,12 +105,7 @@ class VkblScraper:
                     'title': title,
                     'description': description
                 })
-                ident = '%s.%s.%s.%s' % (
-                    data.get('jahr', ''),
-                    data.get('vonummer', ''),
-                    data.get('seite', ''),
-                    data.get('aktenzeichen', '')
-                )
+                ident = f"{data.get('jahr', '')}.{data.get('vonummer', '')}.{data.get('seite', '')}.{data.get('aktenzeichen', '')}"
                 items[ident] = data
         print(total_sum, len(items))
         return items

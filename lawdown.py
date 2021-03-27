@@ -85,7 +85,7 @@ class LawToMarkdown(sax.ContentHandler):
         first_indent = ''
         if self.last_list_index is not None:
             space_count = max(0, len(self.indent_by) - (len(self.last_list_index) + 1))
-            first_indent = ' ' + self.indent_by[0:space_count]
+            first_indent = f" {self.indent_by[0:space_count]}"
             self.last_list_index = None
         for line in wrap(text):
             if first_indent:
@@ -113,7 +113,7 @@ class LawToMarkdown(sax.ContentHandler):
             else:
                 if not attrs['ID'] in self.footnotes:
                     self.footnotes[attrs['ID']] = None
-                    self.write('[^%s]' % attrs['ID'])
+                    self.write(f"[^{attrs['ID']}]")
         if name == 'fussnoten':
             self.ignore_until = 'fussnoten'
         if name == "metadaten":
@@ -155,7 +155,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.write_list_item()
         elif name == 'img':
             self.flush_text()
-            self.out_indented('![%s](%s)' % (attrs.get('ALT', attrs['SRC']), attrs['SRC']))
+            self.out_indented(f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
         elif name == 'dt':
             self.in_list_index = True
         elif name in ('u', 'b', 'f'):
@@ -172,11 +172,11 @@ class LawToMarkdown(sax.ContentHandler):
             return
 
         if name == 'u':
-            self.current_text = ' *%s* ' % self.current_text.strip()
+            self.current_text = f' *{self.current_text.strip()}* '
         elif name == 'f':
             self.current_text = '*'
         elif name == 'b':
-            self.current_text = ' **%s** ' % self.current_text.strip()
+            self.current_text = f' **{self.current_text.strip()}** '
 
         self.text += self.current_text
         self.text = self.text.replace('\n', ' ').strip()
@@ -206,7 +206,7 @@ class LawToMarkdown(sax.ContentHandler):
                 self.state = None
                 self.write()
         if self.current_footnote:
-            self.out('[^%s]: ' % self.current_footnote)
+            self.out(f'[^{self.current_footnote}]: ')
             self.current_footnote = None
 
         if self.in_list_index:
@@ -243,12 +243,12 @@ class LawToMarkdown(sax.ContentHandler):
             self.write()
         elif name == 'title':
             self.text = self.text.replace('\n', ' ')
-            self.text = '## %s' % self.text
+            self.text = f'## {self.text}'
             self.flush_text()
             self.write()
         elif name == 'subtitle':
             self.text = self.text.replace('\n', ' ')
-            self.text = '### %s' % self.text
+            self.text = f'### {self.text}'
             self.flush_text()
             self.write()
 
@@ -296,26 +296,25 @@ class LawToMarkdown(sax.ContentHandler):
             # Blank line ensures meta doesn't become headline
             self.write('\n---')
         else:
-            for kv in list(meta.items()):
-                self.write('%s: %s' % kv)
+            for k, v in list(meta.items()):
+                self.write(f"{key}: {value}")
         self.write()
-        heading = '# %s (%s)' % (title, self.meta['jurabk'][0])
+        heading = f"# {title} ({self.meta['jurabk'][0]})"
         self.write(heading)
         self.write()
         if 'ausfertigung-datum' in self.meta:
-            self.write('Ausfertigungsdatum\n:   %s\n' % self.meta['ausfertigung-datum'][0])
+            self.write(f"Ausfertigungsdatum\n:   {self.meta['ausfertigung-datum'][0]}\n")
         if 'periodikum' in self.meta and 'zitstelle' in self.meta:
-            self.write('Fundstelle\n:   %s: %s\n' % (
-                self.meta['periodikum'][0], self.meta['zitstelle'][0]))
+            self.write(f"Fundstelle\n:   {self.meta['periodikum'][0]}: {self.meta['zitstelle'][0]}\n")
 
         for text in self.meta.get('standkommentar', []):
             try:
                 k, v = text.split(' durch ', 1)
             except ValueError:
-                self.write('Stand: %s' % text)
+                self.write(f'Stand: {text}')
             else:
                 k = k.capitalize()
-                self.write('%s durch\n:   %s\n' % (k, v))
+                self.write(f'{k} durch\n:   {v}\n')
         self.text = ''
 
     def write_norm_header(self):
@@ -332,7 +331,7 @@ class LawToMarkdown(sax.ContentHandler):
             link = title
         if 'gliederungstitel' in self.meta:
             if title:
-                title = '%s - %s' % (title, self.meta['gliederungstitel'][0])
+                title = f"{title} - {self.meta['gliederungstitel'][0]}"
             else:
                 title = self.meta['gliederungstitel'][0]
         if 'enbez' in self.meta:
@@ -340,7 +339,7 @@ class LawToMarkdown(sax.ContentHandler):
             link = title
         if 'titel' in self.meta:
             if title:
-                title = '%s %s' % (title, self.meta['titel'][0])
+                title = f"{title} {self.meta['titel'][0]}"
             else:
                 title = self.meta['titel'][0]
         if not title:
@@ -350,10 +349,10 @@ class LawToMarkdown(sax.ContentHandler):
             if link:
                 link = re.sub(r'\(X+\)', '', link).strip()
                 link = link.replace('§', 'P')
-                link = ' [%s]' % link
+                link = f' [{link}]'
         else:
             link = ''
-        heading = '%s %s%s' % (hn, title, link)
+        heading = f'{hn} {title}{link}'
         self.write()
         self.write(heading)
         self.write()
@@ -403,7 +402,7 @@ def main(arguments):
             continue
         paths.add(inpath)
         law_name = inpath.split('/')[-1]
-        with open(filename, "r") as infile:
+        with open(filename) as infile:
             out = law_to_markdown(infile)
         slug = out.filename
         outpath = os.path.abspath(os.path.join(arguments['<outputpath>'], slug[0], slug))
@@ -413,7 +412,7 @@ def main(arguments):
         shutil.rmtree(outpath, ignore_errors=True)
         os.makedirs(outpath)
         for part in glob(os.path.join(inpath, '*')):
-            if part.endswith('%s.xml' % law_name):
+            if part.endswith(f'{law_name}.xml'):
                 continue
             part_filename = os.path.basename(part)
             shutil.copy(part, os.path.join(outpath, part_filename))

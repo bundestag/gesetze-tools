@@ -98,7 +98,7 @@ class BAnzScraper:
                     day = int(match.group(1))
                     month = self.MONTHS.index(match.group(2)) + 1
                     year = int(match.group(3))
-                    orig_date = f'{int(day):02}.{int(month):02}.{int(year)}'
+                    orig_date = f'{day:02}.{month:02}.{year}'
                     break
             name = link.text_content()[1:]
             name = re.sub(r'\s+', ' ', name)
