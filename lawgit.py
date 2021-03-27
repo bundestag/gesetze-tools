@@ -11,6 +11,9 @@ Options:
   -h --help         Show this screen.
   --version         Show version.
 
+Examples:
+  lawgit.py autocommit ../gesetze --dry-run
+
 """
 import re
 from pathlib import Path

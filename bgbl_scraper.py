@@ -9,6 +9,9 @@ Options:
   -h --help     Show this screen.
   --version     Show version.
 
+Examples:
+  bgbl_scaper.py data/bgbl.json
+
 """
 from pathlib import Path
 import re

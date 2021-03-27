@@ -9,6 +9,9 @@ Options:
   -h --help     Show this screen.
   --version     Show version.
 
+Examples:
+  vkbl_scaper.py data/vkbl.json
+
 """
 
 import re

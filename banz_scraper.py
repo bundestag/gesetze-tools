@@ -12,7 +12,9 @@ Options:
 Duration Estimates:
   2-5 minutes per year
   30-75 minutes in total
-  
+
+Examples:
+  banz_scaper.py data/banz.json
 
 """
 from pathlib import Path
