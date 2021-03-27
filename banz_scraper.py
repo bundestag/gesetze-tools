@@ -23,7 +23,7 @@ import lxml.html
 import requests
 
 
-class BAnzScraper(object):
+class BAnzScraper:
     BASE_URL = 'https://www.bundesanzeiger.de/ebanzwww/wexsservlet?'
     BASE = 'page.navid=to_official_part&global_data.designmode=eb'
     YEAR = ('page.navid=official_starttoofficial_start_changeyear'

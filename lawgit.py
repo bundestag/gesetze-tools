@@ -26,7 +26,7 @@ class TransientState(Exception):
     pass
 
 
-class BGBlSource(object):
+class BGBlSource:
     """BGBl as a source for law change"""
 
     change_re = [
@@ -106,7 +106,7 @@ class BGBlSource(object):
                 '%(page)s (Nr. %(number)s)' % bgbl_entry)
 
 
-class BAnzSource(object):
+class BAnzSource:
     """BAnz as a source for law change"""
 
     def __init__(self, source):
@@ -151,14 +151,14 @@ class BAnzSource(object):
         entry = dict(self.data[key])
         additional_str = ', '.join(entry['additional'])
         if additional_str:
-            entry['additional_str'] = ', %s' % additional_str
+            entry['additional_str'] = f', {additional_str}'
         else:
             entry['additional_str'] = ''
         return ('%(name)s\n\n%(date)s: %(ident)s, %(public_body)s'
                 '%(additional_str)s' % entry)
 
 
-class VkblSource(object):
+class VkblSource:
     """VkBl as a source for law change"""
 
     transient = (
@@ -226,7 +226,7 @@ class VkblSource(object):
         return ('%(title)s\n\n%(verkndetam)s: %(edition)s S. %(seite)s (%(vonummer)s)' % entry)
 
 
-class LawGit(object):
+class LawGit:
     laws = defaultdict(list)
     law_changes = {}
     bgbl_changes = defaultdict(list)

@@ -33,7 +33,7 @@ from docopt import docopt
 import requests
 
 
-class Lawde(object):
+class Lawde:
     BASE_URL = 'http://www.gesetze-im-internet.de'
     BASE_PATH = 'laws/'
     INDENT_CHAR = ' '

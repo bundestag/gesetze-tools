@@ -19,7 +19,7 @@ import lxml.html
 import requests
 
 
-class BGBLScraper(object):
+class BGBLScraper:
     BASE_URL = 'http://www.bgbl.de/Xaver/'
     START = 'start.xav?startbk=Bundesanzeiger_BGBl'
     BASE_TOC = ('toc.xav?tocf=xaver.component.TOC_0'
