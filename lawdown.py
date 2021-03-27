@@ -77,7 +77,7 @@ class LawToMarkdown(sax.ContentHandler):
         self.out(content)
 
     def write(self, content='', nobreak=False):
-        self.out(content + (u'\n' if not nobreak else ''))
+        self.out(content + ('\n' if not nobreak else ''))
         return self
 
     def write_wrapped(self, text, indent=None):
@@ -173,11 +173,11 @@ class LawToMarkdown(sax.ContentHandler):
             return
 
         if name == 'u':
-            self.current_text = u' *%s* ' % self.current_text.strip()
+            self.current_text = ' *%s* ' % self.current_text.strip()
         elif name == 'f':
-            self.current_text = u'*'
+            self.current_text = '*'
         elif name == 'b':
-            self.current_text = u' **%s** ' % self.current_text.strip()
+            self.current_text = ' **%s** ' % self.current_text.strip()
 
         self.text += self.current_text
         self.text = self.text.replace('\n', ' ').strip()
@@ -193,7 +193,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.text = ''
             return
         if self.state == 'meta':
-            if name == 'enbez' and self.text == u'Inhaltsübersicht':
+            if name == 'enbez' and self.text == 'Inhaltsübersicht':
                 self.ignore_until = 'textdaten'
             else:
                 self.meta[name].append(self.text)
@@ -244,12 +244,12 @@ class LawToMarkdown(sax.ContentHandler):
             self.write()
         elif name == 'title':
             self.text = self.text.replace('\n', ' ')
-            self.text = u'## %s' % self.text
+            self.text = '## %s' % self.text
             self.flush_text()
             self.write()
         elif name == 'subtitle':
             self.text = self.text.replace('\n', ' ')
-            self.text = u'### %s' % self.text
+            self.text = '### %s' % self.text
             self.flush_text()
             self.write()
 
@@ -297,26 +297,26 @@ class LawToMarkdown(sax.ContentHandler):
             # Blank line ensures meta doesn't become headline
             self.write('\n---')
         else:
-            for kv in meta.items():
+            for kv in list(meta.items()):
                 self.write('%s: %s' % kv)
         self.write()
         heading = '# %s (%s)' % (title, self.meta['jurabk'][0])
         self.write(heading)
         self.write()
         if 'ausfertigung-datum' in self.meta:
-            self.write(u'Ausfertigungsdatum\n:   %s\n' % self.meta['ausfertigung-datum'][0])
+            self.write('Ausfertigungsdatum\n:   %s\n' % self.meta['ausfertigung-datum'][0])
         if 'periodikum' in self.meta and 'zitstelle' in self.meta:
-            self.write(u'Fundstelle\n:   %s: %s\n' % (
+            self.write('Fundstelle\n:   %s: %s\n' % (
                 self.meta['periodikum'][0], self.meta['zitstelle'][0]))
 
         for text in self.meta.get('standkommentar', []):
             try:
-                k, v = text.split(u' durch ', 1)
+                k, v = text.split(' durch ', 1)
             except ValueError:
                 self.write('Stand: %s' % text)
             else:
                 k = k.capitalize()
-                self.write(u'%s durch\n:   %s\n' % (k, v))
+                self.write('%s durch\n:   %s\n' % (k, v))
         self.text = ''
 
     def write_norm_header(self):
@@ -333,7 +333,7 @@ class LawToMarkdown(sax.ContentHandler):
             link = title
         if 'gliederungstitel' in self.meta:
             if title:
-                title = u'%s - %s' % (title, self.meta['gliederungstitel'][0])
+                title = '%s - %s' % (title, self.meta['gliederungstitel'][0])
             else:
                 title = self.meta['gliederungstitel'][0]
         if 'enbez' in self.meta:
@@ -341,7 +341,7 @@ class LawToMarkdown(sax.ContentHandler):
             link = title
         if 'titel' in self.meta:
             if title:
-                title = u'%s %s' % (title, self.meta['titel'][0])
+                title = '%s %s' % (title, self.meta['titel'][0])
             else:
                 title = self.meta['titel'][0]
         if not title:
@@ -350,11 +350,11 @@ class LawToMarkdown(sax.ContentHandler):
         if self.heading_anchor:
             if link:
                 link = re.sub('\(X+\)', '', link).strip()
-                link = link.replace(u'§', 'P')
-                link = u' [%s]' % link
+                link = link.replace('§', 'P')
+                link = ' [%s]' % link
         else:
             link = ''
-        heading = u'%s %s%s' % (hn, title, link)
+        heading = '%s %s%s' % (hn, title, link)
         self.write()
         self.write(heading)
         self.write()
@@ -363,12 +363,12 @@ class LawToMarkdown(sax.ContentHandler):
         abk = abk.lower()
         abk = abk.strip()
         replacements = {
-            u'ä': u'ae',
-            u'ö': u'oe',
-            u'ü': u'ue',
-            u'ß': u'ss'
+            'ä': 'ae',
+            'ö': 'oe',
+            'ü': 'ue',
+            'ß': 'ss'
         }
-        for k, v in replacements.items():
+        for k, v in list(replacements.items()):
             abk = abk.replace(k, v)
         abk = re.sub('[^\w-]', '_', abk)
         self.filename = abk

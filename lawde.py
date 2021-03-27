@@ -62,14 +62,14 @@ class Lawde(object):
                 if tries > 3:
                     raise e
                 else:
-                    print("Sleeping %d" % tries * 3)
+                    print(("Sleeping %d" % tries * 3))
                     time.sleep(tries * 3)
             else:
                 break
         try:
             zipf = zipfile.ZipFile(BytesIO(res.content))
         except zipfile.BadZipfile:
-            print("Removed %s" % law)
+            print(("Removed %s" % law))
             self.remove_law(law)
             return None
         return zipf
@@ -77,16 +77,16 @@ class Lawde(object):
     def load(self, laws):
         total = float(len(laws))
         ts1 = datetime.datetime.now()
-        print("Laws to download: %d" % len(laws))
+        print(("Laws to download: %d" % len(laws)))
         for i, law in enumerate(laws):
             if i == 9:
                 ts2 = datetime.datetime.now()
                 ts_diff = ts2 - ts1
-                print("Estimated download time: %d minutes" % (
+                print(("Estimated download time: %d minutes" % (
                     (ts_diff.seconds * len(laws)/10) / 60)
-                )
+                ))
             if i % 10 == 0:
-                print('%.1f%%' % (i / total * 100), end='\r')
+                print(('%.1f%%' % (i / total * 100)))
             zipfile = self.download_law(law)
             if zipfile is not None:
                 self.store(law, zipfile)
@@ -138,7 +138,7 @@ class Lawde(object):
         laws = []
 
         for char in CHARS:
-            print("Loading part list %s" % char)
+            print(("Loading part list %s" % char))
             try:
                 response = requests.get(BASE_URL % char.upper())
                 html = response.content
@@ -177,4 +177,4 @@ if __name__ == '__main__':
         arguments = docopt(__doc__, version='LawDe 0.0.1')
         main(arguments)
     except KeyboardInterrupt:
-        print '\nAborted'
+        print('\nAborted')

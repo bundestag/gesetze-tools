@@ -34,8 +34,8 @@ class BAnzScraper(object):
             '&%%28page.navid%%3Dofficial_starttoofficial_start_update%%29='
             'Veröffentlichungen+anzeigen')
 
-    MONTHS = [u'Januar', u'Februar', u'März', u'April', u'Mai', u'Juni', u'Juli',
-            u'August', u'September', u'Oktober', u'November', u'Dezember']
+    MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
+            'August', 'September', 'Oktober', 'November', 'Dezember']
 
     def get(self, url):
         return requests.get(url)
@@ -48,7 +48,7 @@ class BAnzScraper(object):
                 continue
             dates = self.get_dates(year)
             for date in dates:
-                print year, date
+                print(year, date)
                 collection.update(self.get_items(year, date))
         return collection
 

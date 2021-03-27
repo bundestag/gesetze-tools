@@ -31,17 +31,17 @@ class BGBlSource(object):
     """BGBl as a source for law change"""
 
     change_re = [
-        re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
-        re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
-        re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), (?P<page>\d+)'),
+        re.compile('BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
+        re.compile('BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
+        re.compile('BGBl +(?P<part>I+):? *(?P<year>\d{4}), (?P<page>\d+)'),
         re.compile('\d{1,2}\.\.?\d{1,2}\.\.?(?P<year>\d{4}) (?P<part>I+) (?:S\. )?(?P<page>\d+)'),
-        re.compile(u'(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)'),
+        re.compile('(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)'),
         # re.compile(u'Art. \d+ G v. (?P<day>\d{1,2}).(?P<month>\d{1,2}).(?P<year>\d{4})')
     ]
 
     transient = (
-        u"noch nicht berücksichtigt",
-        u"noch nicht abschließend bearbeitet"
+        "noch nicht berücksichtigt",
+        "noch nicht abschließend bearbeitet"
     )
 
     def __init__(self, source):
@@ -53,7 +53,7 @@ class BGBlSource(object):
     def load(self, source):
         self.data = {}
         data = json.load(file(source))
-        for key, toc_list in data.iteritems():
+        for key, toc_list in data.items():
             for toc in toc_list:
                 if toc['kind'] == 'meta':
                     continue
@@ -126,7 +126,7 @@ class BAnzSource(object):
             line = re.sub(' \d{4} ', ' ', line)
             for key in self.data:
                 if key in line:
-                    if u"noch nicht berücksichtigt" in line:
+                    if "noch nicht berücksichtigt" in line:
                         raise TransientState
                     candidates.append(key)
         return candidates
@@ -163,12 +163,12 @@ class VkblSource(object):
     """VkBl as a source for law change"""
 
     transient = (
-        u"noch nicht berücksichtigt",
-        u"noch nicht abschließend bearbeitet"
+        "noch nicht berücksichtigt",
+        "noch nicht abschließend bearbeitet"
     )
 
     change_re = [
-        re.compile(u'VkBl: *(?P<year>\d{4}),? +(?:S\. )?(?P<page>\d+)')
+        re.compile('VkBl: *(?P<year>\d{4}),? +(?:S\. )?(?P<page>\d+)')
     ]
 
     def __init__(self, source):
@@ -180,7 +180,7 @@ class VkblSource(object):
     def load(self, source):
         self.data = {}
         data = json.load(file(source))
-        for key, value in data.iteritems():
+        for key, value in data.items():
             if value['jahr'] and value['seite']:
                 ident = (int(value['jahr']), int(value['seite']))
                 value['date'] = value['verffentlichtam']
@@ -254,7 +254,7 @@ class LawGit(object):
             source, key = result
             date = source.get_date(key)
             if not self.consider_old and date + timedelta(days=30 * 12) < datetime.now():
-                print "Skipped %s %s (too old)" % (law, result)
+                print("Skipped %s %s (too old)" % (law, result))
                 continue
             branch_name = source.get_branch_name(key)
             ident = source.get_ident(key)
@@ -315,11 +315,11 @@ class LawGit(object):
         if not self.dry_run:
             self.repo.git.stash()
         try:
-            print "git checkout -b %s" % branch
+            print("git checkout -b %s" % branch)
             if not self.dry_run:
                 self.repo.git.checkout(b=branch)
         except GitCommandError:
-            print "git checkout %s" % branch
+            print("git checkout %s" % branch)
             if not self.dry_run:
                 self.repo.git.checkout(branch)
         if not self.dry_run:
@@ -329,22 +329,22 @@ class LawGit(object):
             for law_name, source, key in commits[ident]:
                 for filename in self.laws[law_name]:
                     if os.path.exists(os.path.join(self.path, filename)):
-                        print "git add %s" % filename
+                        print("git add %s" % filename)
                         if not self.dry_run:
                             self.repo.index.add([filename])
                     else:
-                        print "git rm %s" % filename
+                        print("git rm %s" % filename)
                         if not self.dry_run:
                             self.repo.index.remove([filename])
             msg = source.get_message(key)
-            print 'git commit -m"%s"' % msg
+            print('git commit -m"%s"' % msg)
             if not self.dry_run:
                 self.repo.index.commit(msg)
-            print ""
-        print "git checkout master"
+            print("")
+        print("git checkout master")
         if not self.dry_run:
             self.repo.heads.master.checkout()
-        print "git merge %s --no-ff" % branch
+        print("git merge %s --no-ff" % branch)
         if not self.dry_run:
             self.repo.git.merge(branch, no_ff=True)
 

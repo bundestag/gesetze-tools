@@ -71,13 +71,13 @@ class VkblScraper(object):
                     break
             root = lxml.html.fromstring(response)
             total_sum += len(root.cssselect(".tabelle2"))
-            print year, len(root.cssselect(".tabelle2"))
+            print(year, len(root.cssselect(".tabelle2")))
             for i, table in enumerate(root.cssselect(".tabelle2")):
                 trs = table.cssselect('tr')
                 header = trs[0].cssselect('td')[0].text_content().strip()
-                print i, header
+                print(i, header)
                 try:
-                    genre, edition = header.split(u'\xa0 ')
+                    genre, edition = header.split('\xa0 ')
                     edition = edition.split(' ')[2]
                 except ValueError:
                     genre = header
@@ -113,7 +113,7 @@ class VkblScraper(object):
                     data.get('aktenzeichen', '')
                 )
                 items[ident] = data
-        print total_sum, len(items)
+        print(total_sum, len(items))
         return items
 
 
