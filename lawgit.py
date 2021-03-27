@@ -51,7 +51,7 @@ class BGBlSource:
 
     def load(self, source):
         self.data = {}
-        data = json.load(file(source))
+        data = json.load(open(source))
         for key, toc_list in data.items():
             for toc in toc_list:
                 if toc['kind'] == 'meta':
@@ -112,7 +112,7 @@ class BAnzSource:
         return self.__class__.__name__
 
     def load(self, source):
-        self.data = json.load(file(source))
+        self.data = json.load(open(source))
 
     def find_candidates(self, lines):
         candidates = []
@@ -172,7 +172,7 @@ class VkblSource:
 
     def load(self, source):
         self.data = {}
-        data = json.load(file(source))
+        data = json.load(open(source))
         for key, value in data.items():
             if value['jahr'] and value['seite']:
                 ident = (int(value['jahr']), int(value['seite']))
@@ -273,7 +273,7 @@ class LawGit:
             self.laws[law_name].append(filename)
             filename = '/'.join(filename.split('/')[:2] + ['index.md'])
             filename = os.path.join(self.path, filename)
-            with file(filename) as f:
+            with open(filename) as f:
                 self.law_changes[law_name] = (True, f.read(), filename)
 
     def determine_source(self, law_name):
@@ -281,7 +281,7 @@ class LawGit:
         lines = [line.decode('utf-8') for line in lines.splitlines()]
         candidates = self.find_in_sources(lines)
         if not candidates:
-            with file(filename) as f:
+            with open(filename) as f:
                 lines = [line.decode('utf-8') for line in f.read().splitlines()]
             candidates.extend(self.find_in_sources(lines))
         if not candidates:

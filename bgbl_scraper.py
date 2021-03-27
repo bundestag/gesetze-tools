@@ -155,7 +155,7 @@ class BGBLScraper:
                     collection[f'{part}_{year}_{number}'] = data
                 except:
                     print(f'{year} {number}')
-                    json.dump(collection, file('temp.json', 'w'))
+                    json.dump(collection, open('temp.json', 'w'))
                     raise
                 print(f'{year} {number}')
         return collection
@@ -212,10 +212,10 @@ def main(arguments):
     bgbl = BGBLScraper()
     data = {}
     if os.path.exists(arguments['<outputfile>']):
-        with file(arguments['<outputfile>']) as f:
+        with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
-    with file(arguments['<outputfile>'], 'w') as f:
+    with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f)
 
 if __name__ == '__main__':

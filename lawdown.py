@@ -402,7 +402,7 @@ def main(arguments):
             continue
         paths.add(inpath)
         law_name = inpath.split('/')[-1]
-        with open(filename) as infile:
+        with open(filename, "r") as infile:
             out = law_to_markdown(infile)
         slug = out.filename
         outpath = os.path.abspath(os.path.join(arguments['<outputpath>'], slug[0], slug))
