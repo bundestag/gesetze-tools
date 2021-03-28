@@ -283,7 +283,7 @@ class LawGit:
         wdiff = hcommit.diff(None, create_patch=True)
         for diff in wdiff:
             law_name = diff.b_blob.path.split('/')[1]
-            if self.grep and not self.grep in law_name:
+            if self.grep and self.grep not in law_name:
                 continue
             filename = '/'.join(diff.b_blob.path.split('/')[:2] + ['index.md'])
             filename = self.path / filename
@@ -293,7 +293,7 @@ class LawGit:
 
         for filename in self.repo.untracked_files:
             law_name = filename.split('/')[1]
-            if self.grep and not self.grep in law_name:
+            if self.grep and self.grep not in law_name:
                 continue
             self.laws[law_name].append(filename)
             filename = '/'.join(filename.split('/')[:2] + ['index.md'])

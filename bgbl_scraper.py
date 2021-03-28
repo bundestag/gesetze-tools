@@ -90,7 +90,7 @@ class BGBLScraper:
         selector = 'a.tocEntry'
         toc_offsets = []
         for a in root.cssselect(selector):
-            if not 'Bundesgesetzblatt Teil' in a.attrib.get('title', ''):
+            if 'Bundesgesetzblatt Teil' not in a.attrib.get('title', ''):
                 continue
             link_href = a.attrib['href']
             match = re.search(r'tocid=(\d+)&', link_href)
