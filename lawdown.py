@@ -541,15 +541,9 @@ def law_to_markdown(filein, fileout=None, name=None):
 
 def main(arguments):
     if arguments['<inputpath>'] is None and arguments['<outputpath>'] is None:
-        # law_to_markdown(sys.stdin, sys.stdout, name=arguments['--name'])
-        if (sys.version_info > (3, 0)):
-            # Python 3 code in this block
-            with open(arguments['--name']) as infile:
-                out = law_to_markdown(infile, sys.stdout)
-        else:
-            # Python 2 code in this block
-            with file(arguments['--name']) as infile:
-                out = law_to_markdown(infile, sys.stdout)
+        # Python 3 code in this block
+        with open(arguments['--name']) as infile:
+            out = law_to_markdown(infile, sys.stdout)
         return
     paths = set()
     for filename in Path(arguments['<inputpath>']).glob('*/*/*.xml'):
