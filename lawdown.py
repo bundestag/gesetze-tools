@@ -259,11 +259,11 @@ class LawToMarkdown(sax.ContentHandler):
             return
 
         if name == 'u':
-            self.current_text = u' *%s* ' % self.current_text.strip()
+            self.current_text = f' *{self.current_text.strip()}* '
         elif name == 'f':
             self.current_text = '*'
         elif name == 'b':
-            self.current_text = u' **%s** ' % self.current_text.strip()
+            self.current_text = f' **{self.current_text.strip()}** '
 
         self.text += self.current_text
         self.current_text = ''
@@ -294,7 +294,7 @@ class LawToMarkdown(sax.ContentHandler):
                 self.state.pop()
                 self.write()
         if self.current_footnote:
-            self.out('[^%s]: ' % self.current_footnote)
+            self.out(f'[^{self.current_footnote}]: ')
             self.current_footnote = None
 
         if self.state[-1] == 'read_list_index':# if self.in_list_index: #if self.state[-1] == 'read_list_index':
@@ -385,12 +385,12 @@ class LawToMarkdown(sax.ContentHandler):
             self.write()
         elif name == 'title':
             self.text = self.text.replace('\n', ' ')
-            self.text = u'## %s' % self.text
+            self.text = f'## {self.text}'
             self.flush_text()
             self.write()
         elif name == 'subtitle':
             self.text = self.text.replace('\n', ' ')
-            self.text = u'## %s' % self.text
+            self.text = f'## {self.text}'
             self.flush_text()
             self.write()
 
@@ -461,10 +461,10 @@ class LawToMarkdown(sax.ContentHandler):
             try:
                 k, v = text.split(' durch ', 1)
             except ValueError:
-                self.write('Stand: %s' % text)
+                self.write(f'Stand: {text}')
             else:
                 k = k.capitalize()
-                self.write(u'%s durch\n:   %s\n' % (k, v))
+                self.write(f'{k} durch\n:   {v}\n')
         self.text = ''
 
     def write_norm_header(self):
@@ -496,10 +496,10 @@ class LawToMarkdown(sax.ContentHandler):
             if link:
                 link = re.sub(r'\(X+\)', '', link).strip()
                 link = link.replace('§', 'P')
-                link = u' [%s]' % link
+                link = f' [{link}]'
         else:
             link = ''
-        heading = u'%s %s%s' % (hn, title, link)
+        heading = f'{hn} {title}{link}'
         self.write()
         self.write(heading)
         self.write()
