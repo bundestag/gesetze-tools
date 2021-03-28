@@ -142,7 +142,7 @@ class BAnzScraper:
                 'original_date': orig_date,
                 'additional': []  # TODO
             }
-            print(items)
+            print(items[ident])
         return items
 
 
