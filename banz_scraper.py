@@ -36,7 +36,7 @@ class BAnzScraper:
             'Veröffentlichungen+anzeigen')
 
     MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
-            'August', 'September', 'Oktober', 'November', 'Dezember']
+              'August', 'September', 'Oktober', 'November', 'Dezember']
 
     def get(self, url):
         return requests.get(url)
@@ -74,7 +74,8 @@ class BAnzScraper:
         root = lxml.html.fromstring(response.text)
         selector = 'select[name="genericsearch_param.edition"] option'
         for option in root.cssselect(selector):
-            dates.append((option.attrib['value'], option.text_content().strip()))
+            dates.append(
+                (option.attrib['value'], option.text_content().strip()))
         return dates
 
     def get_items(self, year, date):
@@ -129,6 +130,7 @@ def main(arguments):
     data.update(banz.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f)
+
 
 if __name__ == '__main__':
     from docopt import docopt
