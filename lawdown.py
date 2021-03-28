@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#!/usr/local/bin/python
+# coding: utf-8
 """LawDown - Law To Markdown.
 
 Usage:
@@ -16,7 +17,7 @@ Examples:
   lawdown.py convert laws laws-md
 
 """
-import os
+from pathlib import Path
 import sys
 import shutil
 import re
@@ -25,6 +26,8 @@ from glob import glob
 from xml import sax
 from collections import defaultdict
 from textwrap import wrap
+from io import StringIO
+
 import yaml
 if (sys.version_info > (3, 0)):
     # Python 3 code in this block
@@ -63,10 +66,10 @@ class LawToMarkdown(sax.ContentHandler):
     table_header = ''
     head_separator = ''
     no_emph_re = [
-        re.compile('(\S?|^)([\*_])(\S)'),
-        re.compile('([^\\\s])([\*_])(\S?|$)')
+        re.compile(r'(\S?|^)([\*_])(\S)'),
+        re.compile('([^\\\\s])([\\*_])(\\S?|$)')
     ]
-    list_start_re = re.compile('^(\d+)\.')
+    list_start_re = re.compile(r'^(\d+)\.')
 
     def __init__(self, fileout,
             yaml_header=DEFAULT_YAML_HEADER,
@@ -258,8 +261,8 @@ class LawToMarkdown(sax.ContentHandler):
         if name == 'u':
             self.current_text = u' *%s* ' % self.current_text.strip()
         elif name == 'f':
-            self.current_text = u'*'
-        elif name == 'b': # make bold
+            self.current_text = '*'
+        elif name == 'b':
             self.current_text = u' **%s** ' % self.current_text.strip()
 
         self.text += self.current_text
@@ -387,7 +390,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.write()
         elif name == 'subtitle':
             self.text = self.text.replace('\n', ' ')
-            self.text = u'### %s' % self.text
+            self.text = u'## %s' % self.text
             self.flush_text()
             self.write()
 
@@ -442,8 +445,8 @@ class LawToMarkdown(sax.ContentHandler):
             # Blank line ensures meta doesn't become headline
             self.write('\n---')
         else:
-            for kv in meta.items():
-                self.write('%s: %s' % kv)
+            for k, v in list(meta.items()):
+                self.write('%s: %s' % k, v)
         self.write()
         heading = '# %s (%s)' % (title, self.meta['jurabk'][0])
         self.write(heading)
@@ -456,7 +459,7 @@ class LawToMarkdown(sax.ContentHandler):
 
         for text in self.meta.get('standkommentar', []):
             try:
-                k, v = text.split(u' durch ', 1)
+                k, v = text.split(' durch ', 1)
             except ValueError:
                 self.write('Stand: %s' % text)
             else:
@@ -487,15 +490,12 @@ class LawToMarkdown(sax.ContentHandler):
         if 'titel' in self.meta:
             if title: # could also add the "brief" in "br" here
                 title = u'%s %s' % (title, self.meta['titel'][0])
-            else:
-                title = self.meta['titel'][0]
         if not title:
             return
-        hn = hn * int(min(heading_num, 6))
         if self.heading_anchor:
             if link:
-                link = re.sub('\(X+\)', '', link).strip()
-                link = link.replace(u'§', 'P')
+                link = re.sub(r'\(X+\)', '', link).strip()
+                link = link.replace('§', 'P')
                 link = u' [%s]' % link
         else:
             link = ''
@@ -508,14 +508,14 @@ class LawToMarkdown(sax.ContentHandler):
         abk = abk.lower()
         abk = abk.strip()
         replacements = {
-            u'ä': u'ae',
-            u'ö': u'oe',
-            u'ü': u'ue',
-            u'ß': u'ss'
+            'ä': 'ae',
+            'ö': 'oe',
+            'ü': 'ue',
+            'ß': 'ss'
         }
-        for k, v in replacements.items():
+        for k, v in list(replacements.items()):
             abk = abk.replace(k, v)
-        abk = re.sub('[^\w-]', '_', abk)
+        abk = re.sub(r'[^\w-]', '_', abk)
         self.filename = abk
 
 
@@ -551,40 +551,28 @@ def main(arguments):
                 out = law_to_markdown(infile, sys.stdout)
         return
     paths = set()
-    for filename in glob(os.path.join(arguments['<inputpath>'], '*/*/*.xml')):
-        inpath = os.path.dirname(os.path.abspath(filename))
+    for filename in Path(arguments['<inputpath>']).glob('*/*/*.xml'):
+        inpath = filename.resolve().parent
         if inpath in paths:
             continue
         paths.add(inpath)
-        law_name = inpath.split('/')[-1]
-        if (sys.version_info > (3, 0)):
-            # Python 3 code in this block
-            with open(filename) as infile:
-                out = law_to_markdown(infile)
-        else:
-            # Python 2 code in this block
-            with file(filename) as infile:
-                out = law_to_markdown(infile)
+        law_name = inpath.name
+        with open(filename, "r") as infile:
+            out = law_to_markdown(infile)
         slug = out.filename
-        outpath = os.path.abspath(os.path.join(arguments['<outputpath>'], slug[0], slug))
+        outpath = (Path(arguments['<outputpath>']) / slug[0] / slug).resolve()
         print(outpath)
-        assert outpath.count('/') > 2  # um, better be safe
-        outfilename = os.path.join(outpath, 'index.md')
+        assert len(outpath.parents) > 1  # um, better be safe
+        outfilename = outpath / 'index.md'
         shutil.rmtree(outpath, ignore_errors=True)
-        os.makedirs(outpath)
-        for part in glob(os.path.join(inpath, '*')):
-            if part.endswith('%s.xml' % law_name):
+        outpath.mkdir()
+        for part in inpath.glob('*'):
+            if str(part).endswith(f'{law_name}.xml'):
                 continue
-            part_filename = os.path.basename(part)
-            shutil.copy(part, os.path.join(outpath, part_filename))
-        if (sys.version_info > (3, 0)):
-            # Python 3 code in this block
-            with open(outfilename, 'w+') as outfile:
-                outfile.write(out.getvalue())
-        else:
-            # Python 2 code in this block
-            with file(outfilename, 'w') as outfile:
-                outfile.write(out.getvalue())
+            part_filename = part.name
+            shutil.copy(part, outpath / part_filename)
+        with open(outfilename, 'w') as outfile:
+            outfile.write(out.getvalue())
         out.close()
 
 
