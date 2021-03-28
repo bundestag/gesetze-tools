@@ -512,7 +512,6 @@ class LawToMarkdown(sax.ContentHandler):
         abk = re.sub(r'[^\w-]', '_', abk)
         self.filename = abk
 
-
 def law_to_markdown(filein, fileout=None, name=None):
     ret = False
     if fileout is None:
