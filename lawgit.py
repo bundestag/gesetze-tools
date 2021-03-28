@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 """LawGit - Semi-automatic law change commits.
 
 Usage:
@@ -12,9 +11,12 @@ Options:
   -h --help         Show this screen.
   --version         Show version.
 
+Examples:
+  lawgit.py autocommit ../gesetze --dry-run
+
 """
 import re
-import os
+from pathlib import Path
 import json
 from datetime import datetime, timedelta
 from collections import defaultdict
@@ -27,21 +29,21 @@ class TransientState(Exception):
     pass
 
 
-class BGBlSource(object):
+class BGBlSource:
     """BGBl as a source for law change"""
 
     change_re = [
-        re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
-        re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
-        re.compile(u'BGBl +(?P<part>I+):? *(?P<year>\d{4}), (?P<page>\d+)'),
-        re.compile('\d{1,2}\.\.?\d{1,2}\.\.?(?P<year>\d{4}) (?P<part>I+) (?:S\. )?(?P<page>\d+)'),
-        re.compile(u'(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)'),
+        re.compile(r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
+        re.compile(r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
+        re.compile(r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), (?P<page>\d+)'),
+        re.compile(r'\d{1,2}\.\.?\d{1,2}\.\.?(?P<year>\d{4}) (?P<part>I+) (?:S\. )?(?P<page>\d+)'),
+        re.compile(r'(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)'),
         # re.compile(u'Art. \d+ G v. (?P<day>\d{1,2}).(?P<month>\d{1,2}).(?P<year>\d{4})')
     ]
 
     transient = (
-        u"noch nicht berücksichtigt",
-        u"noch nicht abschließend bearbeitet"
+        "noch nicht berücksichtigt",
+        "noch nicht abschließend bearbeitet"
     )
 
     def __init__(self, source):
@@ -52,8 +54,8 @@ class BGBlSource(object):
 
     def load(self, source):
         self.data = {}
-        data = json.load(file(source))
-        for key, toc_list in data.iteritems():
+        data = json.load(open(source))
+        for key, toc_list in data.items():
             for toc in toc_list:
                 if toc['kind'] == 'meta':
                     continue
@@ -91,11 +93,7 @@ class BGBlSource(object):
 
     def get_branch_name(self, key):
         bgbl_entry = self.data[key]
-        return 'bgbl/%s/%s-%s' % (
-            bgbl_entry['year'],
-            bgbl_entry['part'],
-            bgbl_entry['number']
-        )
+        return f"bgbl/{bgbl_entry['year']}/{bgbl_entry['part']}-{bgbl_entry['number']}"
 
     def get_ident(self, key):
         bgbl_entry = self.data[key]
@@ -107,7 +105,7 @@ class BGBlSource(object):
                 '%(page)s (Nr. %(number)s)' % bgbl_entry)
 
 
-class BAnzSource(object):
+class BAnzSource:
     """BAnz as a source for law change"""
 
     def __init__(self, source):
@@ -117,16 +115,16 @@ class BAnzSource(object):
         return self.__class__.__name__
 
     def load(self, source):
-        self.data = json.load(file(source))
+        self.data = json.load(open(source))
 
     def find_candidates(self, lines):
         candidates = []
         for line in lines:
-            line = re.sub('[^\w \.]', '', line)
-            line = re.sub(' \d{4} ', ' ', line)
+            line = re.sub(r'[^\w \.]', '', line)
+            line = re.sub(r' \d{4} ', ' ', line)
             for key in self.data:
                 if key in line:
-                    if u"noch nicht berücksichtigt" in line:
+                    if "noch nicht berücksichtigt" in line:
                         raise TransientState
                     candidates.append(key)
         return candidates
@@ -140,10 +138,8 @@ class BAnzSource(object):
 
     def get_branch_name(self, key):
         entry = self.data[key]
-        return 'banz/%s/%s' % (
-            entry['date'].split('.')[2],
-            '-'.join(reversed(entry['date'].split('.')[:2]))
-        )
+        date_parts = entry['date'].split('.')
+        return f"banz/{date_parts[2]}/{'-'.join(reversed(date_parts[:2]))}"
 
     def get_ident(self, key):
         return key
@@ -152,23 +148,23 @@ class BAnzSource(object):
         entry = dict(self.data[key])
         additional_str = ', '.join(entry['additional'])
         if additional_str:
-            entry['additional_str'] = ', %s' % additional_str
+            entry['additional_str'] = f', {additional_str}'
         else:
             entry['additional_str'] = ''
         return ('%(name)s\n\n%(date)s: %(ident)s, %(public_body)s'
                 '%(additional_str)s' % entry)
 
 
-class VkblSource(object):
+class VkblSource:
     """VkBl as a source for law change"""
 
     transient = (
-        u"noch nicht berücksichtigt",
-        u"noch nicht abschließend bearbeitet"
+        "noch nicht berücksichtigt",
+        "noch nicht abschließend bearbeitet"
     )
 
     change_re = [
-        re.compile(u'VkBl: *(?P<year>\d{4}),? +(?:S\. )?(?P<page>\d+)')
+        re.compile(r'VkBl: *(?P<year>\d{4}),? +(?:S\. )?(?P<page>\d+)')
     ]
 
     def __init__(self, source):
@@ -179,8 +175,8 @@ class VkblSource(object):
 
     def load(self, source):
         self.data = {}
-        data = json.load(file(source))
-        for key, value in data.iteritems():
+        data = json.load(open(source))
+        for key, value in data.items():
             if value['jahr'] and value['seite']:
                 ident = (int(value['jahr']), int(value['seite']))
                 value['date'] = value['verffentlichtam']
@@ -211,10 +207,8 @@ class VkblSource(object):
 
     def get_branch_name(self, key):
         entry = self.data[key]
-        return 'vkbl/%s/%s' % (
-            entry['verffentlichtam'].split('.')[2],
-            '-'.join(reversed(entry['date'].split('.')[:2]))
-        )
+        date_parts = entry['verffentlichtam'].split('.')
+        return f"vkbl/{date_parts[2]}/{'-'.join(reversed(date_parts[:2]))}"
 
     def get_ident(self, key):
         return key
@@ -224,16 +218,16 @@ class VkblSource(object):
         {u'description': u'', u'vid': u'19463', u'seite': u'945', u'price': 3.4, u'edition': u'23/2012', u'aufgehobenam': u'', 'date': u'15.12.2012', u'verffentlichtam': u'15.12.2012', u'pages': 9, u'title': u'Verordnung \xfcber die Betriebszeiten der Schleusen und Hebewerke an den Bundeswasserstra\xdfen im Zust\xe4ndigkeitsbereich der Wasser- und Schifffahrtsdirektion Ost', u'jahr': u'2012', u'inkraftab': u'01.01.2013', u'verkndetam': u'22.11.2012', u'link': u'../shop/in_basket.php?vID=19463', u'aktenzeichen': u'', u'genre': u'Wasserstra\xdfen, Schifffahrt', u'vonummer': u'215'}"
         """
         entry = dict(self.data[key])
-        return ('%(title)s\n\n%(verkndetam)s: %(edition)s S. %(seite)s (%(vonummer)s)' % entry)
+        return (f"{entry['title']}\n\n{entry['verkndetam']}: {entry['edition']} S. {entry['seite']} ({entry['vonummer']})")
 
 
-class LawGit(object):
+class LawGit:
     laws = defaultdict(list)
     law_changes = {}
     bgbl_changes = defaultdict(list)
 
     def __init__(self, path, dry_run=False, consider_old=False, grep=None):
-        self.path = path
+        self.path = Path(path)
         self.dry_run = dry_run
         self.grep = grep
         self.consider_old = consider_old
@@ -254,7 +248,7 @@ class LawGit(object):
             source, key = result
             date = source.get_date(key)
             if not self.consider_old and date + timedelta(days=30 * 12) < datetime.now():
-                print("Skipped %s %s (too old)" % (law, result))
+                print(f"Skipped {law} {result} (too old)")
                 continue
             branch_name = source.get_branch_name(key)
             ident = source.get_ident(key)
@@ -270,8 +264,8 @@ class LawGit(object):
             if self.grep and not self.grep in law_name:
                 continue
             filename = '/'.join(diff.b_blob.path.split('/')[:2] + ['index.md'])
-            filename = os.path.join(self.path, filename)
-            if os.path.exists(filename):
+            filename = self.path / filename
+            if filename.exists():
                 self.laws[law_name].append(diff.b_blob.path)
                 self.law_changes[law_name] = (False, diff.diff, filename)
 
@@ -281,8 +275,8 @@ class LawGit(object):
                 continue
             self.laws[law_name].append(filename)
             filename = '/'.join(filename.split('/')[:2] + ['index.md'])
-            filename = os.path.join(self.path, filename)
-            with file(filename) as f:
+            filename = self.path / filename
+            with open(filename) as f:
                 self.law_changes[law_name] = (True, f.read(), filename)
 
     def determine_source(self, law_name):
@@ -290,7 +284,7 @@ class LawGit(object):
         lines = [line.decode('utf-8') for line in lines.splitlines()]
         candidates = self.find_in_sources(lines)
         if not candidates:
-            with file(filename) as f:
+            with open(filename) as f:
                 lines = [line.decode('utf-8') for line in f.read().splitlines()]
             candidates.extend(self.find_in_sources(lines))
         if not candidates:
@@ -315,11 +309,11 @@ class LawGit(object):
         if not self.dry_run:
             self.repo.git.stash()
         try:
-            print("git checkout -b %s" % branch)
+            print(f"git checkout -b {branch}")
             if not self.dry_run:
                 self.repo.git.checkout(b=branch)
         except GitCommandError:
-            print("git checkout %s" % branch)
+            print(f"git checkout {branch}")
             if not self.dry_run:
                 self.repo.git.checkout(branch)
         if not self.dry_run:
@@ -328,27 +322,19 @@ class LawGit(object):
         for ident in commits:
             for law_name, source, key in commits[ident]:
                 for filename in self.laws[law_name]:
-                    if os.path.exists(os.path.join(self.path, filename)):
-                        print("git add %s" % filename)
+                    if (self.path / filename).exists():
+                        print(f"git add {filename}")
                         if not self.dry_run:
-                            self.repo.index.add([filename])
+                            self.repo.index.add([str(filename)])
                     else:
-                        print("git rm %s" % filename)
-                        if not self.dry_run:
-                            self.repo.index.remove([filename])
-            msg = source.get_message(key)
-            print('git commit -m"%s"' % msg)
+                        print(f"git rm {str(filename)}")
+            print(f'git commit -m"{msg}"')
             if not self.dry_run:
                 self.repo.index.commit(msg)
             print("")
         print("git checkout master")
         if not self.dry_run:
             self.repo.heads.master.checkout()
-        print("git merge %s --no-ff" % branch)
-        if not self.dry_run:
-            self.repo.git.merge(branch, no_ff=True)
-
-
 def main(arguments):
     kwargs = {
         'dry_run': arguments['--dry-run'],

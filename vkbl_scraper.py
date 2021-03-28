@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 """VkBl-Scraper.
 
 Usage:
@@ -10,10 +9,13 @@ Options:
   -h --help     Show this screen.
   --version     Show version.
 
+Examples:
+  vkbl_scaper.py data/vkbl.json
+
 """
 
 import re
-import os
+from pathlib import Path
 import json
 import time
 import datetime
@@ -49,9 +51,9 @@ def slugify(key):
     return slugify_re.sub('', key.lower())
 
 
-class VkblScraper(object):
+class VkblScraper:
     URL = 'http://www.verkehr-data.com/docs/artikelsuche.php?seitenzahl=1&anzahl=10000&start=0&Titel=&Datum=&Muster=&Muster2=&Jahrgang=%d&VerordnungsNr=&Seite=&Bereichsname=&DB=&Aktenzeichen='
-    PRICE_RE = re.compile('Preis: (\d+,\d+) \((\d+) Seite')
+    PRICE_RE = re.compile(r'Preis: (\d+,\d+) \((\d+) Seite')
 
     def scrape(self, low=1947, high=datetime.datetime.now().year):
         items = {}
@@ -71,13 +73,13 @@ class VkblScraper(object):
                     break
             root = lxml.html.fromstring(response)
             total_sum += len(root.cssselect(".tabelle2"))
-            print year, len(root.cssselect(".tabelle2"))
+            print(year, len(root.cssselect(".tabelle2")))
             for i, table in enumerate(root.cssselect(".tabelle2")):
                 trs = table.cssselect('tr')
                 header = trs[0].cssselect('td')[0].text_content().strip()
-                print i, header
+                print(i, header)
                 try:
-                    genre, edition = header.split(u'\xa0 ')
+                    genre, edition = header.split('\xa0 ')
                     edition = edition.split(' ')[2]
                 except ValueError:
                     genre = header
@@ -106,14 +108,9 @@ class VkblScraper(object):
                     'title': title,
                     'description': description
                 })
-                ident = '%s.%s.%s.%s' % (
-                    data.get('jahr', ''),
-                    data.get('vonummer', ''),
-                    data.get('seite', ''),
-                    data.get('aktenzeichen', '')
-                )
+                ident = f"{data.get('jahr', '')}.{data.get('vonummer', '')}.{data.get('seite', '')}.{data.get('aktenzeichen', '')}"
                 items[ident] = data
-        print total_sum, len(items)
+        print(total_sum, len(items))
         return items
 
 
@@ -125,11 +122,11 @@ def main(arguments):
     maxyear = int(maxyear)
     vkbl = VkblScraper()
     data = {}
-    if os.path.exists(arguments['<outputfile>']):
-        with file(arguments['<outputfile>']) as f:
+    if Path(arguments['<outputfile>']).exists():
+        with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(vkbl.scrape(minyear, maxyear))
-    with file(arguments['<outputfile>'], 'w') as f:
+    with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f)
 
 if __name__ == '__main__':

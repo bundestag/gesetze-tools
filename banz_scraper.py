@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 """BAnz-Scraper.
 
 Usage:
@@ -13,11 +12,14 @@ Options:
 Duration Estimates:
   2-5 minutes per year
   30-75 minutes in total
-  
+
+Examples:
+  banz_scaper.py data/banz.json
 
 """
 import os
 import sys
+from pathlib import Path
 import re
 import json
 
@@ -25,7 +27,7 @@ import lxml.html
 import requests
 
 
-class BAnzScraper(object):
+class BAnzScraper:
     BASE_URL = 'https://www.bundesanzeiger.de/ebanzwww/wexsservlet?'
     BASE = 'page.navid=to_official_part&global_data.designmode=eb'
     YEAR = ('page.navid=official_starttoofficial_start_changeyear'
@@ -40,8 +42,8 @@ class BAnzScraper(object):
     YEAR = '&year=%s'
     LIST = '&edition=BAnz+AT+%s'
 
-    MONTHS = [u'Januar', u'Februar', u'März', u'April', u'Mai', u'Juni', u'Juli',
-            u'August', u'September', u'Oktober', u'November', u'Dezember']
+    MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
+            'August', 'September', 'Oktober', 'November', 'Dezember']
 
     def get(self, url):
         return requests.get(url)
@@ -54,7 +56,7 @@ class BAnzScraper(object):
                 continue
             dates = self.get_dates(year)
             for date in dates:
-                print(str(year) + ' ' + date)
+                print(year, date)
                 collection.update(self.get_items(year, date))
         return collection
 
@@ -95,44 +97,37 @@ class BAnzScraper(object):
         response = self.get(url)
         items = {}
         root = lxml.html.fromstring(response.text)
-        selector = 'div.container:nth-child(5)' #was: selector = 'table[summary="Trefferliste"] tr'
-        #This is the actual TABLE
-        for tr in root.cssselect(selector): # might be unnecessary
-            for row in tr.cssselect('div.row'): # Iterate over the rows of the table
-                tds = row.getchildren()
-                #print( lxml.html.tostring(row) )
-                if len(tds) != 3:
-                    continue
-                public_body = tds[0].text_content().strip()
-                if public_body.lower() == 'behörde': # this is the header of the table
-                    continue
-                # TODO: Find how to evaluate the links properly?
-                # https://www.bundesanzeiger.de/pub/de/amtlicher-teil?0-1.-table~panel-row-0-publication~info~cell-result~link
-                link = tds[1].cssselect('a')[0]#.attrib['href']
-                additional = []
-                for c in tds[1].getchildren()[0].getchildren()[1:]:
-                    if c.tail is not None and c.tail.strip():
-                        additional.append(c.tail.strip())
-                orig_date = None
-                for a in additional:
-                    match = re.search('[Vv]om:\xa0(\d+)\. (\w+) (\d{4})', a, re.U)
-                    if match is not None:
-                        day = int(match.group(1))
-                        month = self.MONTHS.index(match.group(2)) + 1
-                        year = int(match.group(3))
-                        orig_date = '%02d.%02d.%d' % (day, month, year)
-                        break
-                name = link.text_content()#[1:]
-                name = re.sub('\s+', ' ', name)
-                ident = tds[2].text_content().strip()
-                items[ident] = {
-                    'ident': ident,
-                    'public_body': public_body,
-                    'name': name,
-                    'date': date[1],
-                    'original_date': orig_date,
-                    'additional': additional
-                }
+        selector = 'table[summary="Trefferliste"] tr'
+        for tr in root.cssselect(selector):
+            tds = tr.cssselect('td')
+            if len(tds) != 3:
+                continue
+            public_body = tds[0].text_content().strip()
+            link = tds[1].cssselect('a')[0]
+            additional = []
+            for c in tds[1].getchildren()[1:]:
+                if c.tail is not None and c.tail.strip():
+                    additional.append(c.tail.strip())
+            orig_date = None
+            for a in additional:
+                match = re.search(r'[Vv]om (\d+)\. (\w+) (\d{4})', a, re.U)
+                if match is not None:
+                    day = int(match.group(1))
+                    month = self.MONTHS.index(match.group(2)) + 1
+                    year = int(match.group(3))
+                    orig_date = f'{day:02}.{month:02}.{year}'
+                    break
+            name = link.text_content()[1:]
+            name = re.sub(r'\s+', ' ', name)
+            ident = tds[2].text_content().strip()
+            items[ident] = {
+                'ident': ident,
+                'public_body': public_body,
+                'name': name,
+                'date': date[1],
+                'original_date': orig_date,
+                'additional': additional
+            }
         return items
 
 

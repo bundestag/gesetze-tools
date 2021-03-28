@@ -68,6 +68,13 @@ dumps the result to JSON.
 
 Last tested: 2020-12-23 SUCCESS
 
+## vkbl_scraper.py
+
+Scrapes the table of contents of all available issues of the Verkehrsblatt and
+dumps the result to JSON.
+
+Last tested: 2017-01-14 SUCCESS
+
 ## lawgit.py
 
 Checks the repositories working directory for changes, tries to find relations
