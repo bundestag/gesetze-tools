@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 """BAnz-Scraper.
 
 Usage:
@@ -13,10 +12,12 @@ Options:
 Duration Estimates:
   2-5 minutes per year
   30-75 minutes in total
-  
+
+Examples:
+  banz_scaper.py data/banz.json
 
 """
-import os
+from pathlib import Path
 import re
 import json
 
@@ -24,7 +25,7 @@ import lxml.html
 import requests
 
 
-class BAnzScraper(object):
+class BAnzScraper:
     BASE_URL = 'https://www.bundesanzeiger.de/ebanzwww/wexsservlet?'
     BASE = 'page.navid=to_official_part&global_data.designmode=eb'
     YEAR = ('page.navid=official_starttoofficial_start_changeyear'
@@ -34,8 +35,8 @@ class BAnzScraper(object):
             '&%%28page.navid%%3Dofficial_starttoofficial_start_update%%29='
             'Veröffentlichungen+anzeigen')
 
-    MONTHS = [u'Januar', u'Februar', u'März', u'April', u'Mai', u'Juni', u'Juli',
-            u'August', u'September', u'Oktober', u'November', u'Dezember']
+    MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
+            'August', 'September', 'Oktober', 'November', 'Dezember']
 
     def get(self, url):
         return requests.get(url)
@@ -48,7 +49,7 @@ class BAnzScraper(object):
                 continue
             dates = self.get_dates(year)
             for date in dates:
-                print year, date
+                print(year, date)
                 collection.update(self.get_items(year, date))
         return collection
 
@@ -94,15 +95,15 @@ class BAnzScraper(object):
                     additional.append(c.tail.strip())
             orig_date = None
             for a in additional:
-                match = re.search('[Vv]om (\d+)\. (\w+) (\d{4})', a, re.U)
+                match = re.search(r'[Vv]om (\d+)\. (\w+) (\d{4})', a, re.U)
                 if match is not None:
                     day = int(match.group(1))
                     month = self.MONTHS.index(match.group(2)) + 1
                     year = int(match.group(3))
-                    orig_date = '%02d.%02d.%d' % (day, month, year)
+                    orig_date = f'{day:02}.{month:02}.{year}'
                     break
             name = link.text_content()[1:]
-            name = re.sub('\s+', ' ', name)
+            name = re.sub(r'\s+', ' ', name)
             ident = tds[2].text_content().strip()
             items[ident] = {
                 'ident': ident,
@@ -122,11 +123,11 @@ def main(arguments):
     maxyear = int(maxyear)
     banz = BAnzScraper()
     data = {}
-    if os.path.exists(arguments['<outputfile>']):
-        with file(arguments['<outputfile>']) as f:
+    if Path(arguments['<outputfile>']).exists():
+        with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(banz.scrape(minyear, maxyear))
-    with file(arguments['<outputfile>'], 'w') as f:
+    with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f)
 
 if __name__ == '__main__':

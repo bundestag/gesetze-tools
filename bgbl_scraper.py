@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 """BGBl-Scraper.
 
 Usage:
@@ -10,8 +9,11 @@ Options:
   -h --help     Show this screen.
   --version     Show version.
 
+Examples:
+  bgbl_scaper.py data/bgbl.json
+
 """
-import os
+from pathlib import Path
 import re
 import json
 from collections import defaultdict
@@ -20,7 +22,7 @@ import lxml.html
 import requests
 
 
-class BGBLScraper(object):
+class BGBLScraper:
     BASE_URL = 'http://www.bgbl.de/Xaver/'
     START = 'start.xav?startbk=Bundesanzeiger_BGBl'
     BASE_TOC = ('toc.xav?tocf=xaver.component.TOC_0'
@@ -54,7 +56,7 @@ class BGBLScraper(object):
     def sessionify(self, url):
         if not self.sid:
             self.login()
-        return '%s&SID=%s' % (url, self.sid)
+        return f'{url}&SID={self.sid}'
 
     def get(self, url):
         while True:
@@ -69,7 +71,7 @@ class BGBLScraper(object):
         self.toc_offsets = self.get_base_toc()
         # import pdb; pdb.set_trace()
         for part in range(1, self.part_count + 1):
-            print part
+            print(part)
             self.get_main_toc(part)
             self.get_all_year_tocs(part, low, high)
             collection.update(self.get_all_tocs(part, low, high))
@@ -77,7 +79,7 @@ class BGBLScraper(object):
 
     def parse(self, response):
         response.encoding = 'utf-8'
-        html = re.sub('([,\{])(\w+):', '\\1"\\2":', response.text)
+        html = re.sub(r'([,\{])(\w+):', '\\1"\\2":', response.text)
         html = json.loads(html)['innerhtml']
         return lxml.html.fromstring(html)
 
@@ -91,7 +93,7 @@ class BGBLScraper(object):
             if not 'Bundesgesetzblatt Teil' in a.attrib.get('title', ''):
                 continue
             link_href = a.attrib['href']
-            match = re.search('tocid=(\d+)&', link_href)
+            match = re.search(r'tocid=(\d+)&', link_href)
             if match:
                 toc_offsets.append(match.group(1))
         return toc_offsets
@@ -110,7 +112,7 @@ class BGBLScraper(object):
                 year = int(a.text_content())
             except ValueError:
                 continue
-            doc_id = re.search('tocid=(\d+)&', a.attrib['href'])
+            doc_id = re.search(r'tocid=(\d+)&', a.attrib['href'])
             if doc_id is not None:
                 self.year_toc[part][year] = doc_id.group(1)
 
@@ -118,7 +120,7 @@ class BGBLScraper(object):
         for year in self.year_toc[part]:
             if not (low <= year <= high):
                 continue
-            print "Getting Year TOC %d for %d" % (year, part)
+            print(f"Getting Year TOC {year} for {part}")
             self.get_year_toc(part, year)
 
     def get_year_toc(self, part, year):
@@ -129,14 +131,14 @@ class BGBLScraper(object):
         root = self.parse(response)
         selector = 'a.tocEntry'
         for a in root.cssselect(selector):
-            match = re.search('Nr\. (\d+) vom (\d{2}\.\d{2}\.\d{4})',
+            match = re.search(r'Nr\. (\d+) vom (\d{2}\.\d{2}\.\d{4})',
                               a.text_content())
             if match is None:
                 continue
-            print a.text_content()
+            print(a.text_content())
             number = int(match.group(1))
             date = match.group(2)
-            doc_id = re.search('start=%2f%2f\*%5B%40node_id%3D%27(\d+)%27%5D',
+            doc_id = re.search(r'start=%2f%2f\*%5B%40node_id%3D%27(\d+)%27%5D',
                                a.attrib['href'])
             doc_id = doc_id.group(1)
             self.year_docs[part].setdefault(year, {})
@@ -153,12 +155,12 @@ class BGBLScraper(object):
             for number in self.year_docs[part][year]:
                 try:
                     data = self.get_toc(part, year, number)
-                    collection['%d_%d_%d' % (part, year, number)] = data
+                    collection[f'{part}_{year}_{number}'] = data
                 except:
-                    print '%d %d' % (year, number)
-                    json.dump(collection, file('temp.json', 'w'))
+                    print(f'{year} {number}')
+                    json.dump(collection, open('temp.json', 'w'))
                     raise
-                print '%d %d' % (year, number)
+                print(f'{year} {number}')
         return collection
 
     def get_toc(self, part, year, number):
@@ -183,9 +185,9 @@ class BGBLScraper(object):
             href = link.attrib['href']
             href = re.sub('SID=[^&]+&', '', href)
             text = divs[2].text_content().strip()
-            print text
-            match = re.search('aus +Nr. +(\d+) +vom +(\d{1,2}\.\d{1,2}\.\d{4}),'
-                              ' +Seite *(\d*)\w?\.?$', text)
+            print(text)
+            match = re.search(r'aus +Nr. +(\d+) +vom +(\d{1,2}\.\d{1,2}\.\d{4}),'
+                              r' +Seite *(\d*)\w?\.?$', text)
             page = None
             date = match.group(2)
             if match.group(3):
@@ -212,11 +214,11 @@ def main(arguments):
     maxyear = int(maxyear)
     bgbl = BGBLScraper()
     data = {}
-    if os.path.exists(arguments['<outputfile>']):
-        with file(arguments['<outputfile>']) as f:
+    if Path(arguments['<outputfile>']).exists():
+        with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
-    with file(arguments['<outputfile>'], 'w') as f:
+    with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f)
 
 if __name__ == '__main__':
