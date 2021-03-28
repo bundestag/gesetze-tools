@@ -33,11 +33,15 @@ class BGBlSource:
     """BGBl as a source for law change"""
 
     change_re = [
-        re.compile(r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
-        re.compile(r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
+        re.compile(
+            r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), +(?:S\. )?(?P<page>\d+)'),
+        re.compile(
+            r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), \d \((?P<page>\d+)\)'),
         re.compile(r'BGBl +(?P<part>I+):? *(?P<year>\d{4}), (?P<page>\d+)'),
-        re.compile(r'\d{1,2}\.\.?\d{1,2}\.\.?(?P<year>\d{4}) (?P<part>I+) (?:S\. )?(?P<page>\d+)'),
-        re.compile(r'(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)'),
+        re.compile(
+            r'\d{1,2}\.\.?\d{1,2}\.\.?(?P<year>\d{4}) (?P<part>I+) (?:S\. )?(?P<page>\d+)'),
+        re.compile(
+            r'(?P<year>\d{4}).{,8}?BGBl\.? +(?P<part>I+):? +(?:S\. )?(?P<page>\d+)'),
         # re.compile(u'Art. \d+ G v. (?P<day>\d{1,2}).(?P<month>\d{1,2}).(?P<year>\d{4})')
     ]
 
@@ -285,7 +289,8 @@ class LawGit:
         candidates = self.find_in_sources(lines)
         if not candidates:
             with open(filename) as f:
-                lines = [line.decode('utf-8') for line in f.read().splitlines()]
+                lines = [line.decode('utf-8')
+                         for line in f.read().splitlines()]
             candidates.extend(self.find_in_sources(lines))
         if not candidates:
             return None
@@ -295,7 +300,8 @@ class LawGit:
         candidates = []
         for source in self.sources:
             try:
-                candidates.extend([(source, c) for c in source.find_candidates(lines)])
+                candidates.extend([(source, c)
+                                   for c in source.find_candidates(lines)])
             except TransientState:
                 return []
         return candidates
@@ -354,6 +360,7 @@ def main(arguments):
 
     if arguments['autocommit']:
         lg.autocommit()
+
 
 if __name__ == '__main__':
     from docopt import docopt

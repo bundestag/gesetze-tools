@@ -56,9 +56,9 @@ class LawToMarkdown(sax.ContentHandler):
     list_start_re = re.compile(r'^(\d+)\.')
 
     def __init__(self, fileout,
-            yaml_header=DEFAULT_YAML_HEADER,
-            heading_anchor=False,
-            orig_slug=None):
+                 yaml_header=DEFAULT_YAML_HEADER,
+                 heading_anchor=False,
+                 orig_slug=None):
         self.fileout = fileout
         self.yaml_header = yaml_header
         self.heading_anchor = heading_anchor
@@ -83,7 +83,8 @@ class LawToMarkdown(sax.ContentHandler):
             indent = self.indent_level
         first_indent = ''
         if self.last_list_index is not None:
-            space_count = max(0, len(self.indent_by) - (len(self.last_list_index) + 1))
+            space_count = max(0, len(self.indent_by) -
+                              (len(self.last_list_index) + 1))
             first_indent = f" {self.indent_by[0:space_count]}"
             self.last_list_index = None
         for line in wrap(text):
@@ -154,7 +155,8 @@ class LawToMarkdown(sax.ContentHandler):
             self.write_list_item()
         elif name == 'img':
             self.flush_text()
-            self.out_indented(f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
+            self.out_indented(
+                f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
         elif name == 'dt':
             self.in_list_index = True
         elif name in ('u', 'b', 'f'):
@@ -287,11 +289,11 @@ class LawToMarkdown(sax.ContentHandler):
         if self.yaml_header:
             meta.update(self.yaml_header)
             self.out(yaml.safe_dump(meta,
-                explicit_start=True,
-                explicit_end=False,
-                allow_unicode=True,
-                default_flow_style=False
-            ))
+                                    explicit_start=True,
+                                    explicit_end=False,
+                                    allow_unicode=True,
+                                    default_flow_style=False
+                                    ))
             # Blank line ensures meta doesn't become headline
             self.write('\n---')
         else:
@@ -302,9 +304,11 @@ class LawToMarkdown(sax.ContentHandler):
         self.write(heading)
         self.write()
         if 'ausfertigung-datum' in self.meta:
-            self.write(f"Ausfertigungsdatum\n:   {self.meta['ausfertigung-datum'][0]}\n")
+            self.write(
+                f"Ausfertigungsdatum\n:   {self.meta['ausfertigung-datum'][0]}\n")
         if 'periodikum' in self.meta and 'zitstelle' in self.meta:
-            self.write(f"Fundstelle\n:   {self.meta['periodikum'][0]}: {self.meta['zitstelle'][0]}\n")
+            self.write(
+                f"Fundstelle\n:   {self.meta['periodikum'][0]}: {self.meta['zitstelle'][0]}\n")
 
         for text in self.meta.get('standkommentar', []):
             try:
