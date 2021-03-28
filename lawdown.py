@@ -296,7 +296,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.write('\n---')
         else:
             for k, v in list(meta.items()):
-                self.write(f"{key}: {value}")
+                self.write(f"{k}: {v}")
         self.write()
         heading = f"# {title} ({self.meta['jurabk'][0]})"
         self.write(heading)
@@ -411,7 +411,7 @@ def main(arguments):
         shutil.rmtree(outpath, ignore_errors=True)
         outpath.mkdir()
         for part in inpath.glob('*'):
-            if part.endswith(f'{law_name}.xml'):
+            if str(part).endswith(f'{law_name}.xml'):
                 continue
             part_filename = part.name
             shutil.copy(part, outpath / part_filename)
