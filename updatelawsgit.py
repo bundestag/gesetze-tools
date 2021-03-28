@@ -2,6 +2,7 @@
 
 import subprocess
 import os
+import sys
 
 from git import Repo
 from datetime import datetime
@@ -17,7 +18,7 @@ BGBL_FILE = "data/bgbl.json"
 LOG_FILE = open("updatelawsgit.log", "w")
 
 def run_command(command: List[str]) -> None:
-    if subprocess.check_call(command, stdout=LOG_FILE) != 0:
+    if subprocess.check_call(command) != 0:
         print("Error while executing", command)
         exit(1)
 
