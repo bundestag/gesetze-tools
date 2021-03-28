@@ -123,7 +123,7 @@ class Lawde:
 
     def get_all_laws(self):
         with open(self.lawlist) as f:
-            return [l['slug'] for l in json.load(f)]
+            return [law['slug'] for law in json.load(f)]
 
     def loadall(self):
         self.load(self.get_all_laws())
