@@ -151,6 +151,9 @@ def main(arguments):
     maxyear = arguments['<maxyear>'] or 10000
     minyear = int(minyear)
     maxyear = int(maxyear)
+    print('This will scrape information from the Bundesanzeiger between ' + str(minyear) + ' and ' + str(maxyear) + '.')
+    print('Results will be stored in ' + arguments['<outputfile>'])
+    print('You will see all dates with publications appear below as they are parsed.')
     banz = BAnzScraper()
     data = {}
     if Path(arguments['<outputfile>']).exists():
