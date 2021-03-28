@@ -25,7 +25,7 @@ def clone_lawsgit() -> None:
     print("Updating gesetze.git…")
 
     if not os.path.exists(LAWS_PATH):
-        run_command(["git", "clone", LAWS_REPOSITORY, LAWS_PATH])
+        run_command(["git", "clone", "--depth=1", LAWS_REPOSITORY, LAWS_PATH])
     else:
         run_command(["git", "-C", LAWS_PATH, "pull"])
 
