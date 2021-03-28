@@ -53,7 +53,9 @@ def slugify(key):
 
 
 class VkblScraper:
-    URL = 'http://www.verkehr-data.com/docs/artikelsuche.php?seitenzahl=1&anzahl=10000&start=0&Titel=&Datum=&Muster=&Muster2=&Jahrgang=%d&VerordnungsNr=&Seite=&Bereichsname=&DB=&Aktenzeichen='
+    URL = 'http://www.verkehr-data.com/docs/artikelsuche.php?seitenzahl=1' \
+        '&anzahl=10000&start=0&Titel=&Datum=&Muster=&Muster2=&Jahrgang=%d' \
+        '&VerordnungsNr=&Seite=&Bereichsname=&DB=&Aktenzeichen='
     PRICE_RE = re.compile(r'Preis: (\d+,\d+) \((\d+) Seite')
 
     def scrape(self, low=1947, high=datetime.datetime.now().year):
@@ -112,7 +114,12 @@ class VkblScraper:
                     'title': title,
                     'description': description
                 })
-                ident = f"{data.get('jahr', '')}.{data.get('vonummer', '')}.{data.get('seite', '')}.{data.get('aktenzeichen', '')}"
+
+                year = data.get('jahr', '')
+                vonnummer = data.get('vonummer', '')
+                seite = data.get('seite', '')
+                aktenzeichen = data.get('aktenzeichen', '')
+                ident = f"{year}.{vonnummer}.{seite}.{aktenzeichen}"
                 items[ident] = data
         print(total_sum, len(items))
         return items

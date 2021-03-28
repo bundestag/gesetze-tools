@@ -219,7 +219,25 @@ class VkblSource:
 
     def get_message(self, key):
         """
-        {u'description': u'', u'vid': u'19463', u'seite': u'945', u'price': 3.4, u'edition': u'23/2012', u'aufgehobenam': u'', 'date': u'15.12.2012', u'verffentlichtam': u'15.12.2012', u'pages': 9, u'title': u'Verordnung \xfcber die Betriebszeiten der Schleusen und Hebewerke an den Bundeswasserstra\xdfen im Zust\xe4ndigkeitsbereich der Wasser- und Schifffahrtsdirektion Ost', u'jahr': u'2012', u'inkraftab': u'01.01.2013', u'verkndetam': u'22.11.2012', u'link': u'../shop/in_basket.php?vID=19463', u'aktenzeichen': u'', u'genre': u'Wasserstra\xdfen, Schifffahrt', u'vonummer': u'215'}"
+        {
+            u'description': u'',
+            u'vid': u'19463',
+            u'seite': u'945',
+            u'price': 3.4,
+            u'edition': u'23/2012',
+            u'aufgehobenam': u'',
+            'date': u'15.12.2012',
+            u'verffentlichtam': u'15.12.2012',
+            u'pages': 9,
+            u'title': u'Verordnung \xfcber die Betriebszeiten der Schleusen ...',
+            u'jahr': u'2012', u'inkraftab': u'01.01.2013',
+            u'verkndetam': u'22.11.2012',
+            u'link': u'../shop/in_basket.php?vID=19463',
+            u'aktenzeichen': u'',
+            u'genre': u'Wasserstra\xdfen,
+            Schifffahrt',
+            u'vonummer': u'215'
+        }"
         """
         entry = dict(self.data[key])
         return (f"{entry['title']}\n\n{entry['verkndetam']}: {entry['edition']} S. {entry['seite']} ({entry['vonummer']})")
