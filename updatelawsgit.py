@@ -40,6 +40,7 @@ def generate_index(minyear: int, maxyear: int) -> None:
     print("Looking for law changes…")
 
     run_command(["./banz_scraper.py", BANZ_FILE, str(minyear), str(maxyear)])
+    run_command(["./bgbl_scraper.py", BGBL_FILE, str(minyear), str(maxyear)])
 
     # TODO add the other indexes here, once they are working
 
