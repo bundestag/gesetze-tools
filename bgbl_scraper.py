@@ -155,7 +155,7 @@ def main(arguments):
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=4)
 
 
 if __name__ == '__main__':
