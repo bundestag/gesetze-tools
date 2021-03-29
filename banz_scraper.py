@@ -27,7 +27,7 @@ from bs4 import BeautifulSoup
 import requests
 import requests.cookies
 
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 from requests.models import Response
 
@@ -113,7 +113,7 @@ class BAnzScraper:
             spans = row.find_all("span")
             title_result = row.find(class_="title_result")
 
-            orig_date = ""
+            orig_date: Optional[str] = None
             match = re.search(r'[Vv]om: (\d+)\. ([\wä]+) (\d{4})', str(title_result), re.U)
             if match:
                 day = int(match.group(1))
