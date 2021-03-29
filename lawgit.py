@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """LawGit - Semi-automatic law change commits.
 
 Usage:
@@ -21,8 +23,14 @@ import json
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-from git import Repo
+from git import Repo, Commit, DiffIndex, Diff
 from git.exc import GitCommandError
+
+from typing import List, Dict, Tuple
+
+
+def log(*message: str):
+    print(datetime.now(), ":", *message)
 
 
 class TransientState(Exception):
@@ -66,7 +74,7 @@ class BGBlSource:
                 toc['part_i'] = 'I' * toc['part']
                 self.data[(toc['year'], toc['page'], toc['part'])] = toc
 
-    def find_candidates(self, lines):
+    def find_candidates(self, lines: List[str]):
         candidates = []
         for line in lines:
             for c_re in self.change_re:
@@ -121,8 +129,8 @@ class BAnzSource:
     def load(self, source):
         self.data = json.load(open(source))
 
-    def find_candidates(self, lines):
-        candidates = []
+    def find_candidates(self, lines: List[str]) -> List[str]:
+        candidates: List[str] = []
         for line in lines:
             line = re.sub(r'[^\w \.]', '', line)
             line = re.sub(r' \d{4} ', ' ', line)
@@ -245,7 +253,7 @@ class VkblSource:
 
 class LawGit:
     laws = defaultdict(list)
-    law_changes = {}
+    law_changes: Dict[str, Tuple[bool, str, Path]] = {}
     bgbl_changes = defaultdict(list)
 
     def __init__(self, path, dry_run=False, consider_old=False, grep=None):
@@ -270,7 +278,7 @@ class LawGit:
             source, key = result
             date = source.get_date(key)
             if not self.consider_old and date + timedelta(days=30 * 12) < datetime.now():
-                print(f"Skipped {law} {result} (too old)")
+                log(f"Skipped {law} {result} (too old)")
                 continue
             branch_name = source.get_branch_name(key)
             ident = source.get_ident(key)
@@ -279,17 +287,24 @@ class LawGit:
         return branches
 
     def collect_laws(self):
-        hcommit = self.repo.head.commit
-        wdiff = hcommit.diff(None, create_patch=True)
+        hcommit: Commit = self.repo.head.commit
+        wdiff: DiffIndex = hcommit.diff(None, create_patch=True)
+
         for diff in wdiff:
-            law_name = diff.b_blob.path.split('/')[1]
-            if self.grep and self.grep not in law_name:
-                continue
-            filename = '/'.join(diff.b_blob.path.split('/')[:2] + ['index.md'])
-            filename = self.path / filename
-            if filename.exists():
-                self.laws[law_name].append(diff.b_blob.path)
-                self.law_changes[law_name] = (False, diff.diff, filename)
+            diff: Diff
+            if diff.b_blob:
+                law_name = diff.b_blob.path.split('/')[1]
+                if self.grep and self.grep not in law_name:
+                    continue
+                filename = '/'.join(diff.b_blob.path.split('/')
+                                    [:2] + ['index.md'])
+                filename = self.path / filename
+                if filename.exists():
+                    self.laws[law_name].append(diff.b_blob.path)
+                    self.law_changes[law_name] = (
+                        False, diff.diff.decode(), filename)
+            else:
+                log("Found deleted law?")
 
         for filename in self.repo.untracked_files:
             law_name = filename.split('/')[1]
@@ -302,19 +317,18 @@ class LawGit:
                 self.law_changes[law_name] = (True, f.read(), filename)
 
     def determine_source(self, law_name):
-        new_file, lines, filename = self.law_changes[law_name]
-        lines = [line.decode('utf-8') for line in lines.splitlines()]
+        new_file, text, filename = self.law_changes[law_name]
+        lines: List[str] = [line for line in text.splitlines()]
         candidates = self.find_in_sources(lines)
         if not candidates:
             with open(filename) as f:
-                lines = [line.decode('utf-8')
-                         for line in f.read().splitlines()]
+                lines = [line for line in f.read().splitlines()]
             candidates.extend(self.find_in_sources(lines))
         if not candidates:
             return None
         return sorted(candidates, key=lambda x: x[0].get_order_key(x[1]))[-1]
 
-    def find_in_sources(self, lines):
+    def find_in_sources(self, lines: List[str]):
         candidates = []
         for source in self.sources:
             try:
@@ -333,11 +347,11 @@ class LawGit:
         if not self.dry_run:
             self.repo.git.stash()
         try:
-            print(f"git checkout -b {branch}")
+            log(f"git checkout -b {branch}")
             if not self.dry_run:
                 self.repo.git.checkout(b=branch)
         except GitCommandError:
-            print(f"git checkout {branch}")
+            log(f"git checkout {branch}")
             if not self.dry_run:
                 self.repo.git.checkout(branch)
         if not self.dry_run:
@@ -347,22 +361,23 @@ class LawGit:
             for law_name, source, key in commits[ident]:
                 for filename in self.laws[law_name]:
                     if (self.path / filename).exists():
-                        print(f"git add {filename}")
+                        log(f"git add {filename}")
                         if not self.dry_run:
                             self.repo.index.add([str(filename)])
                     else:
-                        print(f"git rm {str(filename)}")
+                        log(f"git rm {str(filename)}")
                         if not self.dry_run:
                             self.repo.index.remove([str(filename)])
             msg = source.get_message(key)
-            print(f'git commit -m"{msg}"')
+
+            log(f'git commit -m"{msg}"')
             if not self.dry_run:
                 self.repo.index.commit(msg)
-            print("")
-        print("git checkout master")
+            log("")
+        log("git checkout master")
         if not self.dry_run:
             self.repo.heads.master.checkout()
-        print(f"git merge {branch} --no-ff")
+        log(f"git merge {branch} --no-ff")
         if not self.dry_run:
             self.repo.git.merge(branch, no_ff=True)
 
