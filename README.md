@@ -31,7 +31,7 @@ Last tested: 2017-01-14 SUCCESS
 Scrapes the table of contents of all issues of the Bundesgesetzblatt and dumps
 the result to JSON.
 
-Last tested: 2017-01-14 FAILED ("KeyError: xaversid")
+Last tested: 2021-03-30 SUCCESS
 
 ## banz_scraper.py
 
