@@ -23,7 +23,10 @@ from collections import defaultdict
 import roman_numbers
 
 import lxml.html
+from lxml.cssselect import CSSSelector
 import requests
+
+from typing import List
 
 
 class BGBLScraper:
@@ -45,9 +48,8 @@ class BGBLScraper:
     def downloadToc(self, id = 0):
         return self.downloadUrl(self.TOC + str(id))['items'][0]
 
-    def downloadText(self, id):
+    def downloadText(self, id) -> lxml.html.HtmlElement:
         response = self.downloadUrl(self.TEXT + str(id))
-        print(response)
         return lxml.html.fromstring(response['innerhtml'])
 
     def scrape(self, year_low=0, year_high=sys.maxsize):
@@ -109,8 +111,8 @@ class BGBLScraper:
         root = self.downloadText(number_id)
         toc = []
         for tr in root.cssselect('tr'):
-            td = tr.cssselect('td')[1]
-            divs = td.cssselect('div')
+            td: lxml.html.HtmlElement = tr.cssselect('td')[1]
+            divs: List[CSSSelector] = td.cssselect('div')
             law_date = None
             if not len(divs):
                 continue
@@ -118,6 +120,7 @@ class BGBLScraper:
                 divs = [None] + divs
             else:
                 law_date = divs[0].text_content().strip()
+
             link = divs[1].cssselect('a')[0]
             name = link.text_content().strip()
             href = link.attrib['href']
