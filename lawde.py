@@ -104,7 +104,7 @@ class Lawde:
         self.remove_law(law)
         law_path = self.build_law_path(law)
         # norm_date_re = re.compile('<norm builddate="\d+"')
-        law_path.mkdir()
+        law_path.mkdir(parents=True)
         for name in zipf.namelist():
             if name.endswith('.xml'):
                 xml = zipf.open(name).read()
