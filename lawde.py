@@ -47,17 +47,11 @@ class Lawde:
         self.path = Path(path)
         self.lawlist = lawlist
 
-    def build_zip_url(self, law):
-        url = f'{self.BASE_URL}/{law}/xml.zip'
-        return url
-
     def download_law(self, law):
         tries = 0
         while True:
             try:
-                res = requests.get(self.build_zip_url(law))
-                with open('test.zip', 'wb') as f:
-                    f.write(res.content)
+                res = requests.get(f'{self.BASE_URL}/{law}/xml.zip')
             except Exception as e:
                 tries += 1
                 print(e)
@@ -71,7 +65,6 @@ class Lawde:
         try:
             zipf = zipfile.ZipFile(BytesIO(res.content))
         except zipfile.BadZipfile:
-            print(f"Removed {law}")
             self.remove_law(law)
             return None
         return zipf
@@ -97,6 +90,7 @@ class Lawde:
         return self.path / prefix / law
 
     def remove_law(self, law):
+        print(f"Removing {law}")
         law_path = self.build_law_path(law)
         shutil.rmtree(law_path, ignore_errors=True)
 
@@ -131,18 +125,14 @@ class Lawde:
         self.load(self.get_all_laws())
 
     def update_list(self):
-        BASE_URL = 'http://www.gesetze-im-internet.de/Teilliste_%s.html'
-        CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789'
-        # Evil parsing of HTML with regex'
         REGEX = re.compile(
             r'href="\./([^\/]+)/index.html"><abbr title="([^"]*)">([^<]+)</abbr>')
 
         laws = []
-
-        for char in CHARS:
+        for char in 'abcdefghijklmnopqrstuvwxyz0123456789':
             print(f"Loading part list {char}")
             try:
-                response = requests.get(BASE_URL % char.upper())
+                response = requests.get(f'{self.BASE_URL}/Teilliste_{char.upper()}.html')
                 html = response.content
             except Exception:
                 continue
