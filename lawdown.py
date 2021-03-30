@@ -417,7 +417,7 @@ def main(arguments):
         shutil.rmtree(outpath, ignore_errors=True)
         outpath.mkdir()
         for part in inpath.glob('*'):
-            if str(part).endswith(f'{law_name}.xml'):
+            if part.name == f'{law_name}.xml':
                 continue
             part_filename = part.name
             shutil.copy(part, outpath / part_filename)
