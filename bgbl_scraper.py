@@ -17,9 +17,11 @@ Examples:
 """
 import sys
 from pathlib import Path
+import urllib.parse
 import re
 import json
 from collections import defaultdict
+import time
 import roman_numbers
 
 import lxml.html
@@ -31,25 +33,28 @@ from typing import List
 
 class BGBLScraper:
     BASE_URL = 'http://www.bgbl.de/xaver/bgbl/'
-    TOC = ('ajax.xav?q=toclevel'
-           '&n=')
-    TEXT = ('text.xav?tf=xaver.component.Text_0'
-            '&hlf=xaver.component.Hitlist_0'
-            '&tocid=')
 
     def __init__(self):
         self.session = requests.session()
         self.session.get(self.BASE_URL + 'start.xav')  # save cookies
 
-    def downloadUrl(self, url):
-        response = self.session.get(self.BASE_URL + url)
+    def downloadUrl(self, file, query={}):
+        query['request.preventCache'] = int(time.time()*1000)
+        response = self.session.get(f'{self.BASE_URL}{file}?{urllib.parse.urlencode(query)}')
         return response.json()
 
-    def downloadToc(self, id = 0):
-        return self.downloadUrl(self.TOC + str(id))['items'][0]
+    def downloadToc(self, toc_id = 0):
+        response = self.downloadUrl('ajax.xav', {'q': 'toclevel', 'n': str(toc_id)})
+        return response['items'][0]
 
-    def downloadText(self, id) -> lxml.html.HtmlElement:
-        response = self.downloadUrl(self.TEXT + str(id))
+    def downloadText(self, toc_id, doc_id) -> lxml.html.HtmlElement:
+        query = {
+            'tf': 'xaver.component.Text_0',
+            'hlf': 'xaver.component.Hitlist_0',
+            'tocid': str(toc_id),
+            'start': f"//*[@node_id='{doc_id}']",
+        }
+        response = self.downloadUrl('text.xav', query)
         return lxml.html.fromstring(response['innerhtml'])
 
     def scrape(self, year_low=0, year_high=sys.maxsize):
@@ -96,7 +101,6 @@ class BGBLScraper:
     def get_year_toc(self, year_id):
         response = self.downloadToc(year_id)
         assert response['id'] == year_id
-        print(response)
         result = {}
         for item in response['c']:
             match = re.match(r'Nr\. (\d+) vom (\d{2}\.\d{2}\.\d{4})', item['l'])
@@ -104,11 +108,12 @@ class BGBLScraper:
                 number = int(match.group(1))
                 date = match.group(2)
                 print(f"Getting Number TOC {number} from {date}")
-                result[number] = self.get_number_toc(item['id'])
+                result[number] = self.get_number_toc(item['id'], item['did'])
         return result
 
-    def get_number_toc(self, number_id):
-        root = self.downloadText(number_id)
+    def get_number_toc(self, number_id, number_did):
+        #response = self.downloadToc(number_id)
+        root = self.downloadText(number_id, number_did)
         toc = []
         for tr in root.cssselect('tr'):
             td: lxml.html.HtmlElement = tr.cssselect('td')[1]
