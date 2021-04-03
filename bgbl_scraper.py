@@ -160,12 +160,12 @@ def main(arguments):
     maxyear = int(maxyear)
     bgbl = BGBLScraper()
     data = {}
-    if Path(arguments['<outputfile>']).exists():
-        with open(arguments['<outputfile>']) as f:
+    if os.path.exists(arguments['<outputfile>']):
+        with open(arguments['<outputfile>'], 'r') as f:
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
-    with open(arguments['<outputfile>'], 'w', encoding='utf8') as f:
-        json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
+    with open(arguments['<outputfile>'], 'w+', encoding='utf8') as f:
+        json.dump(data, f, indent=2, sort_keys=True, ensure_ascii=False)
 
 if __name__ == '__main__':
     from docopt import docopt
