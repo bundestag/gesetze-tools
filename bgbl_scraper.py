@@ -32,7 +32,6 @@ import os
 
 from typing import List
 
-
 class BGBLScraper:
     BASE_URL = 'http://www.bgbl.de/xaver/bgbl/'
 
