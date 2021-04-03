@@ -163,8 +163,8 @@ def main(arguments):
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
-    with open(arguments['<outputfile>'], 'w') as f:
-        json.dump(data, f, indent=4)
+    with open(arguments['<outputfile>'], 'w', encoding='utf8') as f:
+        json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
 
 if __name__ == '__main__':
     from docopt import docopt
