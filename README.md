@@ -16,11 +16,10 @@ Downloads all laws as XML files from
 [www.gesetze-im-internet.de](http://www.gesetze-im-internet.de/)
 and extracts them to a directory.
 
-### Useage
+### Usage
 Update your list of laws first:
 ```bash
 python lawde.py updatelist
-python lawde.py loadall
 ```
 
 You can then download all laws by calling (<span style="color:red">**not recommended!**</span>)
@@ -45,7 +44,7 @@ Last tested: 2020-12-05 SUCCESS
 Converts all XML laws to Markdown and copies them with other files related
 to the law into specified working directory.
 
-### Useage
+### Usage
 ```bash
 python lawdown.py convert <inpath> <outpath>
 python lawdown.py convert ./laws ./laws-md
