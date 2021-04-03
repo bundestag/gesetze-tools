@@ -29,15 +29,8 @@ from textwrap import wrap
 from io import StringIO
 
 import yaml
-if (sys.version_info > (3, 0)):
-    # Python 3 code in this block
-    import io
-    from io import StringIO
-else:
-    # Python 2 code in this block
-    from StringIO import StringIO
-
-
+import io
+from io import StringIO
 
 
 DEFAULT_YAML_HEADER = {
@@ -541,15 +534,8 @@ def law_to_markdown(filein, fileout=None, name=None):
 def main(arguments):
     if arguments['<inputpath>'] is None and arguments['<outputpath>'] is None:
         # law_to_markdown(sys.stdin, sys.stdout, name=arguments['--name'])
-        if (sys.version_info > (3, 0)):
-            # Python 3 code in this block
-            with open(arguments['--name']) as infile:
-                out = law_to_markdown(infile, sys.stdout)
-        else:
-            # Python 2 code in this block
-            with file(arguments['--name']) as infile:
-                out = law_to_markdown(infile, sys.stdout)
-        return
+        with open(arguments['--name']) as infile:
+            out = law_to_markdown(infile, sys.stdout)
     paths = set()
     for filename in Path(arguments['<inputpath>']).glob('*/*/*.xml'):
         inpath = filename.resolve().parent
