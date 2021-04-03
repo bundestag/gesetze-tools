@@ -29,15 +29,8 @@ from textwrap import wrap
 from io import StringIO
 
 import yaml
-if (sys.version_info > (3, 0)):
-    # Python 3 code in this block
-    import io
-    from io import StringIO
-else:
-    # Python 2 code in this block
-    from StringIO import StringIO
-
-
+import io
+from io import StringIO
 
 
 DEFAULT_YAML_HEADER = {
