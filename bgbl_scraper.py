@@ -219,19 +219,11 @@ def main(arguments):
     bgbl = BGBLScraper()
     data = {}
     if os.path.exists(arguments['<outputfile>']):
-        if (sys.version_info > (3, 0)):
-            with open(arguments['<outputfile>'], 'r') as f:
-                data = json.load(f)
-        else:
-            with file(arguments['<outputfile>']) as f:
-                data = json.load(f)
+        with open(arguments['<outputfile>'], 'r') as f:
+            data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
-    if (sys.version_info > (3, 0)):
-        with open(arguments['<outputfile>'], 'w+', encoding='utf8') as f:
-            json.dump(data, f, indent=2, sort_keys=True, ensure_ascii=False)
-    else:
-        with file(arguments['<outputfile>'], 'w') as f:
-            json.dump(data, f)
+    with open(arguments['<outputfile>'], 'w+', encoding='utf8') as f:
+        json.dump(data, f, indent=2, sort_keys=True, ensure_ascii=False)
 
 if __name__ == '__main__':
     from docopt import docopt
