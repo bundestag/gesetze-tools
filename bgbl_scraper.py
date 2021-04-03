@@ -28,6 +28,7 @@ import roman_numbers
 import lxml.html
 from lxml.cssselect import CSSSelector
 import requests
+import os
 
 from typing import List
 
