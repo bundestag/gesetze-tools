@@ -21,6 +21,7 @@ from collections import defaultdict
 
 import lxml.html
 import requests
+import os
 
 # Landing page might be this one: 
 # https://www.bgbl.de/xaver/bgbl/start.xav#__bgbl__%2F%2F*[%40attr_id%3D'I_2020_57_inhaltsverz']__1607176275258
