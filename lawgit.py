@@ -17,8 +17,8 @@ Examples:
   lawgit.py autocommit ../gesetze --dry-run
 
 """
-import re
 from pathlib import Path
+import re
 import json
 from datetime import datetime, timedelta
 from collections import defaultdict
