@@ -15,18 +15,18 @@ Examples:
   bgbl_scaper.py data/bgbl.json
 
 """
+import sys
+from pathlib import Path
 import urllib.parse
 import re
 import json
-import sys
-# from collections import defaultdict
+from collections import defaultdict
 import time
 import roman_numbers
 
 import lxml.html
 from lxml.cssselect import CSSSelector
 import requests
-import os
 
 from typing import List
 
@@ -42,7 +42,7 @@ class BGBLScraper:
         response = self.session.get(f'{self.BASE_URL}{file}?{urllib.parse.urlencode(query)}')
         return response.json()
 
-    def downloadToc(self, toc_id=0):
+    def downloadToc(self, toc_id = 0):
         response = self.downloadUrl('ajax.xav', {'q': 'toclevel', 'n': str(toc_id)})
         return response['items'][0]
 
@@ -111,7 +111,7 @@ class BGBLScraper:
         return result
 
     def get_number_toc(self, number_id, number_did):
-        # response = self.downloadToc(number_id)
+        #response = self.downloadToc(number_id)
         root = self.downloadText(number_id, number_did)
         toc = []
         for tr in root.cssselect('tr'):
@@ -158,8 +158,8 @@ def main(arguments):
     maxyear = int(maxyear)
     bgbl = BGBLScraper()
     data = {}
-    if os.path.exists(arguments['<outputfile>']):
-        with open(arguments['<outputfile>'], 'r') as f:
+    if Path(arguments['<outputfile>']).exists():
+        with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w+', encoding='utf8') as f:

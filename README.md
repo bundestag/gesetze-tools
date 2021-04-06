@@ -1,5 +1,4 @@
-BundesGit Gesetze Tools
-=======================
+# BundesGit Gesetze Tools
 
 These scripts are used to keep the law repository up to date.
 
@@ -8,15 +7,17 @@ Install requirements:
 pip install -r requirements.txt
 ```
 
-For help see their docstring, command line help or source code.
+For help, see the docstring of the scripts, command line help or source code.
 
-## lawde.py
+
+## Download laws (`lawde.py`)
 
 Downloads all laws as XML files from
 [www.gesetze-im-internet.de](http://www.gesetze-im-internet.de/)
 and extracts them to a directory.
 
 ### Usage
+
 Update your list of laws first:
 ```bash
 python3 lawde.py updatelist
@@ -39,12 +40,14 @@ python3 lawde.py load <shortname>
 
 Last tested: 2020-12-05 SUCCESS
 
-## lawdown.py
 
-Converts all XML laws to Markdown and copies them with other files related
+## Convert to Markdown (`lawdown.py`)
+
+Converts all downloaded XML laws to Markdown format and copies them with other files related
 to the law into specified working directory.
 
 ### Usage
+
 ```bash
 python3 lawdown.py convert <inpath> <outpath>
 python3 lawdown.py convert ./laws ./laws-md
@@ -52,28 +55,32 @@ python3 lawdown.py convert ./laws ./laws-md
 
 Last tested: 2020-12-05 SUCCESS
 
-## bgbl_scraper.py
+
+## Scaper Bundesgesetzblatt (`bgbl_scraper.py`)
 
 Scrapes the table of contents of all issues of the Bundesgesetzblatt and dumps
 the result to JSON.
 
 Last tested: 2021-03-30 SUCCESS
 
-## banz_scraper.py
+
+## Scaper Bundesanzeiger (`banz_scraper.py`)
 
 Scrapes the table of contents of all available issues of the Bundesanzeiger and
 dumps the result to JSON.
 
 Last tested: 2020-12-23 SUCCESS
 
-## vkbl_scraper.py
+
+## Scaper Verkehrsblatt (`vkbl_scraper.py`)
 
 Scrapes the table of contents of all available issues of the Verkehrsblatt and
 dumps the result to JSON.
 
 Last tested: 2017-01-14 SUCCESS
 
-## lawgit.py
+
+## Commit changes (`lawgit.py`)
 
 Checks the repositories working directory for changes, tries to find relations
 to table of content entries in BGBl and BAnz data, commits the changes to a branch
