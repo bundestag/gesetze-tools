@@ -67,7 +67,7 @@ class BGBlSource:
     def load(self, source):
         self.data = {}
         data = json.load(open(source))
-        for key, toc_list in data.items():
+        for _, toc_list in data.items():
             for toc in toc_list:
                 if toc['kind'] == 'meta':
                     continue
@@ -188,7 +188,7 @@ class VkblSource:
     def load(self, source):
         self.data = {}
         data = json.load(open(source))
-        for key, value in data.items():
+        for _, value in data.items():
             if value['jahr'] and value['seite']:
                 ident = (int(value['jahr']), int(value['seite']))
                 value['date'] = value['verffentlichtam']
@@ -317,7 +317,7 @@ class LawGit:
                 self.law_changes[law_name] = (True, f.read(), filename)
 
     def determine_source(self, law_name):
-        new_file, text, filename = self.law_changes[law_name]
+        _, text, filename = self.law_changes[law_name]
         lines: List[str] = [line for line in text.splitlines()]
         candidates = self.find_in_sources(lines)
         if not candidates:
