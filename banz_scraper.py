@@ -165,12 +165,9 @@ def main(arguments):
             with file(arguments['<outputfile>']) as f:
                 data = json.load(f)
     data.update(banz.scrape(minyear, maxyear))
-    if (sys.version_info > (3, 0)):
-        with open(arguments['<outputfile>'], 'w+', encoding='utf8') as f:
-            json.dump(data, f, indent=2, sort_keys=True, ensure_ascii=False)
-    else:
-        with file(arguments['<outputfile>'], 'w', encoding='utf8') as f:
-            json.dump(data, f)
+    with open(arguments['<outputfile>'], 'w', encoding='utf8') as f:
+        json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
+
 
 if __name__ == '__main__':
     from docopt import docopt
