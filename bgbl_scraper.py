@@ -19,7 +19,7 @@ import urllib.parse
 import re
 import json
 import sys
-#from collections import defaultdict
+# from collections import defaultdict
 import time
 import roman_numbers
 
@@ -42,7 +42,7 @@ class BGBLScraper:
         response = self.session.get(f'{self.BASE_URL}{file}?{urllib.parse.urlencode(query)}')
         return response.json()
 
-    def downloadToc(self, toc_id = 0):
+    def downloadToc(self, toc_id=0):
         response = self.downloadUrl('ajax.xav', {'q': 'toclevel', 'n': str(toc_id)})
         return response['items'][0]
 
@@ -111,7 +111,7 @@ class BGBLScraper:
         return result
 
     def get_number_toc(self, number_id, number_did):
-        #response = self.downloadToc(number_id)
+        # response = self.downloadToc(number_id)
         root = self.downloadText(number_id, number_did)
         toc = []
         for tr in root.cssselect('tr'):
@@ -150,6 +150,7 @@ class BGBLScraper:
             toc.append(d)
         return toc
 
+
 def main(arguments):
     minyear = arguments['<minyear>'] or 0
     maxyear = arguments['<maxyear>'] or 10000
@@ -163,6 +164,7 @@ def main(arguments):
     data.update(bgbl.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w+', encoding='utf8') as f:
         json.dump(data, f, indent=2, sort_keys=True, ensure_ascii=False)
+
 
 if __name__ == '__main__':
     from docopt import docopt
