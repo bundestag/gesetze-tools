@@ -15,13 +15,11 @@ Examples:
   bgbl_scaper.py data/bgbl.json
 
 """
-import sys
-from pathlib import Path
 import urllib.parse
 import re
 import json
 import sys
-from collections import defaultdict
+#from collections import defaultdict
 import time
 import roman_numbers
 
