@@ -74,10 +74,6 @@ class LawToMarkdown(sax.ContentHandler):
         self.orig_slug = orig_slug
 
     def out(self, content):
-        if (sys.version_info < (3, 0)):
-            # Only python 2.x distinguishes between str and unicode
-            if isinstance(content, unicode):
-                content = content.encode('utf-8')
         self.fileout.write(content)
         return self
 

@@ -367,6 +367,8 @@ class LawGit:
                     else:
                         log(f"git rm {str(filename)}")
                         self.repo.index.remove([str(filename)])
+            msg = source.get_message(key)
+            
             log(f'git commit -m"{msg}"')
             if not self.dry_run:
                 self.repo.index.commit(msg)
