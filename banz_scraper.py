@@ -19,6 +19,8 @@ Examples:
   banz_scaper.py data/banz.json
 
 """
+import os
+import sys
 from pathlib import Path
 import re
 import json
@@ -156,12 +158,16 @@ def main(arguments):
     print('You will see all dates with publications appear below as they are parsed.')
     banz = BAnzScraper()
     data = {}
-    if Path(arguments['<outputfile>']).exists():
-        with open(arguments['<outputfile>']) as f:
-            data = json.load(f)
+    if os.path.exists(arguments['<outputfile>']):
+        if (sys.version_info > (3, 0)):
+            with open(arguments['<outputfile>']) as f:
+                data = json.load(f)
+        else:
+            with file(arguments['<outputfile>']) as f:
+                data = json.load(f)
     data.update(banz.scrape(minyear, maxyear))
-    with open(arguments['<outputfile>'], 'w') as f:
-        json.dump(data, f, indent=4)
+    with open(arguments['<outputfile>'], 'w', encoding='utf8')) as f:
+        json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
 
 
 if __name__ == '__main__':

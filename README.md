@@ -1,7 +1,7 @@
 BundesGit Gesetze Tools
 =======================
 
-These scripts are used to keep the law repository up to date.
+These scripts are used to keep the [law repository](https://github.com/bundestag/gesetze) up to date.
 
 Install requirements:
 ```bash

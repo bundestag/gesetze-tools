@@ -73,7 +73,11 @@ class LawToMarkdown(sax.ContentHandler):
         self.heading_anchor = heading_anchor
         self.orig_slug = orig_slug
 
-    def out(self, content: str):
+    def out(self, content):
+        if (sys.version_info < (3, 0)):
+            # Only python 2.x distinguishes between str and unicode
+            if isinstance(content, unicode):
+                content = content.encode('utf-8')
         self.fileout.write(content)
         return self
 
@@ -381,7 +385,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.write()
         elif name == 'subtitle':
             self.text = self.text.replace('\n', ' ')
-            self.text = f'### {self.text}'
+            self.text = f'## {self.text}'
             self.flush_text()
             self.write()
 
@@ -437,9 +441,9 @@ class LawToMarkdown(sax.ContentHandler):
             self.write('\n---')
         else:
             for k, v in list(meta.items()):
-                self.write(f"{k}: {v}")
+                self.write('%s: %s' % k, v)
         self.write()
-        heading = f"# {title} ({self.meta['jurabk'][0]})"
+        heading = '# %s (%s)' % (title, self.meta['jurabk'][0])
         self.write(heading)
         self.write()
         if 'ausfertigung-datum' in self.meta:
@@ -473,7 +477,7 @@ class LawToMarkdown(sax.ContentHandler):
             link = title
         if 'gliederungstitel' in self.meta:
             if title:
-                title = f"{title} - {self.meta['gliederungstitel'][0]}"
+                title = u'%s - %s' % (title, self.meta['gliederungstitel'][0])
             else:
                 title = self.meta['gliederungstitel'][0]
         if 'enbez' in self.meta:

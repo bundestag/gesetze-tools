@@ -32,7 +32,9 @@ import os
 
 from typing import List
 
-
+# Landing page might be this one: 
+# https://www.bgbl.de/xaver/bgbl/start.xav#__bgbl__%2F%2F*[%40attr_id%3D'I_2020_57_inhaltsverz']__1607176275258
+# https://www.bgbl.de/xaver/bgbl/start.xav?start=//*[@attr_id=%27%27]#__bgbl__%2F%2F*%5B%40attr_id%3D%27I_2020_62_inhaltsverz%27%5D__1608231069168
 class BGBLScraper:
     BASE_URL = 'http://www.bgbl.de/xaver/bgbl/'
 
@@ -160,8 +162,8 @@ def main(arguments):
     maxyear = int(maxyear)
     bgbl = BGBLScraper()
     data = {}
-    if Path(arguments['<outputfile>']).exists():
-        with open(arguments['<outputfile>']) as f:
+    if os.path.exists(arguments['<outputfile>']):
+        with open(arguments['<outputfile>'], 'r') as f:
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w', encoding='utf8') as f:
