@@ -17,8 +17,8 @@ Examples:
   lawgit.py autocommit ../gesetze --dry-run
 
 """
-from pathlib import Path
 import re
+from pathlib import Path
 import json
 from datetime import datetime, timedelta
 from collections import defaultdict
@@ -366,9 +366,10 @@ class LawGit:
                             self.repo.index.add([str(filename)])
                     else:
                         log(f"git rm {str(filename)}")
-                        self.repo.index.remove([str(filename)])
+                        if not self.dry_run:
+                            self.repo.index.remove([str(filename)])
             msg = source.get_message(key)
-            
+
             log(f'git commit -m"{msg}"')
             if not self.dry_run:
                 self.repo.index.commit(msg)

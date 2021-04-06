@@ -15,24 +15,21 @@ Examples:
   bgbl_scaper.py data/bgbl.json
 
 """
+import sys
+from pathlib import Path
 import urllib.parse
 import re
 import json
-import sys
-# from collections import defaultdict
+from collections import defaultdict
 import time
 import roman_numbers
 
 import lxml.html
 from lxml.cssselect import CSSSelector
 import requests
-import os
 
 from typing import List
 
-# Landing page might be this one:
-# https://www.bgbl.de/xaver/bgbl/start.xav#__bgbl__%2F%2F*[%40attr_id%3D'I_2020_57_inhaltsverz']__1607176275258
-# https://www.bgbl.de/xaver/bgbl/start.xav?start=//*[@attr_id=%27%27]#__bgbl__%2F%2F*%5B%40attr_id%3D%27I_2020_62_inhaltsverz%27%5D__1608231069168
 
 class BGBLScraper:
     BASE_URL = 'http://www.bgbl.de/xaver/bgbl/'
@@ -46,7 +43,7 @@ class BGBLScraper:
         response = self.session.get(f'{self.BASE_URL}{file}?{urllib.parse.urlencode(query)}')
         return response.json()
 
-    def downloadToc(self, toc_id=0):
+    def downloadToc(self, toc_id = 0):
         response = self.downloadUrl('ajax.xav', {'q': 'toclevel', 'n': str(toc_id)})
         return response['items'][0]
 
@@ -115,7 +112,7 @@ class BGBLScraper:
         return result
 
     def get_number_toc(self, number_id, number_did):
-        # response = self.downloadToc(number_id)
+        #response = self.downloadToc(number_id)
         root = self.downloadText(number_id, number_did)
         toc = []
         for tr in root.cssselect('tr'):
@@ -162,8 +159,8 @@ def main(arguments):
     maxyear = int(maxyear)
     bgbl = BGBLScraper()
     data = {}
-    if os.path.exists(arguments['<outputfile>']):
-        with open(arguments['<outputfile>'], 'r') as f:
+    if Path(arguments['<outputfile>']).exists():
+        with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w', encoding='utf8') as f:
