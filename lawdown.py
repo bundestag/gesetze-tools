@@ -119,7 +119,8 @@ class LawToMarkdown(sax.ContentHandler):
                     self.indent_level += 1
                 # then print individual blocks with line breaks
                 for block in blocks[1:]:
-                    self.text = block # might want to print everything but the first indented once
+                    self.text = block
+                    # might want to print everything but the first indented once
                     self.flush_text(custombreaks=custombreaks)
                     self.write()
                 # then reduce the indentation again
@@ -142,8 +143,8 @@ class LawToMarkdown(sax.ContentHandler):
                 if not attrs['ID'] in self.footnotes:
                     self.footnotes[attrs['ID']] = None
                     self.write(f"[^{attrs['ID']}]")
-        if name == 'fussnoten': 
-            # add a state "kommentar" in which line breaks are not printed? 
+        if name == 'fussnoten':
+            # add a state "kommentar" in which line breaks are not printed?
             # Might be sufficient to do that on end of "kommentar"
             self.ignore_until = 'fussnoten'
         if name == "metadaten":
@@ -175,10 +176,10 @@ class LawToMarkdown(sax.ContentHandler):
             try:
                 if attrs._attrs['align'] == 'center':
                     self.head_separator += ' :---: |'
-                elif attrs['align'] == 'justify': 
+                elif attrs['align'] == 'justify':
                     # make this left-aligned
                     self.head_separator += ' :---- |'
-            except KeyError: 
+            except KeyError:
                 # No 'align' in colspec
                 self.head_separator += ' :---: |'
                 # might want to check for centering etc. in colspec via 'attrs'
@@ -191,7 +192,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.text = self.head_separator + '\n'
             self.flush_text(custombreaks=True)
             self.state.append('tbody')
-        elif name == 'dl': 
+        elif name == 'dl':
             # this is a list
             if 'table' not in self.state:
                 self.flush_text()
@@ -202,7 +203,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.state.append('list')
         elif name == 'br':
             if self.state[-1] in ('table', 'theader', 'tbody'):
-                pass 
+                pass
                 # Don't flush in the end. Might want to move this to the catch-all case at the bottom
         elif name == 'row':
             if self.state[-1] in ('thead'):
@@ -238,8 +239,9 @@ class LawToMarkdown(sax.ContentHandler):
                     f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
         elif name == 'dt':
             self.state.append('read_list_index')
-        elif name in ('u', 'b', 'f', 'sp', 'tgroup', 'quoter'): # skip tgroup only in state table?
-            pass 
+        elif name in ('u', 'b', 'f', 'sp', 'tgroup', 'quoter'):
+            # skip tgroup only in state table?
+            pass
             # might also want to skip on 'sp' (spanning rows in a table)
         # else: # Not sure whether this case actually helps much. Might get into issues with tags previously not seen...
             # self.flush_text()
@@ -321,7 +323,7 @@ class LawToMarkdown(sax.ContentHandler):
                 self.text += r' \ '
         elif name == 'table':
             self.write()
-            self.state.pop() 
+            self.state.pop()
             # reset this to what it was
         elif name == 'thead':
             # table head ends here
@@ -356,7 +358,7 @@ class LawToMarkdown(sax.ContentHandler):
                 self.indent_level -= 1
                 self.write()
         elif name == 'dd':
-            if 'table' not in self.state: 
+            if 'table' not in self.state:
                 # only do this when not in a table
                 self.flush_text()
                 self.in_list_item -= 1
@@ -408,7 +410,7 @@ class LawToMarkdown(sax.ContentHandler):
     def write_list_item(self):
         self.last_list_index = self.list_index
         increase_indent = False
-        if len(self.list_index) > 2:            
+        if len(self.list_index) > 2:
             # If there are at least three characters in the list_index (so <number><letter><dot/bracket> is possible)
             if self.list_index[-2].isalpha():   # If this there is a letter before the dot/bracket
                 self.indent_level += 1          # increase indentation
@@ -490,7 +492,8 @@ class LawToMarkdown(sax.ContentHandler):
             title = self.meta['enbez'][0]
             link = title
         if 'titel' in self.meta:
-            if title: # could also add the "brief" in "br" here
+            if title: 
+                # could also add the "brief" in "br" here
                 title = f"{title} {self.meta['titel'][0]}"
             else:
                 title = self.meta['titel'][0]

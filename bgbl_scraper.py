@@ -19,7 +19,7 @@ import urllib.parse
 import re
 import json
 import sys
-#from collections import defaultdict
+# from collections import defaultdict
 import time
 import roman_numbers
 
@@ -30,9 +30,10 @@ import os
 
 from typing import List
 
-# Landing page might be this one: 
+# Landing page might be this one:
 # https://www.bgbl.de/xaver/bgbl/start.xav#__bgbl__%2F%2F*[%40attr_id%3D'I_2020_57_inhaltsverz']__1607176275258
 # https://www.bgbl.de/xaver/bgbl/start.xav?start=//*[@attr_id=%27%27]#__bgbl__%2F%2F*%5B%40attr_id%3D%27I_2020_62_inhaltsverz%27%5D__1608231069168
+
 class BGBLScraper:
     BASE_URL = 'http://www.bgbl.de/xaver/bgbl/'
 
@@ -45,7 +46,7 @@ class BGBLScraper:
         response = self.session.get(f'{self.BASE_URL}{file}?{urllib.parse.urlencode(query)}')
         return response.json()
 
-    def downloadToc(self, toc_id = 0):
+    def downloadToc(self, toc_id=0):
         response = self.downloadUrl('ajax.xav', {'q': 'toclevel', 'n': str(toc_id)})
         return response['items'][0]
 
@@ -114,7 +115,7 @@ class BGBLScraper:
         return result
 
     def get_number_toc(self, number_id, number_did):
-        #response = self.downloadToc(number_id)
+        # response = self.downloadToc(number_id)
         root = self.downloadText(number_id, number_did)
         toc = []
         for tr in root.cssselect('tr'):
@@ -153,6 +154,7 @@ class BGBLScraper:
             toc.append(d)
         return toc
 
+
 def main(arguments):
     minyear = arguments['<minyear>'] or 0
     maxyear = arguments['<maxyear>'] or 10000
@@ -166,6 +168,7 @@ def main(arguments):
     data.update(bgbl.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w', encoding='utf8') as f:
         json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
+
 
 if __name__ == '__main__':
     from docopt import docopt
