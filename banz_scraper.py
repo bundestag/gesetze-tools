@@ -19,6 +19,7 @@ Examples:
   banz_scaper.py data/banz.json
 
 """
+from pathlib import Path
 import os
 import sys
 import re
