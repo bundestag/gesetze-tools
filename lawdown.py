@@ -2,15 +2,15 @@
 """LawDown - Law To Markdown.
 
 Usage:
-  lawdown.py convert --name=<name>
-  lawdown.py convert <inputpath> <outputpath>
+  lawdown.py convert [options] --name=<name>
+  lawdown.py convert [options] <inputpath> <outputpath>
   lawdown.py -h | --help
   lawdown.py --version
 
 Options:
   -h --help     Show this screen.
   --version     Show version.
-  --no-yaml
+  --no-yaml     Don't write YAML header.
 
 Examples:
   lawdown.py convert laws laws-md
@@ -78,7 +78,7 @@ class LawToMarkdown(sax.ContentHandler):
         self.out(content)
 
     def write(self, content='', custombreaks=False):
-        self.out(content + (u'\n' if not custombreaks else ''))
+        self.out(content + ('\n' if not custombreaks else ''))
         return self
 
     def write_wrapped(self, text, indent=None, custombreaks=False):
@@ -106,9 +106,9 @@ class LawToMarkdown(sax.ContentHandler):
     def flush_text(self, custombreaks=False):
         if not custombreaks:
             # remove leading spaces from last line (if there are multiple ones)
-            blocks = self.text.split(r'\ ')
+            blocks = self.text.split('\ ')
             if len(blocks) > 1:
-                blocks[-1] = blocks[-1].replace(r'\ ', ' ').strip()
+                blocks[-1] = blocks[-1].replace('\ ', ' ').strip()
                 # print first block as-is
                 self.text = blocks[0]
                 self.flush_text(custombreaks=custombreaks)
@@ -186,7 +186,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.col_num = 0
             self.state.append('thead')
         elif name == 'tbody':
-            self.text = self.table_header.replace(r'\ ', '<br>') + '\n'
+            self.text = self.table_header.replace('\ ', '<br>') + '\n'
             self.flush_text(custombreaks=True)
             self.text = self.head_separator + '\n'
             self.flush_text(custombreaks=True)
@@ -221,7 +221,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.list_index = ''
         elif name == 'entry':
             if self.state[-1] in ('table', 'tbody'):
-                self.current_text = self.current_text.strip() + ' | '
+                self.current_text = self.current_text.strip() + '| '
             elif self.state[-1] in ('thead'):
                 pass
             else:
@@ -231,11 +231,10 @@ class LawToMarkdown(sax.ContentHandler):
                 self.write_list_item()
         elif name == 'img':
             if self.state[-1] in ('table', 'theader', 'tbody'):
-                self.current_text += ' ![%s](%s) ' % (attrs.get('ALT', attrs['SRC']), attrs['SRC'])
+                self.current_text += f" ![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']}) "
             else:
                 self.flush_text()
-                self.out_indented(
-                    f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
+                self.out_indented(f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
         elif name == 'dt':
             self.state.append('read_list_index')
         elif name in ('u', 'b', 'f', 'sp', 'tgroup', 'quoter'):
@@ -258,7 +257,6 @@ class LawToMarkdown(sax.ContentHandler):
         elif name == 'f':
             self.current_text = u'*'
         elif name == 'b':
-            # make bold
             self.current_text = f' **{self.current_text.strip()}** '
 
         self.text += self.current_text
@@ -276,7 +274,7 @@ class LawToMarkdown(sax.ContentHandler):
         if name == 'text':
             self.state.pop()
         if self.state[-1] == 'meta':
-            if name == 'enbez' and self.text == u'Inhaltsübersicht':
+            if name == 'enbez' and self.text == 'Inhaltsübersicht':
                 self.ignore_until = 'textdaten'
             else:
                 self.meta[name].append(self.text)
@@ -310,16 +308,16 @@ class LawToMarkdown(sax.ContentHandler):
 
         if name == 'br':
             if self.state[-1] in ('table', 'theader', 'tbody'):
-                self.text += r'\ '
+                self.text += '\ '
             elif self.state[-1] in ('list'):
                 self.text = self.text
                 pass
             else:
-                blocks = self.text.split(r' \ ')
+                blocks = self.text.split(' \ ')
                 if len(blocks) > 1:
-                    blocks[-1] = blocks[-1].replace(r'\ ', ' ').strip()
-                    self.text = r' \ '.join(blocks)
-                self.text += r' \ '
+                    blocks[-1] = blocks[-1].replace('\ ', ' ').strip()
+                    self.text = ' \ '.join(blocks)
+                self.text += ' \ '
         elif name == 'table':
             self.write()
             self.state.pop()
@@ -338,15 +336,15 @@ class LawToMarkdown(sax.ContentHandler):
             self.col_num += 1
             # cell[0] is before the first pipe, so the first content cell is cell[1]
             if self.state[-1] in ('table', 'tbody'):
-                pass
+                self.text += ' '
             elif self.state[-1] in ('theader'):
                 # enter additional information in header cell
                 # get all header cells
                 cells = self.table_header.split('| ')
                 # add information to current one
-                cells[self.col_num] = cells[self.col_num].strip() + r'\ ' + self.text
+                cells[self.col_num] = cells[self.col_num].strip() + '\ ' + self.text
                 # strip leading \ and spaces
-                cells[self.col_num] = cells[self.col_num].strip(r' \\') + ' '
+                cells[self.col_num] = cells[self.col_num].strip(' \\') + ' '
                 # re-assemble header
                 self.table_header = '| '.join(cells)
                 self.text = ''
@@ -371,10 +369,10 @@ class LawToMarkdown(sax.ContentHandler):
             else:
                 self.text += '<br>'
         elif name == 'kommentar':
-            self.text = self.text.replace(r'\ ', '')
+            self.text = self.text.replace('\ ', '')
         elif name == 'row':
             if self.state[-1] in ('table', 'tbody'):
-                self.text = self.text.replace(r'\ ', '<br>') + ' |\n'
+                self.text = self.text.replace('\ ', '<br>') + '|\n'
                 self.flush_text(custombreaks=True)
             elif self.state[-1] in ('thead'):
                 self.head_col = 0
@@ -448,9 +446,9 @@ class LawToMarkdown(sax.ContentHandler):
             self.write('\n---')
         else:
             for k, v in list(meta.items()):
-                self.write('%s: %s' % k, v)
+                self.write(f"{k}: {v}")
         self.write()
-        heading = '# %s (%s)' % (title, self.meta['jurabk'][0])
+        heading = f"# {title} ({self.meta['jurabk'][0]})"
         self.write(heading)
         self.write()
         if 'ausfertigung-datum' in self.meta:
@@ -484,7 +482,7 @@ class LawToMarkdown(sax.ContentHandler):
             link = title
         if 'gliederungstitel' in self.meta:
             if title:
-                title = u'%s - %s' % (title, self.meta['gliederungstitel'][0])
+                title = f"{title} - {self.meta['gliederungstitel'][0]}"
             else:
                 title = self.meta['gliederungstitel'][0]
         if 'enbez' in self.meta:
@@ -498,6 +496,7 @@ class LawToMarkdown(sax.ContentHandler):
                 title = self.meta['titel'][0]
         if not title:
             return
+        hn = hn * int(min(heading_num, 6))
         if self.heading_anchor:
             if link:
                 link = re.sub(r'\(X+\)', '', link).strip()
@@ -525,7 +524,7 @@ class LawToMarkdown(sax.ContentHandler):
         self.filename = abk
 
 
-def law_to_markdown(filein, fileout=None, name=None):
+def law_to_markdown(filein, fileout=None, name=None, yaml_header=True):
     ret = False
     if fileout is None:
         fileout = StringIO()
@@ -535,7 +534,7 @@ def law_to_markdown(filein, fileout=None, name=None):
         orig_slug = filein.name.split('/')[-1].split('.')[0]
     else:
         orig_slug = name
-    handler = LawToMarkdown(fileout, orig_slug=orig_slug)
+    handler = LawToMarkdown(fileout, orig_slug=orig_slug, yaml_header=DEFAULT_YAML_HEADER if yaml_header else None)
     parser.setFeature(sax.handler.feature_external_ges, False)
     parser.setContentHandler(handler)
     parser.parse(filein)
@@ -546,9 +545,8 @@ def law_to_markdown(filein, fileout=None, name=None):
 
 def main(arguments):
     if arguments['<inputpath>'] is None and arguments['<outputpath>'] is None:
-        # Python 3 code in this block
         with open(arguments['--name']) as infile:
-            out = law_to_markdown(infile, sys.stdout)
+            law_to_markdown(infile, sys.stdout, yaml_header=not arguments['--no-yaml'])
         return
     paths = set()
     for filename in Path(arguments['<inputpath>']).glob('*/*/*.xml'):
@@ -558,14 +556,14 @@ def main(arguments):
         paths.add(inpath)
         law_name = inpath.name
         with open(filename, "r") as infile:
-            out = law_to_markdown(infile)
+            out = law_to_markdown(infile, yaml_header=not arguments['--no-yaml'])
         slug = out.filename
         outpath = (Path(arguments['<outputpath>']) / slug[0] / slug).resolve()
         print(outpath)
         assert len(outpath.parents) > 1  # um, better be safe
         outfilename = outpath / 'index.md'
         shutil.rmtree(outpath, ignore_errors=True)
-        outpath.mkdir()
+        outpath.mkdir(parents=True)
         for part in inpath.glob('*'):
             if part.name == f'{law_name}.xml':
                 continue
@@ -579,7 +577,7 @@ def main(arguments):
 if __name__ == '__main__':
     from docopt import docopt
     try:
-        arguments = docopt(__doc__, version='LawDe 0.0.1')
+        arguments = docopt(__doc__, version='LawDown 0.0.1')
         main(arguments)
     except KeyboardInterrupt:
         print("\nAbort")
