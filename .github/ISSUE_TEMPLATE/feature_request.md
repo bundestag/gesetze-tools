@@ -5,11 +5,14 @@ labels: feature
 title: 🚀 [Feature] 
 ---
 
-## :rocket: Feature
-<!-- Give a short summary of the Feature. Use Screenshots if you want. -->
+**Problem to address**
+Describe which problem this feature adresses.
 
-### Design & Layout
-<!-- Attach Screenshots and Sketches to illustrate your idea. -->
+**Feature description**
+Describe how the feature should work.
 
-### Additional context
-<!-- Add other context or background about the feature request here.-->
+**Implementation details**
+Optionally describe how this feature should be implemented if you have something in mind.
+
+**Additional context**
+Add other context or background about the feature request here.
