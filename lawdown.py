@@ -310,15 +310,15 @@ class LawToMarkdown(sax.ContentHandler):
 
         if name == 'br':
             if self.state[-1] in ('table', 'theader', 'tbody'):
+                # Add explicit line break when in tables
                 self.text = self.text.strip() + '<br>'
             elif self.state[-1] in ('list'):
+                # Do nothing in lists, as those get rendered nicely by markdown
                 pass
             else:
-                # blocks = self.text.split(' \ ')
-                # if len(blocks) > 1:
-                #     blocks[-1] = blocks[-1].replace(' \ ', ' ').strip()
-                #     self.text = ' \ '.join(blocks)
-                # self.text += ' \ '
+                # If outside of tables and lists, add two newlines to get visible separation in markdown
+                # self.text += ' \n \n '
+                # TODO: Not sure why this breaks tables right now. This is explicitly outside of table handling
                 pass
         elif name == 'table':
             self.write()
@@ -350,7 +350,7 @@ class LawToMarkdown(sax.ContentHandler):
                 else:
                     # add new text with line break otherwise
                     cells[self.col_num] = cells[self.col_num].strip() + '<br>' + self.text
-                # strip leading spaces
+                # strip leading/tailing spaces
                 cells[self.col_num] = cells[self.col_num].strip() + ' '
                 # re-assemble header
                 self.table_header = '| '.join(cells)
