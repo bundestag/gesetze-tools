@@ -107,9 +107,9 @@ class LawToMarkdown(sax.ContentHandler):
     def flush_text(self, custombreaks=False):
         if not custombreaks:
             # remove leading spaces from last line (if there are multiple ones)
-            blocks = self.text.split(r'\ ')
+            blocks = self.text.split('\ ')
             if len(blocks) > 1:
-                blocks[-1] = blocks[-1].replace(r'\ ', ' ').strip()
+                blocks[-1] = blocks[-1].replace('\ ', ' ').strip()
                 # print first block as-is
                 self.text = blocks[0]
                 self.flush_text(custombreaks=custombreaks)
@@ -187,7 +187,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.col_num = 0
             self.state.append('thead')
         elif name == 'tbody':
-            self.text = self.table_header.replace(r'\ ', '<br>') + '\n'
+            self.text = self.table_header.replace('\ ', '<br>') + '\n'
             self.flush_text(custombreaks=True)
             self.text = self.head_separator + '\n'
             self.flush_text(custombreaks=True)
@@ -311,16 +311,16 @@ class LawToMarkdown(sax.ContentHandler):
 
         if name == 'br':
             if self.state[-1] in ('table', 'theader', 'tbody'):
-                self.text += r'\ '
+                self.text += '\ '
             elif self.state[-1] in ('list'):
                 self.text = self.text
                 pass
             else:
-                blocks = self.text.split(r' \ ')
+                blocks = self.text.split(' \ ')
                 if len(blocks) > 1:
-                    blocks[-1] = blocks[-1].replace(r'\ ', ' ').strip()
-                    self.text = r' \ '.join(blocks)
-                self.text += r' \ '
+                    blocks[-1] = blocks[-1].replace('\ ', ' ').strip()
+                    self.text = ' \ '.join(blocks)
+                self.text += ' \ '
         elif name == 'table':
             self.write()
             self.state.pop()
@@ -345,9 +345,9 @@ class LawToMarkdown(sax.ContentHandler):
                 # get all header cells
                 cells = self.table_header.split('| ')
                 # add information to current one
-                cells[self.col_num] = cells[self.col_num].strip() + r'\ ' + self.text
+                cells[self.col_num] = cells[self.col_num].strip() + '\ ' + self.text
                 # strip leading \ and spaces
-                cells[self.col_num] = cells[self.col_num].strip(r' \\') + ' '
+                cells[self.col_num] = cells[self.col_num].strip(' \\') + ' '
                 # re-assemble header
                 self.table_header = '| '.join(cells)
                 self.text = ''
@@ -372,10 +372,10 @@ class LawToMarkdown(sax.ContentHandler):
             else:
                 self.text += '<br>'
         elif name == 'kommentar':
-            self.text = self.text.replace(r'\ ', '')
+            self.text = self.text.replace('\ ', '')
         elif name == 'row':
             if self.state[-1] in ('table', 'tbody'):
-                self.text = self.text.replace(r'\ ', '<br>') + ' |\n'
+                self.text = self.text.replace('\ ', '<br>') + ' |\n'
                 self.flush_text(custombreaks=True)
             elif self.state[-1] in ('thead'):
                 self.head_col = 0
