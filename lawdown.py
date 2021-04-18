@@ -112,19 +112,19 @@ class LawToMarkdown(sax.ContentHandler):
                 # print first block as-is
                 self.text = blocks[0]
                 self.flush_text(custombreaks=custombreaks)
-                # then increase indentation
-                if blocks[0] != '':
-                    self.write()
-                    self.indent_level += 1
+                # # then increase indentation
+                # if blocks[0] != '':
+                #     self.write()
+                #     self.indent_level += 1
                 # then print individual blocks with line breaks
                 for block in blocks[1:]:
                     self.text = block
                     # might want to print everything but the first indented once
                     self.flush_text(custombreaks=custombreaks)
                     self.write()
-                # then reduce the indentation again
-                if blocks[0] != '':
-                    self.indent_level -= 1
+                # # then reduce the indentation again
+                # if blocks[0] != '':
+                #     self.indent_level -= 1
         if self.text.strip():
             self.write_wrapped(self.text, custombreaks=custombreaks)
         self.text = ''
@@ -186,7 +186,8 @@ class LawToMarkdown(sax.ContentHandler):
             self.col_num = 0
             self.state.append('thead')
         elif name == 'tbody':
-            self.text = self.table_header.replace('\ ', '<br>') + '\n'
+            # self.text = self.table_header.replace('\ ', '<br>') + '\n'
+            self.text = self.table_header + '\n'
             self.flush_text(custombreaks=True)
             self.text = self.head_separator + '\n'
             self.flush_text(custombreaks=True)
@@ -309,7 +310,7 @@ class LawToMarkdown(sax.ContentHandler):
 
         if name == 'br':
             if self.state[-1] in ('table', 'theader', 'tbody'):
-                self.text += ' \ '
+                self.text = self.text.strip() + '<br>'
             elif self.state[-1] in ('list'):
                 pass
             else:
@@ -343,9 +344,14 @@ class LawToMarkdown(sax.ContentHandler):
                 # get all header cells
                 cells = self.table_header.split('| ')
                 # add information to current one
-                cells[self.col_num] = cells[self.col_num].strip() + '\ ' + self.text
-                # strip leading \ and spaces
-                cells[self.col_num] = cells[self.col_num].strip(' \\') + ' '
+                if len( cells[self.col_num].strip() ) == 0:
+                    # if it's empty, use the current text
+                    cells[self.col_num] = self.text
+                else:
+                    # add new text with line break otherwise
+                    cells[self.col_num] = cells[self.col_num].strip() + '<br>' + self.text
+                # strip leading spaces
+                cells[self.col_num] = cells[self.col_num].strip() + ' '
                 # re-assemble header
                 self.table_header = '| '.join(cells)
                 self.text = ''
@@ -373,7 +379,8 @@ class LawToMarkdown(sax.ContentHandler):
             self.text = self.text.replace('\ ', '')
         elif name == 'row':
             if self.state[-1] in ('table', 'tbody'):
-                self.text = self.text.replace('\ ', '<br>') + ' |\n'
+                # self.text = self.text.replace('\ ', '<br>') + ' |\n'
+                self.text += ' |\n'
                 self.flush_text(custombreaks=True)
             elif self.state[-1] in ('thead'):
                 self.head_col = 0
