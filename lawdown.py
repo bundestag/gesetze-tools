@@ -241,8 +241,9 @@ class LawToMarkdown(sax.ContentHandler):
             # skip tgroup only in state table?
             pass
             # might also want to skip on 'sp' (spanning rows in a table)
-        # else: # Not sure whether this case actually helps much. Might get into issues with tags previously not seen...
-            # self.flush_text()
+        else: # Not sure whether this case actually helps much. Might get into issues with tags previously not seen...
+            if self.state[-1] not in ('table', 'thead', 'tbody'):
+                self.flush_text()
 
     def endElement(self, name):
         name = name.lower()
