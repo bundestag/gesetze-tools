@@ -1,8 +1,8 @@
 ---
-name: :pencil: Formatting
+name: 🖉 Formatting
 about: Any issues with the markdown formatting
 labels: formatting
-title: :pencil: [Formatting]
+title: 🖉 [Formatting]
 ---
 
 **Actual formatting**
