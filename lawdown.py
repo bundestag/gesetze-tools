@@ -213,7 +213,7 @@ class LawToMarkdown(sax.ContentHandler):
                 self.state.pop()
             else:
                 self.list_index = '*'
-                self.write_list_item()
+            self.write_list_item()
             self.in_list_item += 1
         elif name == 'la' and 'table' in self.state:
             self.last_list_index = self.list_index
@@ -407,15 +407,15 @@ class LawToMarkdown(sax.ContentHandler):
 
     def write_list_item(self):
         self.last_list_index = self.list_index
-        increase_indent = False
-        if len(self.list_index) > 2:
-            # If there are at least three characters in the list_index (so <number><letter><dot/bracket> is possible)
-            if self.list_index[-2].isalpha():   # If this there is a letter before the dot/bracket
-                self.indent_level += 1          # increase indentation
-                increase_indent = True
+        # increase_indent = False
+        # if len(self.list_index) > 2:
+        #     # If there are at least three characters in the list_index (so <number><letter><dot/bracket> is possible)
+        #     if self.list_index[-2].isalpha():   # If this there is a letter before the dot/bracket
+        #         self.indent_level += 1          # increase indentation
+        #         increase_indent = True
         self.out_indented(self.list_index, indent=self.indent_level - 1)
-        if increase_indent:
-            self.indent_level -= 1              # decrease indentation again
+        # if increase_indent:
+        #     self.indent_level -= 1              # decrease indentation again
         self.list_index = ''
 
     def clean_title(self, title):
