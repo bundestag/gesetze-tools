@@ -309,16 +309,16 @@ class LawToMarkdown(sax.ContentHandler):
 
         if name == 'br':
             if self.state[-1] in ('table', 'theader', 'tbody'):
-                self.text += '\ '
+                self.text += ' \ '
             elif self.state[-1] in ('list'):
-                self.text = self.text
                 pass
             else:
-                blocks = self.text.split(' \ ')
-                if len(blocks) > 1:
-                    blocks[-1] = blocks[-1].replace('\ ', ' ').strip()
-                    self.text = ' \ '.join(blocks)
-                self.text += ' \ '
+                # blocks = self.text.split(' \ ')
+                # if len(blocks) > 1:
+                #     blocks[-1] = blocks[-1].replace(' \ ', ' ').strip()
+                #     self.text = ' \ '.join(blocks)
+                # self.text += ' \ '
+                pass
         elif name == 'table':
             self.write()
             self.state.pop()
