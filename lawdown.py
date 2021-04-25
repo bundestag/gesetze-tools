@@ -187,10 +187,6 @@ class LawToMarkdown(sax.ContentHandler):
                 self.text += '<br>'
             self.indent_level += 1
             self.state.append('list')
-        elif name == 'br':
-            if self.state[-1] in ('table', 'theader', 'tbody'):
-                pass
-                # Don't flush in the end. Might want to move this to the catch-all case at the bottom
         elif name == 'row':
             if self.state[-1] in ('thead'):
                 self.col_num = 0
