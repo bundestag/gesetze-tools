@@ -25,7 +25,7 @@ from collections import defaultdict
 from textwrap import wrap
 from io import StringIO
 import yaml
-
+from math import floor, ceil
 
 DEFAULT_YAML_HEADER = {
     'layout': 'default'
@@ -309,7 +309,7 @@ class LawToMarkdown(sax.ContentHandler):
                 pass
             else:
                 # If outside of tables and lists, add two newlines to get visible separation in markdown
-                # self.text += ' \n '
+                # self.text += ' \n \n '
                 # TODO: Not sure why this breaks tables right now. This is explicitly outside of table handling
                 pass
         elif name == 'table':
@@ -335,7 +335,7 @@ class LawToMarkdown(sax.ContentHandler):
                     numspan = (self.endcol - self.startcol + 1)
                     # I prefer putting the text in the cell farther left on even numbers on colspan
                     # So I remove one from the left and keep it at the right
-                    self.text = '| ' * round((numspan - 1)/2) + self.text + ' |' * round((numspan)/2)
+                    self.text = '| ' * floor((numspan - 1)/2) + self.text + ' |' * ceil((numspan - 1)/2)
                 self.text += ' '
             elif self.state[-1] in ('theader'):
                 # identify header cell to use in case there is a cellspan
