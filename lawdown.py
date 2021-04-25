@@ -78,6 +78,7 @@ class LawToMarkdown(sax.ContentHandler):
         self.out(content)
 
     def write(self, content='', custombreaks=False):
+        # Using the "custombreaks" flag to not write a newline at the end
         self.out(content + ('\n' if not custombreaks else ''))
         return self
 
@@ -104,29 +105,12 @@ class LawToMarkdown(sax.ContentHandler):
                 self.write(line)
 
     def flush_text(self, custombreaks=False):
-        if not custombreaks:
-            # remove leading spaces from last line (if there are multiple ones)
-            blocks = self.text.split('\ ')
-            if len(blocks) > 1:
-                blocks[-1] = blocks[-1].replace('\ ', ' ').strip()
-                # print first block as-is
-                self.text = blocks[0]
-                self.flush_text(custombreaks=custombreaks)
-                # # then increase indentation
-                # if blocks[0] != '':
-                #     self.write()
-                #     self.indent_level += 1
-                # then print individual blocks with line breaks
-                for block in blocks[1:]:
-                    self.text = block
-                    # might want to print everything but the first indented once
-                    self.flush_text(custombreaks=custombreaks)
-                    self.write()
-                # # then reduce the indentation again
-                # if blocks[0] != '':
-                #     self.indent_level -= 1
         if self.text.strip():
-            self.write_wrapped(self.text, custombreaks=custombreaks)
+            if not custombreaks:
+                # This is the case before adding rendered tables
+                self.write_wrapped(self.text)
+            else:
+                self.write_wrapped(self.text, custombreaks=custombreaks)
         self.text = ''
 
     def startElement(self, name, attrs):
@@ -317,7 +301,7 @@ class LawToMarkdown(sax.ContentHandler):
                 pass
             else:
                 # If outside of tables and lists, add two newlines to get visible separation in markdown
-                # self.text += ' \n \n '
+                # self.text += ' \n '
                 # TODO: Not sure why this breaks tables right now. This is explicitly outside of table handling
                 pass
         elif name == 'table':
