@@ -301,7 +301,7 @@ class LawToMarkdown(sax.ContentHandler):
             return
 
         if name == 'br':
-            if self.state[-1] in ('table', 'theader', 'tbody'):
+            if self.state[-1] in ('table', 'thead', 'tbody'):
                 # Add explicit line break when in tables
                 self.text = self.text.strip() + '<br>'
             elif self.state[-1] in ('list'):
@@ -309,8 +309,7 @@ class LawToMarkdown(sax.ContentHandler):
                 pass
             else:
                 # If outside of tables and lists, add two newlines to get visible separation in markdown
-                # self.text += ' \n \n '
-                # TODO: Not sure why this breaks tables right now. This is explicitly outside of table handling
+                self.text += ' \n \n '
                 pass
         elif name == 'table':
             self.write()
