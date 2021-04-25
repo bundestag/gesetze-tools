@@ -52,6 +52,8 @@ class LawToMarkdown(sax.ContentHandler):
     col_num = 0
     table_header = ''
     head_separator = ''
+    startcol = None
+    endcol = None
     no_emph_re = [
         re.compile(r'(\S?|^)([\*_])(\S)'),
         re.compile('([^\\\\s])([\\*_])(\\S?|$)')
@@ -205,6 +207,12 @@ class LawToMarkdown(sax.ContentHandler):
             self.text += self.list_index + ' '
             self.list_index = ''
         elif name == 'entry':
+            if attrs.get('namest') is not None:
+                self.startcol = int(attrs.get('namest').strip('col'))
+                self.endcol = int(attrs.get('nameend').strip('col'))
+            else:
+                self.startcol = None
+                self.endcol = None
             if self.state[-1] in ('table', 'tbody'):
                 self.current_text = self.current_text.strip() + '| '
             elif self.state[-1] in ('thead'):
@@ -322,8 +330,17 @@ class LawToMarkdown(sax.ContentHandler):
             self.col_num += 1
             # cell[0] is before the first pipe, so the first content cell is cell[1]
             if self.state[-1] in ('table', 'tbody'):
+                # if this entry spans across multiple cells: add separators
+                if self.startcol is not None:
+                    numspan = (self.endcol - self.startcol + 1)
+                    # I prefer putting the text in the cell farther left on even numbers on colspan
+                    # So I remove one from the left and keep it at the right
+                    self.text = '| ' * round((numspan - 1)/2) + self.text + ' |' * round((numspan)/2)
                 self.text += ' '
             elif self.state[-1] in ('theader'):
+                # identify header cell to use in case there is a cellspan
+                if self.startcol is not None:
+                    self.col_num = round( (self.endcol + self.startcol)/2 )
                 # enter additional information in header cell
                 # get all header cells
                 cells = self.table_header.split('| ')
