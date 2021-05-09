@@ -7656,8 +7656,8 @@
   },
   {
     "abbreviation": "DPMAWidVertrAnO",
-    "name": "Anordnung zur Übertragung von Zuständigkeiten für den Erlass von Widerspruchsbescheiden und die Vertretung des Dienstherrn bei Klagen von Beamtinnen und Beamten des Deutschen Patent- und Markenamts in Angelegenheiten des Reisekostenrechts",
-    "slug": "dpmawidvertrano"
+    "name": "Anordnung zur Übertragung der Zuständigkeit für den Erlass von Widerspruchsbescheiden sowie der Vertretung bei Klagen von Beamtinnen und Beamten des Deutschen Patent- und Markenamts in Angelegenheiten der Besoldung und des Reisekostenrechts",
+    "slug": "dpmawidvertrano_2021"
   },
   {
     "abbreviation": "DRAG ISR 1980",
@@ -13540,6 +13540,11 @@
     "slug": "holzbinstrmmausbv"
   },
   {
+    "abbreviation": "HolzEinschlBeschrV2021",
+    "name": "Verordnung über die Beschränkung des ordentlichen Holzeinschlags in dem Forstwirtschaftsjahr 2021",
+    "slug": "holzeinschlbeschrv2021"
+  },
+  {
     "abbreviation": "HolzmechAusbV",
     "name": "Verordnung über die Berufsausbildung zum Holzmechaniker und zur Holzmechanikerin",
     "slug": "holzmechausbv_2015"
@@ -17633,6 +17638,11 @@
     "abbreviation": "MaisPflSchMV",
     "name": "Verordnung über das Inverkehrbringen und die Aussaat von mit bestimmten Pflanzenschutzmitteln behandeltem Maissaatgut",
     "slug": "maispflschmv"
+  },
+  {
+    "abbreviation": "MAKV",
+    "name": "Verordnung zur Vergütung der Anwendung von Arzneimitteln mit monoklonalen Antikörpern",
+    "slug": "makv"
   },
   {
     "abbreviation": "MalerLackAusbV",
@@ -22035,6 +22045,11 @@
     "slug": "postg_1998"
   },
   {
+    "abbreviation": "PostG-ÜbertrV",
+    "name": "Verordnung zur Übertragung der Befugnis zum Erlass einer Rechtsverordnung nach § 18a des Postgesetzes",
+    "slug": "postg-_bertrv"
+  },
+  {
     "abbreviation": "PostgiroAbk",
     "name": "Postgiroabkommen",
     "slug": "postgiroabk"
@@ -24761,7 +24776,7 @@
   },
   {
     "abbreviation": "SGB XIV",
-    "name": "Sozialgesetzbuch Vierzehntes Buch &#8211; Soziale Entschädigung &#8211; (Artikel 1 des Gesetzes vom 12. Dezember 2019, BGBl. I S. 2652)",
+    "name": "Sozialgesetzbuch Vierzehntes Buch &#8211; Soziale Entschädigung &#8211;",
     "slug": "sgb_14"
   },
   {
@@ -27735,6 +27750,11 @@
     "slug": "tvgdv"
   },
   {
+    "abbreviation": "TVMindestlohn 2021",
+    "name": "Rechtsnormendes Tarifvertrags zur Regelung der Mindestlöhne im Baugewerbe im Gebiet der Bundesrepublik Deutschland(TV Mindestlohn) vom 29. Januar 2021",
+    "slug": "tvmindestlohn_2021"
+  },
+  {
     "abbreviation": "TVMindestlohn Abfall 8",
     "name": "Rechtsnormen des Mindestlohntarifvertrags für die Branche Abfallwirtschaft vom 7. Januar 2009 in der Fassung der Änderungstarifverträge vom 12. August 2009, 19. August 2010, 16. Juni 2011, 6. März 2012, 15. Oktober 2012, 24. Juni 2014, 19. Mai 2015 und 29. Mai 2019",
     "slug": "tvmindestlohn_abfall_8"
@@ -27745,14 +27765,9 @@
     "slug": "tvmindestlohn_ger_stb_6"
   },
   {
-    "abbreviation": "TVMindestlohn Maler 9",
-    "name": "Rechtsnormen des Tarifvertrags vom 9. Dezember 2016 zur Regelung eines Mindestlohnes für gewerbliche Arbeitnehmer im Maler- und Lackierhandwerk (TV Mindestlohn)",
-    "slug": "tvmindestlohn_maler_9"
-  },
-  {
-    "abbreviation": "TVMindestlohn Steinmetz 3",
-    "name": "Rechtsnormen des Tarifvertrags zur Regelung eines Mindestlohnes im Steinmetz- und Steinbildhauerhandwerk vom 25. Februar 2019 (TV Mindestlohn)",
-    "slug": "tvmindestlohn_steinmetz_3"
+    "abbreviation": "TVMindestlohn Maler 10",
+    "name": "Rechtsnormendes Tarifvertrags zur Regelung eines Mindestlohns für gewerbliche Arbeitnehmer im Maler- und Lackiererhandwerk (TV Mindestlohn) vom 27. Januar 2021",
+    "slug": "tvmindestlohn_maler_10"
   },
   {
     "abbreviation": "TVMindestlohnDachd 10",
@@ -30590,6 +30605,11 @@
     "slug": "wregg"
   },
   {
+    "abbreviation": "WRegV",
+    "name": "Verordnung über den Betrieb des Registers zum Schutz des Wettbewerbs um öffentliche Aufträge und Konzessionen",
+    "slug": "wregv"
+  },
+  {
     "abbreviation": "WRMG",
     "name": "Gesetz über die Umweltverträglichkeit von Wasch- und Reinigungsmitteln",
     "slug": "wrmg"
@@ -32335,6 +32355,11 @@
     "slug": "dachdarbbv_10"
   },
   {
+    "abbreviation": "10. MalerArbbV",
+    "name": "Zehnte Verordnung über zwingende Arbeitsbedingungen im Maler- und Lackiererhandwerk",
+    "slug": "malerarbbv_10"
+  },
+  {
     "abbreviation": "10. ProdSV",
     "name": "Zehnte Verordnung zum Produktsicherheitsgesetz",
     "slug": "prodsg2011v_10"
@@ -32368,6 +32393,11 @@
     "abbreviation": "11. RAV",
     "name": "Verordnung zur elften Anpassung der Renten in dem in Artikel 3 des Einigungsvertrages genannten Gebiet und zur Bestimmung weiterer Rechengrößen der Sozialversicherung für 1996",
     "slug": "rav_11"
+  },
+  {
+    "abbreviation": "12. BauArbbV",
+    "name": "Zwölfte Verordnung über zwingende Arbeitsbedingungen im Baugewerbe",
+    "slug": "bauarbbv_12"
   },
   {
     "abbreviation": "12. BImSchV",
@@ -32720,11 +32750,6 @@
     "slug": "sprengv_3"
   },
   {
-    "abbreviation": "3. SteinmetzArbbV",
-    "name": "Dritte Verordnung über zwingende Arbeitsbedingungen im Steinmetz- und Steinbildhauerhandwerk",
-    "slug": "steinmetzarbbv_3"
-  },
-  {
     "abbreviation": "3. WOMitbestG",
     "name": "Dritte Wahlordnung zum Mitbestimmungsgesetz",
     "slug": "mitbestgwo_3_2002"
@@ -32948,11 +32973,6 @@
     "abbreviation": "9. BImSchV",
     "name": "Neunte Verordnung zur Durchführung des Bundes-Immissionsschutzgesetzes",
     "slug": "bimschv_9"
-  },
-  {
-    "abbreviation": "9. MalerArbbV",
-    "name": "Neunte Verordnung über zwingende Arbeitsbedingungen im Maler- und Lackiererhandwerk",
-    "slug": "malerarbbv_9"
   },
   {
     "abbreviation": "9. ProdSV",
