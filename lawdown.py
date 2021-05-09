@@ -54,6 +54,7 @@ class LawToMarkdown(sax.ContentHandler):
     head_separator = ''
     startcol = None
     endcol = None
+    cols = []
     no_emph_re = [
         re.compile(r'(\S?|^)([\*_])(\S)'),
         re.compile('([^\\\\s])([\\*_])(\\S?|$)')
@@ -158,16 +159,18 @@ class LawToMarkdown(sax.ContentHandler):
             self.head_separator = '|'
         elif name == 'colspec':
             self.table_header += '      | '
-            try:
-                if attrs._attrs['align'] == 'center':
-                    self.head_separator += ' :---: |'
-                elif attrs['align'] == 'justify':
-                    # make this left-aligned
-                    self.head_separator += ' :---- |'
-            except KeyError:
+            # Get the alignment of this column
+            alignment = attrs.get('align')
+            if alignment == None:
                 # No 'align' in colspec
                 self.head_separator += ' :---: |'
-                # might want to check for centering etc. in colspec via 'attrs'
+            elif alignment == 'center':
+                    self.head_separator += ' :---: |'
+            elif alignment == 'justify':
+                # make this left-aligned
+                self.head_separator += ' :---- |'
+            # Get the name of this column
+            self.cols.append(attrs.get('colname'))
         elif name == 'thead':
             self.col_num = 0
             self.state.append('thead')
@@ -204,8 +207,8 @@ class LawToMarkdown(sax.ContentHandler):
             self.list_index = ''
         elif name == 'entry':
             if attrs.get('namest') is not None:
-                self.startcol = int(attrs.get('namest').strip('col'))
-                self.endcol = int(attrs.get('nameend').strip('col'))
+                self.startcol = self.cols.index(attrs.get('namest'))
+                self.endcol = self.cols.index(attrs.get('nameend'))
             else:
                 self.startcol = None
                 self.endcol = None
@@ -309,8 +312,8 @@ class LawToMarkdown(sax.ContentHandler):
                 pass
         elif name == 'table':
             self.write()
-            self.state.pop()
-            # reset this to what it was
+            self.state.pop() # reset the state to what it was
+            self.cols = [] # Delete the names of the columns
         elif name == 'thead':
             # table head ends here
             self.state.pop()
