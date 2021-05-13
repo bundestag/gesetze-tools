@@ -6702,17 +6702,12 @@
   {
     "abbreviation": "CoronaEinreiseV",
     "name": "Verordnung zum Schutz vor einreisebedingten Infektionsgefahren in Bezug auf das Coronavirus SARS-CoV-2 nach Feststellung einer epidemischen Lage von Nationaler Tragweite durch den Deutschen Bundestag",
-    "slug": "coronaeinreisev"
+    "slug": "coronaeinreisev_2021-05"
   },
   {
     "abbreviation": "CoronaImpfV",
     "name": "Verordnung zum Anspruch auf Schutzimpfung gegen das Coronavirus SARS-CoV-2",
     "slug": "coronaimpfv_2021-04"
-  },
-  {
-    "abbreviation": "CoronaSchV",
-    "name": "Verordnung zum Schutz vor einreisebedingten Infektionsgefahren in Bezug auf neuartige Mutationen des Coronavirus SARS-CoV-2 nach Feststellung einer epidemischen Lage von nationaler Tragweite durch den Deutschen Bundestag",
-    "slug": "coronaschv_2021"
   },
   {
     "abbreviation": "CorSurV",
@@ -19475,6 +19470,11 @@
     "slug": "m_nz20eurobek_2021-02-08_2"
   },
   {
+    "abbreviation": "Münz20EuroBek 2021-04-23",
+    "name": "Bekanntmachung über die Ausprägung von deutschen Euro-Gedenkmünzen im Nennwert von 20 Euro (Gedenkmünze &#8222;100. Geburtstag Sophie Scholl&#8220;)",
+    "slug": "m_nz20eurobek_2021-04-23"
+  },
+  {
     "abbreviation": "Münz25EuroBek 2016-04-04",
     "name": "Bekanntmachung über die Ausprägung von deutschen Euro-Gedenkmünzen im Nennwert von 25 Euro (Gedenkmünze &#8222;25 Jahre Deutsche Einheit&#8220;)",
     "slug": "m_nz25eurobek_2016-04-04"
@@ -23828,6 +23828,11 @@
     "abbreviation": "SchaumwZwStV",
     "name": "Verordnung zur Durchführung des Schaumwein- und Zwischenerzeugnissteuergesetzes",
     "slug": "schaumwzwstv_2010"
+  },
+  {
+    "abbreviation": "SchAusnahmV",
+    "name": "Verordnung zur Regelung von Erleichterungen und Ausnahmen von Schutzmaßnahmen zur Verhinderung der Verbreitung von COVID-19",
+    "slug": "schausnahmv"
   },
   {
     "abbreviation": "SchAusrV",
@@ -31646,7 +31651,7 @@
   },
   {
     "abbreviation": "ZDVG",
-    "name": "Gesetz über den Vertrauensmann der Zivildienstleistenden (Artikel 2 des Gesetzes über die Beteiligung der Soldaten und der Zivildienstleistenden)",
+    "name": "Gesetz über den Vertrauensmann der Zivildienstleistenden",
     "slug": "zdvg"
   },
   {

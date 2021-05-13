@@ -65,6 +65,7 @@ class Lawde:
         try:
             zipf = zipfile.ZipFile(BytesIO(res.content))
         except zipfile.BadZipfile:
+            print('Bad Zipfile')
             self.remove_law(law)
             return None
         return zipf

@@ -55,6 +55,7 @@ class LawToMarkdown(sax.ContentHandler):
     startcol = None
     endcol = None
     cols = []
+    colstack = []
     no_emph_re = [
         re.compile(r'(\S?|^)([\*_])(\S)'),
         re.compile('([^\\\\s])([\\*_])(\\S?|$)')
@@ -157,6 +158,9 @@ class LawToMarkdown(sax.ContentHandler):
             self.table_header = '| '
             self.state.append('table')
             self.head_separator = '|'
+            if len(self.cols):
+                self.colstack.append(self.cols)
+                self.cols = []
         elif name == 'colspec':
             self.table_header += '      | '
             # Get the alignment of this column
@@ -164,11 +168,21 @@ class LawToMarkdown(sax.ContentHandler):
             if alignment == None:
                 # No 'align' in colspec
                 self.head_separator += ' :---: |'
+            elif alignment == 'left':
+                    self.head_separator += ' :---- |'
             elif alignment == 'center':
                     self.head_separator += ' :---: |'
+            elif alignment == 'right':
+                    self.head_separator += ' ----: |'
             elif alignment == 'justify':
                 # make this left-aligned
                 self.head_separator += ' :---- |'
+            elif alignment == 'char':
+                # make this left-aligned
+                self.head_separator += ' :---- |'
+            else:
+                print(f'Found unexpected table alignment entry: {alignment}')
+                self.head_separator += ' :---: |'
             # Get the name of this column
             self.cols.append(attrs.get('colname'))
         elif name == 'thead':
@@ -208,7 +222,16 @@ class LawToMarkdown(sax.ContentHandler):
         elif name == 'entry':
             if attrs.get('namest') is not None:
                 self.startcol = self.cols.index(attrs.get('namest'))
-                self.endcol = self.cols.index(attrs.get('nameend'))
+                self.endcol = self.startcol
+            if attrs.get('nameend') is not None:
+                # It does happen that there is a 'namest' but no 'nameend'
+                # So I try to read those separately
+
+                # Also, it does happen that the endcol is not an actual available column
+                try:
+                    self.endcol = self.cols.index(attrs.get('nameend'))
+                except ValueError:
+                    self.endcol = self.startcol
             else:
                 self.startcol = None
                 self.endcol = None
@@ -313,7 +336,10 @@ class LawToMarkdown(sax.ContentHandler):
         elif name == 'table':
             self.write()
             self.state.pop() # reset the state to what it was
-            self.cols = [] # Delete the names of the columns
+            try:
+                self.cols = self.colstack.pop() # Pop from the last colstack (usually empty)
+            except IndexError:
+                self.cols = [] # Make the list empty
         elif name == 'thead':
             # table head ends here
             self.state.pop()
@@ -561,12 +587,12 @@ def main(arguments):
         if inpath in paths:
             continue
         paths.add(inpath)
+        print(f'Reading from {inpath}')
         law_name = inpath.name
         with open(filename, "r") as infile:
             out = law_to_markdown(infile, yaml_header=not arguments['--no-yaml'])
         slug = out.filename
         outpath = (Path(arguments['<outputpath>']) / slug[0] / slug).resolve()
-        print(outpath)
         assert len(outpath.parents) > 1  # um, better be safe
         outfilename = outpath / 'index.md'
         shutil.rmtree(outpath, ignore_errors=True)
@@ -579,6 +605,7 @@ def main(arguments):
         with open(outfilename, 'w') as outfile:
             outfile.write(out.getvalue())
         out.close()
+        print(f'Wrote to {outpath}')
 
 
 if __name__ == '__main__':
