@@ -52,6 +52,7 @@ class LawToMarkdown(sax.ContentHandler):
     col_num = 0
     table_header = ''
     head_separator = ''
+    first_header_line = []
     startcol = None
     endcol = None
     cols = []
@@ -161,6 +162,8 @@ class LawToMarkdown(sax.ContentHandler):
             if len(self.cols):
                 self.colstack.append(self.cols)
                 self.cols = []
+            # Filling header flags with a dummy value to account for some sketchy tables that occur
+            self.first_header_line = [True]
         elif name == 'colspec':
             self.table_header += '      | '
             # Get the alignment of this column
@@ -185,11 +188,12 @@ class LawToMarkdown(sax.ContentHandler):
                 self.head_separator += ' :---: |'
             # Get the name of this column
             self.cols.append(attrs.get('colname'))
+            # Add a marker for the first entry of this column in the header
+            self.first_header_line.append(True)
         elif name == 'thead':
             self.col_num = 0
             self.state.append('thead')
         elif name == 'tbody':
-            # self.text = self.table_header.replace('\ ', '<br>') + '\n'
             self.text = self.table_header + '\n'
             self.flush_text(custombreaks=True)
             self.text = self.head_separator + '\n'
@@ -208,7 +212,6 @@ class LawToMarkdown(sax.ContentHandler):
             if self.state[-1] in ('thead'):
                 self.col_num = 0
         elif name == 'dd':
-            # self.indent_level += 1
             if self.state[-1] == 'have_tick_number':
                 self.state.pop()
             else:
@@ -340,9 +343,11 @@ class LawToMarkdown(sax.ContentHandler):
                 self.cols = self.colstack.pop() # Pop from the last colstack (usually empty)
             except IndexError:
                 self.cols = [] # Make the list empty
+            # With a new table, a new header is set up
         elif name == 'thead':
             # table head ends here
             self.state.pop()
+            self.first_header_line.clear()
         elif name == 'tbody':
             self.state.pop()
         elif name == 'dl':
@@ -369,9 +374,9 @@ class LawToMarkdown(sax.ContentHandler):
                 # get all header cells
                 cells = self.table_header.split('| ')
                 # add information to current one
-                if len( cells[self.col_num].strip() ) == 0:
-                    # if it's empty, use the current text
+                if self.first_header_line[self.col_num]:
                     cells[self.col_num] = self.text
+                    self.first_header_line[self.col_num] = False
                 else:
                     # add new text with line break otherwise
                     cells[self.col_num] = cells[self.col_num].strip() + '<br>' + self.text
@@ -380,6 +385,10 @@ class LawToMarkdown(sax.ContentHandler):
                 # re-assemble header
                 self.table_header = '| '.join(cells)
                 self.text = ''
+                # If this entry spanned over multiple cols
+                if self.startcol is not None:
+                    # Set "first row" Flags to False for affected cols
+                    self.first_header_line = [old if ( (col < self.startcol) or (col > self.endcol) ) else False for col,old in enumerate(self.first_header_line)]
             else:
                 self.flush_text()
                 self.in_list_item -= 1
