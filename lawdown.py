@@ -339,10 +339,12 @@ class LawToMarkdown(sax.ContentHandler):
         elif name == 'table':
             self.write()
             self.state.pop() # reset the state to what it was
+            # Clear the list of cols
+            self.cols.clear()
             try:
                 self.cols = self.colstack.pop() # Pop from the last colstack (usually empty)
             except IndexError:
-                self.cols = [] # Make the list empty
+                pass # Expected "error" if the stack is actually empty - cols is an empty list already
             # With a new table, a new header is set up
         elif name == 'thead':
             # table head ends here
