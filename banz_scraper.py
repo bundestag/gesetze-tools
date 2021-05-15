@@ -1,27 +1,20 @@
 #!/usr/bin/env python3
 
 """BAnz-Scraper.
-
 Usage:
   banz_scaper.py <outputfile> [<minyear> [<maxyear>]]
   banz_scaper.py -h | --help
   banz_scaper.py --version
-
 Options:
   -h --help     Show this screen.
   --version     Show version.
-
 Duration Estimates:
   2-5 minutes per year
   30-75 minutes in total
-
 Examples:
   banz_scaper.py data/banz.json
-
 """
 from pathlib import Path
-import os
-import sys
 import re
 import json
 
@@ -59,7 +52,7 @@ class BAnzScraper:
                 continue
             dates = self.get_dates(year)
             for date in dates:
-                print(str(year) + ' ' + date)
+                print(year, date)
                 collection.update(self.get_items(year, date))
         return collection
 
@@ -116,7 +109,7 @@ class BAnzScraper:
             title_result = row.find(class_="title_result")
 
             orig_date: Optional[str] = None
-            match = re.search(r'[Vv]om: (\d+)\. ([\wä]+) (\d{4})', str(title_result), re.U)
+            match = re.search(r'[Vv]om: (\d+)\. ([\wä]+) (\d{4})', str(title_result), re.U)
             if match:
                 day = int(match.group(1))
                 month = self.MONTHS.index(match.group(2)) + 1
@@ -153,17 +146,14 @@ def main(arguments):
     maxyear = arguments['<maxyear>'] or 10000
     minyear = int(minyear)
     maxyear = int(maxyear)
-    print(f"This will scrape information from the Bundesanzeiger between {minyear} and {maxyear}.")
-    print(f"Results will be stored in {arguments['<outputfile>']}")
-    print("You will see all dates with publications appear below as they are parsed.")
     banz = BAnzScraper()
     data = {}
     if Path(arguments['<outputfile>']).exists():
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(banz.scrape(minyear, maxyear))
-    with open(arguments['<outputfile>'], 'w', encoding='utf8') as f:
-        json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
+    with open(arguments['<outputfile>'], 'w') as f:
+        json.dump(data, f, indent=4)
 
 
 if __name__ == '__main__':
