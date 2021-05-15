@@ -61,7 +61,11 @@ Last tested: 2020-12-05 SUCCESS
 Scrapes the table of contents of all issues of the Bundesgesetzblatt and dumps
 the result to JSON.
 
-Last tested: 2021-03-30 SUCCESS
+```bash
+python3 bgbl_scraper.py data/bgbl.json
+```
+
+Last tested: 2021-05-15 SUCCESS
 
 
 ## Scaper Bundesanzeiger (`banz_scraper.py`)
