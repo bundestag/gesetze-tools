@@ -65,6 +65,7 @@ class Lawde:
         try:
             zipf = zipfile.ZipFile(BytesIO(res.content))
         except zipfile.BadZipfile:
+            print('Bad Zipfile')
             self.remove_law(law)
             return None
         return zipf
@@ -144,8 +145,8 @@ class Lawde:
                     'name': match[1].replace('&quot;', '"'),
                     'abbreviation': match[2].strip()
                 })
-        with open(self.lawlist, 'w') as f:
-            json.dump(laws, f)
+        with open(self.lawlist, 'w', encoding='utf8') as f:
+            json.dump(laws, f, indent=2, sort_keys=True, ensure_ascii=False)
 
 
 def main(arguments):

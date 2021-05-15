@@ -1,53 +1,94 @@
-BundesGit Gesetze Tools
-=======================
+# BundesGit Gesetze Tools
 
-These scripts are used to keep the law repository up to date.
+These scripts are used to keep the [law repository](https://github.com/bundestag/gesetze) up to date.
 
 Install requirements:
-
 ```bash
 pip install -r requirements.txt
 ```
 
-For help see their docstring, command line help or source code.
+For help, see the docstring of the scripts, command line help or source code.
 
-## lawde.py
+
+## Download laws (`lawde.py`)
 
 Downloads all laws as XML files from
 [www.gesetze-im-internet.de](http://www.gesetze-im-internet.de/)
 and extracts them to a directory.
 
-Last tested: 2017-01-14 SUCCESS
+### Usage
 
-## lawdown.py
+Update your list of laws first:
+```bash
+python3 lawde.py updatelist
+```
 
-Converts all XML laws to Markdown and copies them with other files related
+You can then download all laws by calling
+```bash
+python3 lawde.py loadall
+```
+Which will take approx. 2-3hrs.
+
+Alternatively, you can find the individual law you're interested in in [./data/laws.json](./data/laws.json), which is mostly a list of laws in this form:
+```bash
+{"slug": "<shortname>", "name": "<longname>", "abbreviation": "<abbreviation>"}
+```
+You can download individual laws by calling
+```bash
+python3 lawde.py load <shortname>
+```
+
+Last tested: 2021-05-15 SUCCESS
+
+
+## Convert to Markdown (`lawdown.py`)
+
+Converts all downloaded XML laws to Markdown format and copies them with other files related
 to the law into specified working directory.
 
-Last tested: 2017-01-14 SUCCESS
+### Usage
 
-## bgbl_scraper.py
+```bash
+python3 lawdown.py convert <inpath> <outpath>
+python3 lawdown.py convert ./laws ./laws-md
+```
+
+Last tested: 2021-05-15 SUCCESS
+
+
+## Scaper Bundesgesetzblatt (`bgbl_scraper.py`)
 
 Scrapes the table of contents of all issues of the Bundesgesetzblatt and dumps
 the result to JSON.
 
-Last tested: 2021-03-30 SUCCESS
+```bash
+python3 bgbl_scraper.py data/bgbl.json
+```
 
-## banz_scraper.py
+Last tested: 2021-05-15 SUCCESS
+
+
+## Scaper Bundesanzeiger (`banz_scraper.py`)
 
 Scrapes the table of contents of all available issues of the Bundesanzeiger and
 dumps the result to JSON.
 
-Last tested: 2017-01-14 SUCCESS
+Last tested: 2020-12-23 SUCCESS
 
-## vkbl_scraper.py
+
+## Scaper Verkehrsblatt (`vkbl_scraper.py`)
 
 Scrapes the table of contents of all available issues of the Verkehrsblatt and
 dumps the result to JSON.
 
-Last tested: 2017-01-14 SUCCESS
+```bash
+python3 vkbl_scraper.py data/vkbl.json
+```
 
-## lawgit.py
+Last tested: 2021-05-15 SUCCESS
+
+
+## Commit changes (`lawgit.py`)
 
 Checks the repositories working directory for changes, tries to find relations
 to table of content entries in BGBl and BAnz data, commits the changes to a branch

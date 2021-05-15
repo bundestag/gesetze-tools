@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
-
 """LawDown - Law To Markdown.
 
 Usage:
-  lawdown.py convert --name=<name>
-  lawdown.py convert <inputpath> <outputpath>
+  lawdown.py convert [options] --name=<name>
+  lawdown.py convert [options] <inputpath> <outputpath>
   lawdown.py -h | --help
   lawdown.py --version
 
 Options:
   -h --help     Show this screen.
   --version     Show version.
-  --no-yaml
+  --no-yaml     Don't write YAML header.
 
 Examples:
   lawdown.py convert laws laws-md
@@ -25,9 +24,8 @@ from xml import sax
 from collections import defaultdict
 from textwrap import wrap
 from io import StringIO
-
 import yaml
-
+from math import floor, ceil
 
 DEFAULT_YAML_HEADER = {
     'layout': 'default'
@@ -35,7 +33,7 @@ DEFAULT_YAML_HEADER = {
 
 
 class LawToMarkdown(sax.ContentHandler):
-    state = None
+    state = [None]
     text = ''
     current_text = ''
     indent_by = ' ' * 4
@@ -51,6 +49,14 @@ class LawToMarkdown(sax.ContentHandler):
     footnotes = {}
     current_heading_num = 1
     current_footnote = None
+    col_num = 0
+    table_header = ''
+    head_separator = ''
+    first_header_line = []
+    startcol = None
+    endcol = None
+    cols = []
+    colstack = []
     no_emph_re = [
         re.compile(r'(\S?|^)([\*_])(\S)'),
         re.compile('([^\\\\s])([\\*_])(\\S?|$)')
@@ -66,7 +72,7 @@ class LawToMarkdown(sax.ContentHandler):
         self.heading_anchor = heading_anchor
         self.orig_slug = orig_slug
 
-    def out(self, content: str):
+    def out(self, content):
         self.fileout.write(content)
         return self
 
@@ -76,11 +82,12 @@ class LawToMarkdown(sax.ContentHandler):
         self.out(self.indent_by * indent)
         self.out(content)
 
-    def write(self, content='', nobreak=False):
-        self.out(content + ('\n' if not nobreak else ''))
+    def write(self, content='', custombreaks=False):
+        # Using the "custombreaks" flag to not write a newline at the end
+        self.out(content + ('\n' if not custombreaks else ''))
         return self
 
-    def write_wrapped(self, text, indent=None):
+    def write_wrapped(self, text, indent=None, custombreaks=False):
         if indent is None:
             indent = self.indent_level
         first_indent = ''
@@ -89,18 +96,22 @@ class LawToMarkdown(sax.ContentHandler):
                               (len(self.last_list_index) + 1))
             first_indent = f" {self.indent_by[0:space_count]}"
             self.last_list_index = None
-        for line in wrap(text):
-            if first_indent:
-                self.out(first_indent)
-            else:
-                self.out(self.indent_by * indent)
-                line = self.list_start_re.sub('\\1\\.', line)
-            first_indent = ''
-            self.write(line)
+        if custombreaks:
+            self.out(self.indent_by * indent)
+            self.write(text, custombreaks=custombreaks)
+        else:
+            for line in wrap(text):
+                if first_indent:
+                    self.out(first_indent)
+                else:
+                    self.out(self.indent_by * indent)
+                    line = self.list_start_re.sub('\\1\\.', line)
+                first_indent = ''
+                self.write(line)
 
-    def flush_text(self):
+    def flush_text(self, custombreaks=False):
         if self.text.strip():
-            self.write_wrapped(self.text)
+            self.write_wrapped(self.text, custombreaks=custombreaks)
         self.text = ''
 
     def startElement(self, name, attrs):
@@ -109,7 +120,7 @@ class LawToMarkdown(sax.ContentHandler):
         if self.ignore_until is not None:
             return
         if name == 'fnr':
-            if self.state == 'meta':
+            if self.state[-1] == 'meta':
                 self.ignore_until = 'fnr'
                 return
             else:
@@ -117,54 +128,136 @@ class LawToMarkdown(sax.ContentHandler):
                     self.footnotes[attrs['ID']] = None
                     self.write(f"[^{attrs['ID']}]")
         if name == 'fussnoten':
+            # add a state "kommentar" in which line breaks are not printed?
+            # Might be sufficient to do that on end of "kommentar"
             self.ignore_until = 'fussnoten'
         if name == "metadaten":
             self.meta = defaultdict(list)
-            self.state = 'meta'
+            self.state.append('meta')
             return
         if name == "text":
             self.indent_level = 0
-            self.state = 'text'
+            self.state.append('text')
         if name == 'footnotes':
-            self.state = 'footnotes'
-        if self.state == 'footnotes':
+            self.state.append('footnotes')
+        if self.state[-1] == 'footnotes':
             if name == 'footnote':
                 self.indent_level += 1
                 self.current_footnote = attrs['ID']
             return
 
         self.text += self.current_text
-        self.text = self.text.replace('\n', ' ').strip()
         self.current_text = ''
 
         if name == 'table':
+            self.text += ' '
             self.flush_text()
-            self.write()
+            self.table_header = '| '
+            self.state.append('table')
+            self.head_separator = '|'
+            if len(self.cols):
+                self.colstack.append(self.cols)
+                self.cols = []
+            # Filling header flags with a dummy value to account for some sketchy tables that occur
+            self.first_header_line = [True]
+        elif name == 'colspec':
+            self.table_header += '      | '
+            # Get the alignment of this column
+            alignment = attrs.get('align')
+            if alignment == None:
+                # No 'align' in colspec
+                self.head_separator += ' :---: |'
+            elif alignment == 'left':
+                    self.head_separator += ' :---- |'
+            elif alignment == 'center':
+                    self.head_separator += ' :---: |'
+            elif alignment == 'right':
+                    self.head_separator += ' ----: |'
+            elif alignment == 'justify':
+                # make this left-aligned
+                self.head_separator += ' :---- |'
+            elif alignment == 'char':
+                # make this left-aligned
+                self.head_separator += ' :---- |'
+            else:
+                print(f'Found unexpected table alignment entry: {alignment}')
+                self.head_separator += ' :---: |'
+            # Get the name of this column
+            self.cols.append(attrs.get('colname'))
+            # Add a marker for the first entry of this column in the header
+            self.first_header_line.append(True)
+        elif name == 'thead':
+            self.col_num = 0
+            self.state.append('thead')
+        elif name == 'tbody':
+            self.text = self.table_header + '\n'
+            self.flush_text(custombreaks=True)
+            self.text = self.head_separator + '\n'
+            self.flush_text(custombreaks=True)
+            self.state.append('tbody')
         elif name == 'dl':
-            self.flush_text()
-            self.write()
+            # this is a list
+            if 'table' not in self.state:
+                self.flush_text()
+                self.write()
+            else:
+                self.text += '<br>'
             self.indent_level += 1
-        elif name == 'row' or name == 'dd':
-            if name == 'row':
+            self.state.append('list')
+        elif name == 'row':
+            if self.state[-1] in ('thead'):
+                self.col_num = 0
+        elif name == 'dd':
+            if self.state[-1] == 'have_tick_number':
+                self.state.pop()
+            else:
+                self.list_index = '*'
+            self.write_list_item()
+            self.in_list_item += 1
+        elif name == 'la' and 'table' in self.state:
+            self.last_list_index = self.list_index
+            self.text += self.list_index + ' '
+            self.list_index = ''
+        elif name == 'entry':
+            if attrs.get('namest') is not None:
+                self.startcol = self.cols.index(attrs.get('namest'))
+                self.endcol = self.startcol
+            if attrs.get('nameend') is not None:
+                # It does happen that there is a 'namest' but no 'nameend'
+                # So I try to read those separately
+
+                # Also, it does happen that the endcol is not an actual available column
+                try:
+                    self.endcol = self.cols.index(attrs.get('nameend'))
+                except ValueError:
+                    self.endcol = self.startcol
+            else:
+                self.startcol = None
+                self.endcol = None
+            if self.state[-1] in ('table', 'tbody'):
+                self.current_text = self.current_text.strip() + '| '
+            elif self.state[-1] in ('thead'):
+                pass
+            else:
                 self.indent_level += 1
+                self.in_list_item += 1
                 self.list_index = '*'
                 self.write_list_item()
-            self.in_list_item += 1
-        elif name == 'entry':
-            self.indent_level += 1
-            self.in_list_item += 1
-            self.list_index = '*'
-            self.write_list_item()
         elif name == 'img':
-            self.flush_text()
-            self.out_indented(
-                f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
+            if self.state[-1] in ('table', 'theader', 'tbody'):
+                self.current_text += f" ![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']}) "
+            else:
+                self.flush_text()
+                self.out_indented(f"![{attrs.get('ALT', attrs['SRC'])}]({attrs['SRC']})")
         elif name == 'dt':
-            self.in_list_index = True
-        elif name in ('u', 'b', 'f'):
+            self.state.append('read_list_index')
+        elif name in ('u', 'b', 'f', 'sp', 'tgroup', 'quoter'):
+            # skip tgroup only in state table?
             pass
-        else:
-            self.flush_text()
+            # might also want to skip on 'sp' (spanning rows in a table)
+        else: # Not sure whether this case actually helps much. Might get into issues with tags previously not seen...
+            if self.state[-1] not in ('table', 'thead', 'tbody'):
+                self.flush_text()
 
     def endElement(self, name):
         name = name.lower()
@@ -177,16 +270,15 @@ class LawToMarkdown(sax.ContentHandler):
         if name == 'u':
             self.current_text = f' *{self.current_text.strip()}* '
         elif name == 'f':
-            self.current_text = '*'
+            self.current_text = u'*'
         elif name == 'b':
             self.current_text = f' **{self.current_text.strip()}** '
 
         self.text += self.current_text
-        self.text = self.text.replace('\n', ' ').strip()
         self.current_text = ''
 
         if name == "metadaten":
-            self.state = None
+            self.state.pop()
             if self.first_meta:
                 self.first_meta = False
                 self.write_big_header()
@@ -194,54 +286,139 @@ class LawToMarkdown(sax.ContentHandler):
                 self.write_norm_header()
             self.text = ''
             return
-        if self.state == 'meta':
+        if name == 'text':
+            self.state.pop()
+        if self.state[-1] == 'meta':
             if name == 'enbez' and self.text == 'Inhaltsübersicht':
                 self.ignore_until = 'textdaten'
             else:
                 self.meta[name].append(self.text)
             self.text = ''
             return
-        elif self.state == 'footnotes':
+        elif self.state[-1] == 'footnotes':
             if name == 'footnote':
                 self.flush_text()
                 self.indent_level -= 1
             if name == 'footnotes':
-                self.state = None
+                self.state.pop()
                 self.write()
         if self.current_footnote:
             self.out(f'[^{self.current_footnote}]: ')
             self.current_footnote = None
 
-        if self.in_list_index:
+        if self.state[-1] == 'read_list_index':
+            # if self.in_list_index: #if self.state[-1] == 'read_list_index':
             self.list_index += self.text
             self.text = ''
             if name == 'dt':
                 if not self.list_index:
                     self.list_index = '*'
-                self.write_list_item()
-                self.in_list_index = False
+                if 'table' not in self.state:
+                    # only write the new line outside of tables
+                    self.write_list_item()
+                self.state.pop()
+                # self.in_list_index = False
+                self.state.append('have_tick_number')
             return
 
         if name == 'br':
-            self.text += '\n'
+            if self.state[-1] in ('table', 'thead', 'tbody'):
+                # Add explicit line break when in tables
+                self.text = self.text.strip() + '<br>'
+            elif self.state[-1] in ('list'):
+                # Do nothing in lists, as those get rendered nicely by markdown
+                pass
+            else:
+                # If outside of tables and lists, add two newlines to get visible separation in markdown
+                self.text += '\n\n'
+                pass
         elif name == 'table':
             self.write()
+            self.state.pop() # reset the state to what it was
+            # Clear the list of cols
+            self.cols.clear()
+            try:
+                self.cols = self.colstack.pop() # Pop from the last colstack (usually empty)
+            except IndexError:
+                pass # Expected "error" if the stack is actually empty - cols is an empty list already
+            # With a new table, a new header is set up
+        elif name == 'thead':
+            # table head ends here
+            self.state.pop()
+            self.first_header_line.clear()
+        elif name == 'tbody':
+            self.state.pop()
         elif name == 'dl':
+            if 'table' not in self.state:
+                self.write()
             self.indent_level -= 1
-            self.write()
-        elif name == 'dd' or name == 'entry':
-            self.in_list_item -= 1
-            if name == 'entry':
+            self.state.pop()
+        elif name == 'entry':
+            self.col_num += 1
+            # cell[0] is before the first pipe, so the first content cell is cell[1]
+            if self.state[-1] in ('table', 'tbody'):
+                # if this entry spans across multiple cells: add separators
+                if self.startcol is not None:
+                    numspan = (self.endcol - self.startcol + 1)
+                    # I prefer putting the text in the cell farther left on even numbers on colspan
+                    # So I remove one from the left and keep it at the right
+                    self.text = '| ' * floor((numspan - 1)/2) + self.text + ' |' * ceil((numspan - 1)/2)
+                self.text += ' '
+            elif self.state[-1] in ('theader'):
+                # identify header cell to use in case there is a cellspan
+                if self.startcol is not None:
+                    self.col_num = round( (self.endcol + self.startcol)/2 )
+                # enter additional information in header cell
+                # get all header cells
+                cells = self.table_header.split('| ')
+                # add information to current one
+                if self.first_header_line[self.col_num]:
+                    cells[self.col_num] = self.text
+                    self.first_header_line[self.col_num] = False
+                else:
+                    # add new text with line break otherwise
+                    cells[self.col_num] = cells[self.col_num].strip() + '<br>' + self.text
+                # strip leading/tailing spaces
+                cells[self.col_num] = cells[self.col_num].strip() + ' '
+                # re-assemble header
+                self.table_header = '| '.join(cells)
+                self.text = ''
+                # If this entry spanned over multiple cols
+                if self.startcol is not None:
+                    # Set "first row" Flags to False for affected cols
+                    self.first_header_line = [old if ( (col < self.startcol) or (col > self.endcol) ) else False for col,old in enumerate(self.first_header_line)]
+            else:
+                self.flush_text()
+                self.in_list_item -= 1
                 self.flush_text()
                 self.indent_level -= 1
-            self.write()
-        elif name == 'la' or name == 'row':
-            self.flush_text()
-            self.write()
-            if name == 'row':
-                self.indent_level -= 1
+                self.write()
+        elif name == 'dd':
+            if 'table' not in self.state:
+                # only do this when not in a table
+                self.flush_text()
                 self.in_list_item -= 1
+                self.write()
+            else:
+                self.text = self.text
+        elif name == 'la':
+            if 'table' not in self.state:
+                self.text += ' '
+                self.flush_text()
+            else:
+                self.text += '<br>'
+        elif name == 'kommentar':
+            self.text = self.text.replace('\ ', '')
+        elif name == 'row':
+            if self.state[-1] in ('table', 'tbody'):
+                self.text += ' |\n'
+                self.flush_text(custombreaks=True)
+            elif self.state[-1] in ('thead'):
+                self.head_col = 0
+        elif name == 'nb':
+            self.flush_text()
         elif name == 'p':
+            self.text += ' '
             self.flush_text()
             self.write()
         elif name == 'title':
@@ -251,7 +428,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.write()
         elif name == 'subtitle':
             self.text = self.text.replace('\n', ' ')
-            self.text = f'### {self.text}'
+            self.text = f'## {self.text}'
             self.flush_text()
             self.write()
 
@@ -260,7 +437,7 @@ class LawToMarkdown(sax.ContentHandler):
             return
         for no_emph_re in self.no_emph_re:
             text = no_emph_re.sub(r'\1\\\2\3', text)
-        self.current_text += text
+        self.current_text += text.replace('\n', ' ').strip()
         self.no_tag = True
 
     def endDocument(self):
@@ -343,7 +520,8 @@ class LawToMarkdown(sax.ContentHandler):
             title = self.meta['enbez'][0]
             link = title
         if 'titel' in self.meta:
-            if title:
+            if title: 
+                # could also add the "brief" in "br" here
                 title = f"{title} {self.meta['titel'][0]}"
             else:
                 title = self.meta['titel'][0]
@@ -377,7 +555,7 @@ class LawToMarkdown(sax.ContentHandler):
         self.filename = abk
 
 
-def law_to_markdown(filein, fileout=None, name=None):
+def law_to_markdown(filein, fileout=None, name=None, yaml_header=True):
     ret = False
     if fileout is None:
         fileout = StringIO()
@@ -387,7 +565,7 @@ def law_to_markdown(filein, fileout=None, name=None):
         orig_slug = filein.name.split('/')[-1].split('.')[0]
     else:
         orig_slug = name
-    handler = LawToMarkdown(fileout, orig_slug=orig_slug)
+    handler = LawToMarkdown(fileout, orig_slug=orig_slug, yaml_header=DEFAULT_YAML_HEADER if yaml_header else None)
     parser.setFeature(sax.handler.feature_external_ges, False)
     parser.setContentHandler(handler)
     parser.parse(filein)
@@ -398,7 +576,8 @@ def law_to_markdown(filein, fileout=None, name=None):
 
 def main(arguments):
     if arguments['<inputpath>'] is None and arguments['<outputpath>'] is None:
-        law_to_markdown(sys.stdin, sys.stdout, name=arguments['--name'])
+        with open(arguments['--name']) as infile:
+            law_to_markdown(infile, sys.stdout, yaml_header=not arguments['--no-yaml'])
         return
     paths = set()
     for filename in Path(arguments['<inputpath>']).glob('*/*/*.xml'):
@@ -406,16 +585,16 @@ def main(arguments):
         if inpath in paths:
             continue
         paths.add(inpath)
+        print(f'Reading from {inpath}')
         law_name = inpath.name
         with open(filename, "r") as infile:
-            out = law_to_markdown(infile)
+            out = law_to_markdown(infile, yaml_header=not arguments['--no-yaml'])
         slug = out.filename
         outpath = (Path(arguments['<outputpath>']) / slug[0] / slug).resolve()
-        print(outpath)
         assert len(outpath.parents) > 1  # um, better be safe
         outfilename = outpath / 'index.md'
         shutil.rmtree(outpath, ignore_errors=True)
-        outpath.mkdir()
+        outpath.mkdir(parents=True)
         for part in inpath.glob('*'):
             if part.name == f'{law_name}.xml':
                 continue
@@ -424,9 +603,13 @@ def main(arguments):
         with open(outfilename, 'w') as outfile:
             outfile.write(out.getvalue())
         out.close()
+        print(f'Wrote to {outpath}')
 
 
 if __name__ == '__main__':
     from docopt import docopt
-    arguments = docopt(__doc__, version='LawDown 0.0.1')
-    main(arguments)
+    try:
+        arguments = docopt(__doc__, version='LawDown 0.0.1')
+        main(arguments)
+    except KeyboardInterrupt:
+        print("\nAbort")

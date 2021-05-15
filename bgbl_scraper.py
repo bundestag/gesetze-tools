@@ -30,7 +30,6 @@ import requests
 
 from typing import List
 
-
 class BGBLScraper:
     BASE_URL = 'http://www.bgbl.de/xaver/bgbl/'
 
@@ -151,6 +150,7 @@ class BGBLScraper:
             toc.append(d)
         return toc
 
+
 def main(arguments):
     minyear = arguments['<minyear>'] or 0
     maxyear = arguments['<maxyear>'] or 10000
@@ -162,8 +162,8 @@ def main(arguments):
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(bgbl.scrape(minyear, maxyear))
-    with open(arguments['<outputfile>'], 'w') as f:
-        json.dump(data, f, indent=4)
+    with open(arguments['<outputfile>'], 'w+', encoding='utf8') as f:
+        json.dump(data, f, indent=2, sort_keys=True, ensure_ascii=False)
 
 
 if __name__ == '__main__':
