@@ -111,11 +111,7 @@ class LawToMarkdown(sax.ContentHandler):
 
     def flush_text(self, custombreaks=False):
         if self.text.strip():
-            if not custombreaks:
-                # This is the case before adding rendered tables
-                self.write_wrapped(self.text)
-            else:
-                self.write_wrapped(self.text, custombreaks=custombreaks)
+            self.write_wrapped(self.text, custombreaks=custombreaks)
         self.text = ''
 
     def startElement(self, name, attrs):
@@ -334,7 +330,7 @@ class LawToMarkdown(sax.ContentHandler):
                 pass
             else:
                 # If outside of tables and lists, add two newlines to get visible separation in markdown
-                self.text += ' \n \n '
+                self.text += '\n\n'
                 pass
         elif name == 'table':
             self.write()
@@ -415,7 +411,6 @@ class LawToMarkdown(sax.ContentHandler):
             self.text = self.text.replace('\ ', '')
         elif name == 'row':
             if self.state[-1] in ('table', 'tbody'):
-                # self.text = self.text.replace('\ ', '<br>') + ' |\n'
                 self.text += ' |\n'
                 self.flush_text(custombreaks=True)
             elif self.state[-1] in ('thead'):
@@ -450,15 +445,7 @@ class LawToMarkdown(sax.ContentHandler):
 
     def write_list_item(self):
         self.last_list_index = self.list_index
-        # increase_indent = False
-        # if len(self.list_index) > 2:
-        #     # If there are at least three characters in the list_index (so <number><letter><dot/bracket> is possible)
-        #     if self.list_index[-2].isalpha():   # If this there is a letter before the dot/bracket
-        #         self.indent_level += 1          # increase indentation
-        #         increase_indent = True
         self.out_indented(self.list_index, indent=self.indent_level - 1)
-        # if increase_indent:
-        #     self.indent_level -= 1              # decrease indentation again
         self.list_index = ''
 
     def clean_title(self, title):

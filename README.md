@@ -23,7 +23,7 @@ Update your list of laws first:
 python3 lawde.py updatelist
 ```
 
-You can then download all laws by calling 
+You can then download all laws by calling
 ```bash
 python3 lawde.py loadall
 ```
@@ -33,7 +33,7 @@ Alternatively, you can find the individual law you're interested in in [./data/l
 ```bash
 {"slug": "<shortname>", "name": "<longname>", "abbreviation": "<abbreviation>"}
 ```
-You can download individual laws by calling 
+You can download individual laws by calling
 ```bash
 python3 lawde.py load <shortname>
 ```
@@ -82,7 +82,7 @@ Scrapes the table of contents of all available issues of the Verkehrsblatt and
 dumps the result to JSON.
 
 ```bash
-python3 vkbl_scraper.py data/vkbl.json 
+python3 vkbl_scraper.py data/vkbl.json
 ```
 
 Last tested: 2021-05-15 SUCCESS
