@@ -137,8 +137,8 @@ def main(arguments):
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(vkbl.scrape(minyear, maxyear))
-    with open(arguments['<outputfile>'], 'w') as f:
-        json.dump(data, f)
+    with open(arguments['<outputfile>'], 'w+', encoding='utf8') as f:
+        json.dump(data, f, indent=2, sort_keys=True, ensure_ascii=False)
 
 
 if __name__ == '__main__':

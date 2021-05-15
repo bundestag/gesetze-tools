@@ -38,7 +38,7 @@ You can download individual laws by calling
 python3 lawde.py load <shortname>
 ```
 
-Last tested: 2020-12-05 SUCCESS
+Last tested: 2021-05-15 SUCCESS
 
 
 ## Convert to Markdown (`lawdown.py`)
@@ -53,7 +53,7 @@ python3 lawdown.py convert <inpath> <outpath>
 python3 lawdown.py convert ./laws ./laws-md
 ```
 
-Last tested: 2020-12-05 SUCCESS
+Last tested: 2021-05-15 SUCCESS
 
 
 ## Scaper Bundesgesetzblatt (`bgbl_scraper.py`)
@@ -81,7 +81,11 @@ Last tested: 2020-12-23 SUCCESS
 Scrapes the table of contents of all available issues of the Verkehrsblatt and
 dumps the result to JSON.
 
-Last tested: 2017-01-14 SUCCESS
+```bash
+python3 vkbl_scraper.py data/vkbl.json 
+```
+
+Last tested: 2021-05-15 SUCCESS
 
 
 ## Commit changes (`lawgit.py`)
