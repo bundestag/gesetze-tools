@@ -72,7 +72,7 @@ class LawToMarkdown(sax.ContentHandler):
         self.heading_anchor = heading_anchor
         self.orig_slug = orig_slug
 
-    def out(self, content: str):
+    def out(self, content):
         self.fileout.write(content)
         return self
 
@@ -433,7 +433,7 @@ class LawToMarkdown(sax.ContentHandler):
             self.write()
         elif name == 'subtitle':
             self.text = self.text.replace('\n', ' ')
-            self.text = f'### {self.text}'
+            self.text = f'## {self.text}'
             self.flush_text()
             self.write()
 

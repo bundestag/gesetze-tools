@@ -146,14 +146,17 @@ def main(arguments):
     maxyear = arguments['<maxyear>'] or 10000
     minyear = int(minyear)
     maxyear = int(maxyear)
+    print(f"This will scrape information from the Bundesanzeiger between {minyear} and {maxyear}.")
+    print(f"Results will be stored in {arguments['<outputfile>']}")
+    print("You will see all dates with publications appear below as they are parsed.")
     banz = BAnzScraper()
     data = {}
     if Path(arguments['<outputfile>']).exists():
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
     data.update(banz.scrape(minyear, maxyear))
-    with open(arguments['<outputfile>'], 'w') as f:
-        json.dump(data, f, indent=4)
+    with open(arguments['<outputfile>'], 'w', encoding='utf8') as f:
+        json.dump(data, f, indent=4, sort_keys=True, ensure_ascii=False)
 
 
 if __name__ == '__main__':
