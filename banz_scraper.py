@@ -25,7 +25,7 @@ import json
 
 from bs4 import BeautifulSoup
 import requests
-import requests.cookies
+from urllib.parse import urljoin
 
 from typing import List, Optional, Tuple
 
@@ -39,13 +39,14 @@ class BAnzScraper:
     MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
               'August', 'September', 'Oktober', 'November', 'Dezember']
 
-    SESSION_COOKIES = requests.cookies.RequestsCookieJar()
+    def __init__(self):
+        self.session = requests.session()
 
     def get(self, url):
-        return requests.get(url, cookies=self.SESSION_COOKIES)
+        return self.session.get(url)
 
     def post(self, *args, **kwargs) -> Response:
-        return requests.post(*args, **kwargs, cookies=self.SESSION_COOKIES, headers={
+        return self.session.post(*args, **kwargs, headers={
             "Referer": "https://www.bundesanzeiger.de/"
         })
 
@@ -64,15 +65,13 @@ class BAnzScraper:
     def get_years(self) -> List[int]:
         url = self.BASE_URL + "amtlicher-teil"
         response = self.get(url)
-        self.SESSION_COOKIES = response.cookies
-        response.cookies
         years = []
 
         root = BeautifulSoup(response.text, features="lxml")
-        self.SET_YEAR_URL_PART = root.find("div", class_="pager_release_year_container").find("form")["action"]
+        set_year_url = root.find("div", class_="pager_release_year_container").find("form")["action"]
+        self.SET_YEAR_URL = urljoin(self.BASE_URL, set_year_url)
 
         year_menu = root.find(id="id5")
-
         for option in year_menu.find_all("option"):
             try:
                 year = int(option.string)
@@ -83,8 +82,7 @@ class BAnzScraper:
         return years
 
     def get_dates(self, year) -> List[Tuple[str, str]]:
-        set_year_url = self.BASE_URL + self.SET_YEAR_URL_PART.replace("./", "")
-        response = self.post(set_year_url, data={"year": year})
+        response = self.post(self.SET_YEAR_URL, data={"year": year})
 
         dates = []
         root = BeautifulSoup(response.text, features="lxml")
