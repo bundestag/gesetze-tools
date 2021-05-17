@@ -3,7 +3,7 @@
 """BAnz-Scraper.
 
 Usage:
-  banz_scaper.py <outputfile> [<minyear> [<maxyear>]]
+  banz_scaper.py <outputfile> [update | <minyear> [<maxyear>]]
   banz_scaper.py -h | --help
   banz_scaper.py --version
 
@@ -19,6 +19,7 @@ Examples:
   banz_scaper.py data/banz.json
 
 """
+import sys
 from pathlib import Path
 import re
 import json
@@ -49,7 +50,7 @@ class BAnzScraper:
             "Referer": "https://www.bundesanzeiger.de/"
         })
 
-    def scrape(self, low=0, high=10000):
+    def scrape(self, low=0, high=sys.maxsize):
         collection = {}
         years = self.get_years()
         for year in years:
@@ -147,15 +148,15 @@ class BAnzScraper:
 
 
 def main(arguments):
-    minyear = arguments['<minyear>'] or 0
-    maxyear = arguments['<maxyear>'] or 10000
-    minyear = int(minyear)
-    maxyear = int(maxyear)
     banz = BAnzScraper()
     data = {}
     if Path(arguments['<outputfile>']).exists():
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
+    minyear = int(arguments['<minyear>'] or 0)
+    maxyear = int(arguments['<maxyear>'] or sys.maxsize)
+    if arguments['update'] and len(data) > 0:
+        minyear = max([toc_entry['year'] for pub in data.values() for toc_entry in pub])
     data.update(banz.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f, indent=4)
