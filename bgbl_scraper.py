@@ -3,7 +3,7 @@
 """BGBl-Scraper.
 
 Usage:
-  bgbl_scaper.py <outputfile> [<minyear> [<maxyear>]]
+  bgbl_scaper.py <outputfile> [update | <minyear> [<maxyear>]]
   bgbl_scaper.py -h | --help
   bgbl_scaper.py --version
 
@@ -152,15 +152,15 @@ class BGBLScraper:
         return toc
 
 def main(arguments):
-    minyear = arguments['<minyear>'] or 0
-    maxyear = arguments['<maxyear>'] or 10000
-    minyear = int(minyear)
-    maxyear = int(maxyear)
     bgbl = BGBLScraper()
     data = {}
     if Path(arguments['<outputfile>']).exists():
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
+    minyear = int(arguments['<minyear>'] or 0)
+    maxyear = int(arguments['<maxyear>'] or sys.maxsize)
+    if arguments['update'] and len(data) > 0:
+        minyear = max([toc_entry['year'] for pub in data.values() for toc_entry in pub])
     data.update(bgbl.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f, indent=4)

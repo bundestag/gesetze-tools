@@ -1,7 +1,7 @@
 """VkBl-Scraper.
 
 Usage:
-  vkbl_scaper.py <outputfile> [<minyear> [<maxyear>]]
+  vkbl_scaper.py <outputfile> [update | <minyear> [<maxyear>]]
   vkbl_scaper.py -h | --help
   vkbl_scaper.py --version
 
@@ -126,16 +126,15 @@ class VkblScraper:
 
 
 def main(arguments):
-    current_year = datetime.datetime.now().year
-    minyear = arguments['<minyear>'] or 1947
-    maxyear = arguments['<maxyear>'] or current_year
-    minyear = int(minyear)
-    maxyear = int(maxyear)
     vkbl = VkblScraper()
     data = {}
     if Path(arguments['<outputfile>']).exists():
         with open(arguments['<outputfile>']) as f:
             data = json.load(f)
+    minyear = int(arguments['<minyear>'] or 1947)
+    maxyear = int(arguments['<maxyear>'] or datetime.datetime.now().year)
+    if arguments['update'] and len(data) > 0:
+        minyear = max([toc_entry['year'] for pub in data.values() for toc_entry in pub])
     data.update(vkbl.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f)
