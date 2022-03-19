@@ -140,12 +140,12 @@ class Lawde:
             matches = REGEX.findall(html)
             for match in matches:
                 laws.append({
+                    'abbreviation': match[2].strip(),
                     'slug': match[0],
-                    'name': match[1].replace('&quot;', '"'),
-                    'abbreviation': match[2].strip()
+                    'name': match[1].replace('&quot;', '"')
                 })
         with open(self.lawlist, 'w') as f:
-            json.dump(laws, f)
+            json.dump(laws, f, indent=4)
 
 
 def main(arguments):
