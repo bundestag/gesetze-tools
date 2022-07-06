@@ -1,7 +1,7 @@
 GitPython==3.1.14
 PyYAML==5.4.1
 docopt==0.6.2
-lxml==4.6.5
+lxml==4.9.1
 cssselect==1.1.0
 requests==2.25.1
 docopt==0.6.2
