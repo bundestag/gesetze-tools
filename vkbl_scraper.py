@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """VkBl-Scraper.
 
 Usage:
@@ -134,10 +136,10 @@ def main(arguments):
     minyear = int(arguments['<minyear>'] or 1947)
     maxyear = int(arguments['<maxyear>'] or datetime.datetime.now().year)
     if arguments['update'] and len(data) > 0:
-        minyear = max([toc_entry['year'] for pub in data.values() for toc_entry in pub])
+        minyear = max([int(item['jahr']) for item in data.values()])
     data.update(vkbl.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=4)
 
 
 if __name__ == '__main__':
