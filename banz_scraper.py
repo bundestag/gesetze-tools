@@ -154,7 +154,7 @@ def main(arguments):
     minyear = int(arguments['<minyear>'] or 0)
     maxyear = int(arguments['<maxyear>'] or sys.maxsize)
     if arguments['update'] and len(data) > 0:
-        minyear = max([toc_entry['year'] for pub in data.values() for toc_entry in pub])
+        minyear = max([int(item['date'].split('.')[-1]) for item in data.values()])
     data.update(banz.scrape(minyear, maxyear))
     with open(arguments['<outputfile>'], 'w') as f:
         json.dump(data, f, indent=4)
