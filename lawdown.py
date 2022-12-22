@@ -415,7 +415,7 @@ def main(arguments):
         assert len(outpath.parents) > 1  # um, better be safe
         outfilename = outpath / 'index.md'
         shutil.rmtree(outpath, ignore_errors=True)
-        outpath.mkdir()
+        outpath.mkdir(parents=True)
         for part in inpath.glob('*'):
             if part.name == f'{law_name}.xml':
                 continue
