@@ -1,4 +1,4 @@
-GitPython==3.1.14
+GitPython==3.1.30
 PyYAML==5.4.1
 docopt==0.6.2
 lxml==4.9.1
