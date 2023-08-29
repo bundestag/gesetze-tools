@@ -1,5 +1,5 @@
 GitPython==3.1.30
-PyYAML==5.4.1
+PyYAML==6.0.1
 docopt==0.6.2
 lxml==4.9.1
 cssselect==1.1.0
