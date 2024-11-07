@@ -413,7 +413,7 @@ def main(arguments):
         outpath = (Path(arguments['<outputpath>']) / slug[0] / slug).resolve()
         print(outpath)
         assert len(outpath.parents) > 1  # um, better be safe
-        outfilename = outpath / 'index.md'
+        outfilename = outpath / f'{law_name}.md'
         shutil.rmtree(outpath, ignore_errors=True)
         outpath.mkdir(parents=True)
         for part in inpath.glob('*'):
